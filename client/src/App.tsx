@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { socket } from "./config/socket";
-import Components from "./components/Components";
+import Routes from "./routes/Routes";
 import {} from "@material-ui/core";
 
-const { Login, Room } = Components;
+const { Login, Room } = Routes;
 
 function App() {
 	return (

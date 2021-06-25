@@ -1,9 +1,3 @@
-import Login from "./login";
-import Room from "./room";
-
-const Components = {
-	Login,
-	Room,
-};
+const Components = {};
 
 export default Components;
