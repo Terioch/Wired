@@ -1,10 +1,11 @@
-import React from "react";
-import firebase from "firebase";
+import React, { useState } from "react";
 import {
 	Container,
 	Grid,
 	Button,
 	TextField,
+	Typography,
+	Paper,
 	makeStyles,
 } from "@material-ui/core";
 import { blue } from "@material-ui/core/colors";
@@ -19,7 +20,31 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: "#333",
 	},
 	form: {
-		backgroundColor: "eeeeee",
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+		width: "100%",
+	},
+	paper: {
+		display: "flex",
+		flexDirection: "column",
+		justifyContent: "center",
+		padding: "1rem",
+		width: "500px",
+		[theme.breakpoints.down("xs")]: {
+			width: "85%",
+		},
+		"& > *": {
+			margin: "0.5rem 0",
+		},
+	},
+	headerContainer: {
+		textAlign: "center",
+	},
+	btnContainer: {
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
 	},
 }));
 
@@ -27,9 +52,17 @@ interface props {}
 
 const Login: React.FC<props> = ({}) => {
 	const classes = useStyles();
-	const values = {
+	const [values, setValues] = useState({
 		username: "",
 		password: "",
+	});
+
+	const handleInputChange = (e: any) => {
+		const { name, value } = e.target;
+		setValues({
+			...values,
+			[name]: value,
+		});
 	};
 
 	const handleSubmit = () => {};
@@ -37,18 +70,29 @@ const Login: React.FC<props> = ({}) => {
 	return (
 		<main className={classes.background}>
 			<form className={classes.form} onSubmit={handleSubmit}>
-				<Grid container>
-					<Grid item xs={12}>
-						<TextField
-							label="Username"
-							name="username"
-							value={values.username}
-						/>
-						<TextField
-							label="Password"
-							name="password"
-							value={values.password}
-						/>
+				<Paper className={classes.paper} elevation={10}>
+					<div className={classes.headerContainer}>
+						<Typography variant="h5" gutterBottom>
+							Sign in to
+						</Typography>
+						<Typography style={{ fontSize: "28px" }} color="secondary">
+							Wired
+						</Typography>
+					</div>
+					<TextField
+						label="Username"
+						color="secondary"
+						name="username"
+						value={values.username}
+						onChange={handleInputChange}
+					/>
+					<TextField
+						label="Password"
+						name="password"
+						value={values.password}
+						onChange={handleInputChange}
+					/>
+					<div className={classes.btnContainer}>
 						<Button
 							type="submit"
 							variant="contained"
@@ -57,8 +101,8 @@ const Login: React.FC<props> = ({}) => {
 						>
 							Sign In
 						</Button>
-					</Grid>
-				</Grid>
+					</div>
+				</Paper>
 			</form>
 		</main>
 	);
