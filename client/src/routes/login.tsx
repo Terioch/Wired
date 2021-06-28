@@ -76,10 +76,10 @@ const Login: React.FC<props> = ({}) => {
 		if (username.length > 22) {
 			return "Username cannot exceed 22 characters";
 		}
-		if (/^[A-Za-z0-9_-]*$/.test(username)) {
+		if (!/^[a-zA-Z0-9_]*$/.test(username)) {
 			return "A username can only contain letters, numbers and underscores";
 		}
-		// TODO: Verify that username is unique
+		// TODO: Verify that username is unique by querying database
 		return "";
 	};
 
