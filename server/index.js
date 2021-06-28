@@ -1,6 +1,14 @@
+require("dotenv").config();
 const http = require("http");
 const express = require("express");
 const socketio = require("socket.io");
+const client = require("./postgres");
+
+client.connect(); // Initialize database connection
+
+client.query(
+	"INSERT INTO users (username, password) VALUES ('Kai', '3456');"
+);
 
 const app = express();
 const server = http.createServer(app);
