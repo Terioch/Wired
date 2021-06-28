@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 import {
-	Container,
-	Grid,
 	Button,
 	TextField,
 	Typography,
 	Paper,
 	makeStyles,
 } from "@material-ui/core";
-import { blue } from "@material-ui/core/colors";
 
 const useStyles = makeStyles(theme => ({
 	background: {
@@ -50,14 +47,23 @@ const useStyles = makeStyles(theme => ({
 
 interface props {}
 
+interface Values {
+	username: string;
+	password: string;
+}
+
+type FormE = React.FormEvent<HTMLFormElement>;
+type ChangeE = React.ChangeEvent<HTMLInputElement>;
+
 const Login: React.FC<props> = ({}) => {
 	const classes = useStyles();
-	const [values, setValues] = useState({
+	const [values, setValues] = useState<Values>({
 		username: "",
 		password: "",
 	});
+	const [errors, setErrors] = useState({ ...values });
 
-	const handleInputChange = (e: any) => {
+	const handleInputChange = (e: ChangeE) => {
 		const { name, value } = e.target;
 		setValues({
 			...values,
@@ -65,7 +71,42 @@ const Login: React.FC<props> = ({}) => {
 		});
 	};
 
-	const handleSubmit = () => {};
+	const validateUsername = (username: string) => {
+		if (!username) return "Please enter a username";
+		if (username.length > 22) {
+			return "Username cannot exceed 22 characters";
+		}
+		if (/^[A-Za-z0-9_-]*$/.test(username)) {
+			return "A username can only contain letters, numbers and underscores";
+		}
+		// TODO: Verify that username is unique
+		return "";
+	};
+
+	const validatePassword = (password: string) => {
+		const passwordAuth = /(?=.*\d)(?=.*[a-zA-Z])(?=.*[!#*\$%&\?]).{8,}/;
+		if (!passwordAuth.test(password)) {
+			return "Password must contain at least 8 characters and one number, letter and special character";
+		}
+		return "";
+	};
+
+	const authenticateValues = () => {
+		let temp = Object.assign({}, errors);
+		const { username, password } = values;
+		temp.username = validateUsername(username);
+		temp.password = validatePassword(password);
+		setErrors(temp);
+		return Object.values(temp).every(v => v === "");
+	};
+
+	const handleSubmit = (e: FormE) => {
+		e.preventDefault();
+		if (authenticateValues()) {
+			// TODO: Send values to the server and store within storage
+			window.location.href = "/";
+		}
+	};
 
 	return (
 		<main className={classes.background}>
@@ -81,15 +122,20 @@ const Login: React.FC<props> = ({}) => {
 					</div>
 					<TextField
 						label="Username"
-						color="secondary"
 						name="username"
+						color="secondary"
 						value={values.username}
+						error={errors.username ? true : false}
+						helperText={errors.username}
 						onChange={handleInputChange}
 					/>
 					<TextField
 						label="Password"
 						name="password"
+						color="secondary"
 						value={values.password}
+						error={errors.password ? true : false}
+						helperText={errors.password}
 						onChange={handleInputChange}
 					/>
 					<div className={classes.btnContainer}>
