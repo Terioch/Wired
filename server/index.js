@@ -7,7 +7,7 @@ const client = require("./postgres");
 client.connect(); // Initialize database connection
 
 client.query(
-	"INSERT INTO users (username, password) VALUES ('Kai', '3456');"
+	"INSERT INTO users (username, password) VALUES ('good day', '1111');"
 );
 
 const app = express();

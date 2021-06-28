@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import users from "../api/users";
 import {
 	Button,
 	TextField,
@@ -91,9 +92,8 @@ const Login: React.FC<props> = ({}) => {
 		return "";
 	};
 
-	const authenticateValues = () => {
+	const authenticateValues = (username: string, password: string) => {
 		let temp = Object.assign({}, errors);
-		const { username, password } = values;
 		temp.username = validateUsername(username);
 		temp.password = validatePassword(password);
 		setErrors(temp);
@@ -102,8 +102,11 @@ const Login: React.FC<props> = ({}) => {
 
 	const handleSubmit = (e: FormE) => {
 		e.preventDefault();
-		if (authenticateValues()) {
+		const { username, password } = values;
+
+		if (authenticateValues(username, password)) {
 			// TODO: Send values to the server and store within storage
+			users.sendValues(username, password);
 			window.location.href = "/";
 		}
 	};
