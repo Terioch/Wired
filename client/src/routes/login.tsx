@@ -107,7 +107,7 @@ const Login: React.FC<props> = ({}) => {
 		if (authenticateValues(username, password)) {
 			// TODO: Send values to the server and store within storage
 			users.sendValues(username, password);
-			window.location.href = "/";
+			//window.location.href = "/";
 		}
 	};
 
