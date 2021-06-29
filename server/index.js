@@ -4,8 +4,6 @@ const express = require("express");
 const socketio = require("socket.io");
 const db = require("./config");
 
-db.connect(); // Initialize database connection
-
 // client.query(
 // 	"INSERT INTO users (username, password) VALUES ('good day', '1111');"
 // );
@@ -24,17 +22,31 @@ const io = socketio(server, {
 
 app.use(express.json()); // Parse middleware
 
+app.get("/api", (req, res) =>
+	res.send("Head to the '/api' endpoint to view api responses...")
+);
+app.get("/api", (req, res) =>
+	res.send(
+		"Starting route for api requests. Navigate to '/users' or '/messages' to view direct responses..."
+	)
+);
+
 // Handle requests for users table
-app.post("/api/users", (req, res) => {
-	const { username, password } = req.body;
-	const query = "INSERT INTO users (username, password) VALUES (?, ?)";
-	const result = db.query(query, { username, password });
-	console.log(result);
-	return res.status(200).send("Inserted a new user");
+app.post("/api/users", async (req, res) => {
+	try {
+		const { username, password } = req.body;
+		const query =
+			"INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *";
+		const result = await db.query(query, [username, password]);
+		console.log(result);
+		return res.status(200).send("Inserted a new user");
+	} catch (err) {
+		console.error(`POST ${err.message}`);
+	}
 });
 
 // Handle requests for messages table
-app.get("/api/messages", (req, res) => {
+app.get("/api/messages", async (req, res) => {
 	return res.status(200).send("Hello from express");
 });
 
