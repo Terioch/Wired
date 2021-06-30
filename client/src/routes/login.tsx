@@ -80,7 +80,6 @@ const Login: React.FC<props> = ({}) => {
 		if (!/^[a-zA-Z0-9_]*$/.test(username)) {
 			return "A username can only contain letters, numbers and underscores";
 		}
-		// TODO: Verify that username is unique by querying database
 		return "";
 	};
 
@@ -92,7 +91,7 @@ const Login: React.FC<props> = ({}) => {
 		return "";
 	};
 
-	const authenticateValues = (username: string, password: string) => {
+	const validateValues = (username: string, password: string) => {
 		let temp = Object.assign({}, errors);
 		temp.username = validateUsername(username);
 		temp.password = validatePassword(password);
@@ -104,8 +103,9 @@ const Login: React.FC<props> = ({}) => {
 		e.preventDefault();
 		const { username, password } = values;
 
-		if (authenticateValues(username, password)) {
-			// TODO: Send values to the server and store within storage
+		// Attempt to sign-in the user if values are valid
+		if (validateValues(username, password)) {
+			let temp = Object.assign({}, errors);
 			const user = await users.signIn(username, password);
 			console.log(user);
 			//window.location.href = "/";

@@ -5,7 +5,7 @@ const express = require("express");
 const socketio = require("socket.io");
 const bcrypt = require("bcrypt");
 const session = require("express-session");
-const flash = require("express-flash");
+
 const db = require("./config/db");
 
 const app = express();
@@ -24,12 +24,15 @@ const io = socketio(server, {
 app.use(express.json());
 app.use(
 	session({
-		secret: process.env.SECRET,
+		secret: process.env.SESSION_SECRET,
 		resave: false,
 		saveUninitialized: false,
+		cookie: {
+			httpOnly: true,
+			maxAge: process.env.SESSION_MAX_AGE,
+		},
 	})
 );
-app.use(flash());
 
 app.get("/api", (req, res) =>
 	res.send("Head to the '/api' endpoint to view api responses...")
@@ -50,15 +53,28 @@ const insertUser = async (username, password) => {
 	return result.rows[0];
 };
 
-// Add a new user
+// Check if login details are valid by comparing encrypted passwords
+const authenticateUser = (password, user) => {
+	try {
+		const isMatch = await bcrypt.compare(password, user.password);
+		if (isMatch) return user;
+		return "Password is invalid";
+	} catch (err) {
+		console.error(err.message);
+		throw err;
+	}
+};
+
+// Sign-in the user
 app.post("/api/users", async (req, res) => {
 	try {
 		const { username, password } = req.body;
-		const query = "SELECT * FROM users WHERE username = $1";
+		const query = "SELECT password FROM users WHERE username = $1";
 		const result = await db.query(query, [username]);
 
 		// Attempt to login user if found in database
 		if (result.rows.length > 0) {
+			authenticateUser(username, password, result.rows[0]);
 			return res.status(200).send("Please login");
 		}
 		// Register a new user
