@@ -100,13 +100,14 @@ const Login: React.FC<props> = ({}) => {
 		return Object.values(temp).every(v => v === "");
 	};
 
-	const handleSubmit = (e: FormE) => {
+	const handleSubmit = async (e: FormE) => {
 		e.preventDefault();
 		const { username, password } = values;
 
 		if (authenticateValues(username, password)) {
 			// TODO: Send values to the server and store within storage
-			users.sendValues(username, password);
+			const user = await users.signIn(username, password);
+			console.log(user);
 			//window.location.href = "/";
 		}
 	};

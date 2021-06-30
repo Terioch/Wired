@@ -1,12 +1,12 @@
 require("dotenv").config();
+
 const http = require("http");
 const express = require("express");
 const socketio = require("socket.io");
-const db = require("./config");
-
-// client.query(
-// 	"INSERT INTO users (username, password) VALUES ('good day', '1111');"
-// );
+const bcrypt = require("bcrypt");
+const session = require("express-session");
+const flash = require("express-flash");
+const db = require("./config/db");
 
 const app = express();
 const server = http.createServer(app);
@@ -20,7 +20,16 @@ const io = socketio(server, {
 	},
 });
 
-app.use(express.json()); // Parse middleware
+// Middleware
+app.use(express.json());
+app.use(
+	session({
+		secret: process.env.SECRET,
+		resave: false,
+		saveUninitialized: false,
+	})
+);
+app.use(flash());
 
 app.get("/api", (req, res) =>
 	res.send("Head to the '/api' endpoint to view api responses...")
@@ -32,16 +41,32 @@ app.get("/api", (req, res) =>
 );
 
 // Handle requests for users table
+
+const insertUser = async (username, password) => {
+	const query =
+		"INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id, password";
+	const hashedPassword = await bcrypt.hash(password, 10);
+	const result = await db.query(query, [username, hashedPassword]);
+	return result.rows[0];
+};
+
+// Add a new user
 app.post("/api/users", async (req, res) => {
 	try {
 		const { username, password } = req.body;
-		const query =
-			"INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *";
-		const result = await db.query(query, [username, password]);
-		console.log(result);
-		return res.status(200).send("Inserted a new user");
+		const query = "SELECT * FROM users WHERE username = $1";
+		const result = await db.query(query, [username]);
+
+		// Attempt to login user if found in database
+		if (result.rows.length > 0) {
+			return res.status(200).send("Please login");
+		}
+		// Register a new user
+		const user = await insertUser(username, password);
+		return res.status(200).send(user);
 	} catch (err) {
 		console.error(`POST ${err.message}`);
+		return res.status(500);
 	}
 });
 
