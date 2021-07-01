@@ -94,9 +94,9 @@ const Login: React.FC<props> = ({}) => {
 	};
 
 	const validatePassword = (password: string) => {
-		const passwordAuth = /(?=.*\d)(?=.*[a-zA-Z])(?=.*[!#*\$%&\?]).{8,}/;
+		const passwordAuth = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/; // Reference: https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
 		if (!passwordAuth.test(password)) {
-			return "Password must contain at least 8 characters and one number, letter and special character";
+			return "Password must contain at least 8 characters with at least one uppercase letter, lowercase letter and number";
 		}
 		return "";
 	};
