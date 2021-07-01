@@ -1,14 +1,12 @@
 require("dotenv").config();
 
 const http = require("http");
-const path = require("path");
 const express = require("express");
 const cors = require("cors");
 const socketio = require("socket.io");
-const bcrypt = require("bcrypt");
 const session = require("express-session");
 
-const db = require("./config/db");
+const users = require("./api/users");
 
 const app = express();
 const server = http.createServer(app);
@@ -59,38 +57,12 @@ app.get("/api", (req, res) => {
 // Handle requests for users table
 
 // Insert a new user into database
-const insertUser = async (username, password) => {
-	const query =
-		"INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id, password";
-	const hashedPassword = await bcrypt.hash(password, 10);
-	const result = await db.query(query, [username, hashedPassword]);
-	return result.rows[0];
-};
-
-// Check if login details are valid by comparing encrypted passwords
-const authenticatePassword = async (password, user) => {
-	try {
-		const isMatch = await bcrypt.compare(password, user.password);
-		if (isMatch) return user;
-		return { password: "Password is incorrect" };
-	} catch (err) {
-		console.error(`Login error: ${err.message}`);
-		throw err;
-	}
-};
-
-// Query database for a specific username
-const searchUsername = async username => {
-	const query = "SELECT * FROM users WHERE username = $1";
-	return await db.query(query, [username]);
-};
 
 // Register a new user
 app.post("/api/users/register", async (req, res) => {
 	try {
 		const { username, password } = req.body;
-		const result = await searchUsername(username);
-		console.log(result.rows);
+		const result = await users.searchUsername(username);
 
 		// Check if username is found
 		if (result.rows.length > 0) {
@@ -101,7 +73,7 @@ app.post("/api/users/register", async (req, res) => {
 		}
 
 		// Insert a new user
-		const user = await insertUser(username, password);
+		const user = await users.insertUser(username, password);
 		return res.status(200).send(user);
 	} catch (err) {
 		console.error(`POST ${err.message}`);
@@ -113,7 +85,7 @@ app.post("/api/users/register", async (req, res) => {
 app.post("/api/users/login", async (req, res) => {
 	try {
 		const { username, password } = req.body;
-		const result = await searchUsername(username);
+		const result = await users.searchUsername(username);
 
 		// Check if username is found
 		if (result.rows.length < 1) {
@@ -121,7 +93,10 @@ app.post("/api/users/login", async (req, res) => {
 		}
 
 		// Compare passwords
-		const user = await authenticatePassword(password, result.rows[0]);
+		const user = await users.authenticatePassword(
+			password,
+			result.rows[0]
+		);
 		return res.status(200).send(user);
 	} catch (err) {
 		console.error(`POST ${err.message}`);
@@ -143,6 +118,6 @@ io.on("connection", socket => {
 	});
 });
 
-server.listen(PORT, () =>
-	console.log(`Server is listening on port ${PORT}`)
-);
+server.listen(PORT, () => {
+	console.log(`Server is listening on port ${PORT}`);
+});
