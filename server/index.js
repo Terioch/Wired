@@ -26,7 +26,7 @@ app.set("trust proxy", 1); // Trust first proxy
 
 // Parse middleware and serve files
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "build")));
+// app.use(express.static(path.join(__dirname, "build")));
 app.use(
 	session({
 		secret: process.env.SESSION_SECRET,
@@ -36,7 +36,7 @@ app.use(
 			httpOnly: true,
 			secure: true,
 			maxAge: parseInt(process.env.SESSION_MAX_AGE),
-			sameSite: "none",
+			sameSite: true,
 		},
 	})
 );
@@ -48,14 +48,9 @@ app.use(
 	})
 );
 
-// app.use((req, res, next) => {
-// 	console.log(req.session);
-// 	next();
+// app.get("*", (req, res) => {
+// 	res.sendFile(path.join(__dirname, "build", "index.html"));
 // });
-
-app.get("*", (req, res) => {
-	res.sendFile(path.join(__dirname, "build", "index.html"));
-});
 app.get("/api", (req, res) => {
 	res.send("Head to the '/api' endpoint to view api responses...");
 });
@@ -67,6 +62,7 @@ app.get("/api", (req, res) => {
 
 // Handle requests for users table
 
+// Insert a new user into database
 const insertUser = async (username, password) => {
 	const query =
 		"INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id, password";
@@ -81,28 +77,41 @@ const authenticateUser = async (password, user) => {
 	// try {
 	// 	const isMatch = await bcrypt.compare(password, user.password);
 	// 	if (isMatch) return user;
-	// 	return "Password is invalid";
+	// 	return {};
 	// } catch (err) {
 	// 	console.error(err.message);
 	// 	throw err;
 	// }
 };
 
-// Sign-in the user
-app.post("/api/users", async (req, res) => {
+// Register a new user
+app.post("/api/users/register", async (req, res) => {
 	try {
 		const { username, password } = req.body;
 		const query = "SELECT password FROM users WHERE username = $1";
 		const result = await db.query(query, [username]);
 
-		// Attempt to login user if found in database
+		// Request user to change username or login if found in database
 		if (result.rows.length > 0) {
-			authenticateUser(username, password, result.rows[0]);
-			return res.status(200).send("Please login");
+			return res.status(200).send(false);
 		}
-		// Register a new user
+
+		// Insert new user
 		const user = await insertUser(username, password);
 		return res.status(200).send(user);
+	} catch (err) {
+		console.error(`POST ${err.message}`);
+		return res.status(500);
+	}
+});
+
+// Login an existing user
+app.post("/api/users/login", async (req, res) => {
+	try {
+		const { username, password } = req.body;
+		const query = "SELECT password FROM users WHERE username = $1";
+		const result = await db.query(query, [username]);
+		authenticateUser(username, password, result.rows[0]);
 	} catch (err) {
 		console.error(`POST ${err.message}`);
 		return res.status(500);

@@ -43,6 +43,16 @@ const useStyles = makeStyles(theme => ({
 		display: "flex",
 		justifyContent: "center",
 		alignItems: "center",
+		"& > *": {
+			margin: "0 .5rem",
+		},
+	},
+	login: {
+		backgroundColor: "#939393",
+		color: "white",
+		"&:hover": {
+			backgroundColor: "#7E7E7E",
+		},
 	},
 }));
 
@@ -53,7 +63,7 @@ interface Values {
 	password: string;
 }
 
-type FormE = React.FormEvent<HTMLFormElement>;
+type BtnE = React.MouseEvent<HTMLButtonElement>;
 type ChangeE = React.ChangeEvent<HTMLInputElement>;
 
 const Login: React.FC<props> = ({}) => {
@@ -99,7 +109,9 @@ const Login: React.FC<props> = ({}) => {
 		return Object.values(temp).every(v => v === "");
 	};
 
-	const handleSubmit = async (e: FormE) => {
+	const handleLogin = async () => {};
+
+	const handleRegister = async (e: BtnE) => {
 		e.preventDefault();
 		const { username, password } = values;
 
@@ -114,7 +126,7 @@ const Login: React.FC<props> = ({}) => {
 
 	return (
 		<main className={classes.background}>
-			<form className={classes.form} onSubmit={handleSubmit}>
+			<form className={classes.form}>
 				<Paper className={classes.paper} elevation={10}>
 					<div className={classes.headerContainer}>
 						<Typography variant="h5" gutterBottom>
@@ -144,12 +156,22 @@ const Login: React.FC<props> = ({}) => {
 					/>
 					<div className={classes.btnContainer}>
 						<Button
+							className={classes.login}
+							type="submit"
+							variant="contained"
+							size="large"
+							onClick={handleLogin}
+						>
+							Login
+						</Button>
+						<Button
 							type="submit"
 							variant="contained"
 							color="primary"
 							size="large"
+							onClick={handleRegister}
 						>
-							Sign In
+							Register
 						</Button>
 					</div>
 				</Paper>
