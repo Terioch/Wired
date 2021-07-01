@@ -56,8 +56,6 @@ app.get("/api", (req, res) => {
 
 // Handle requests for users table
 
-// Insert a new user into database
-
 // Register a new user
 app.post("/api/users/register", async (req, res) => {
 	try {
@@ -72,8 +70,9 @@ app.post("/api/users/register", async (req, res) => {
 			});
 		}
 
-		// Insert a new user
+		// Insert a new user and set session id
 		const user = await users.insertUser(username, password);
+		req.session.userId = user.id;
 		return res.status(200).send(user);
 	} catch (err) {
 		console.error(`POST ${err.message}`);
@@ -92,11 +91,13 @@ app.post("/api/users/login", async (req, res) => {
 			return res.status(200).send({ username: "Username is incorrect" });
 		}
 
-		// Compare passwords
+		// Compare passwords and set session id
 		const user = await users.authenticatePassword(
 			password,
 			result.rows[0]
 		);
+		req.session.userId = user.id;
+		console.log(req.session.userId);
 		return res.status(200).send(user);
 	} catch (err) {
 		console.error(`POST ${err.message}`);
@@ -105,6 +106,7 @@ app.post("/api/users/login", async (req, res) => {
 });
 
 // Handle requests for messages table
+
 app.get("/api/messages", async (req, res) => {
 	return res.status(200).send("Hello from the messages endpoint...");
 });
