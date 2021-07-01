@@ -4,3 +4,7 @@
 
 # Encryption
 /server/.env
+
+# Production
+/client/build
+/server/build
