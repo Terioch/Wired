@@ -1,7 +1,9 @@
 require("dotenv").config();
 
 const http = require("http");
+const path = require("path");
 const express = require("express");
+const cors = require("cors");
 const socketio = require("socket.io");
 const bcrypt = require("bcrypt");
 const session = require("express-session");
@@ -20,8 +22,11 @@ const io = socketio(server, {
 	},
 });
 
-// Middleware
+app.set("trust proxy", 1); // Trust first proxy
+
+// Parse middleware and serve files
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "build")));
 app.use(
 	session({
 		secret: process.env.SESSION_SECRET,
@@ -29,19 +34,36 @@ app.use(
 		saveUninitialized: false,
 		cookie: {
 			httpOnly: true,
-			maxAge: process.env.SESSION_MAX_AGE,
+			secure: true,
+			maxAge: parseInt(process.env.SESSION_MAX_AGE),
+			sameSite: "none",
 		},
 	})
 );
-
-app.get("/api", (req, res) =>
-	res.send("Head to the '/api' endpoint to view api responses...")
+app.use(
+	cors({
+		origin: "http://localhost:5000",
+		methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
+		credentials: true,
+	})
 );
-app.get("/api", (req, res) =>
+
+// app.use((req, res, next) => {
+// 	console.log(req.session);
+// 	next();
+// });
+
+app.get("*", (req, res) => {
+	res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+app.get("/api", (req, res) => {
+	res.send("Head to the '/api' endpoint to view api responses...");
+});
+app.get("/api", (req, res) => {
 	res.send(
 		"Starting route for api requests. Navigate to '/users' or '/messages' to view direct responses..."
-	)
-);
+	);
+});
 
 // Handle requests for users table
 
@@ -54,15 +76,16 @@ const insertUser = async (username, password) => {
 };
 
 // Check if login details are valid by comparing encrypted passwords
-const authenticateUser = (password, user) => {
-	try {
-		const isMatch = await bcrypt.compare(password, user.password);
-		if (isMatch) return user;
-		return "Password is invalid";
-	} catch (err) {
-		console.error(err.message);
-		throw err;
-	}
+const authenticateUser = async (password, user) => {
+	console.log(user);
+	// try {
+	// 	const isMatch = await bcrypt.compare(password, user.password);
+	// 	if (isMatch) return user;
+	// 	return "Password is invalid";
+	// } catch (err) {
+	// 	console.error(err.message);
+	// 	throw err;
+	// }
 };
 
 // Sign-in the user
@@ -88,7 +111,7 @@ app.post("/api/users", async (req, res) => {
 
 // Handle requests for messages table
 app.get("/api/messages", async (req, res) => {
-	return res.status(200).send("Hello from express");
+	return res.status(200).send("Hello from the messages endpoint...");
 });
 
 // Listen for a new web socket connection
