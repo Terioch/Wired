@@ -109,17 +109,27 @@ const Login: React.FC<props> = ({}) => {
 		return Object.values(temp).every(v => v === "");
 	};
 
-	const handleLogin = async () => {};
+	// Login user
+	const handleLogin = async (name: string) => {
+		const { username, password } = values;
+		await users.signIn(username, password, name);
+	};
 
-	const handleRegister = async (e: BtnE) => {
+	// Register a new user
+	const handleRegister = async (name: string) => {
+		const { username, password } = values;
+		const user = await users.signIn(username, password, name);
+	};
+
+	// Handle form submit
+	const handleSubmit = (e: any) => {
 		e.preventDefault();
+		const { name } = e.target;
 		const { username, password } = values;
 
-		// Attempt to sign-in the user if values are valid
+		// Attempt to either login or register user if values are valid
 		if (validateValues(username, password)) {
-			let temp = Object.assign({}, errors);
-			const user = await users.signIn(username, password);
-			console.log(user);
+			name === "login" ? handleLogin(name) : handleRegister(name);
 			//window.location.href = "/";
 		}
 	};
@@ -157,19 +167,21 @@ const Login: React.FC<props> = ({}) => {
 					<div className={classes.btnContainer}>
 						<Button
 							className={classes.login}
+							name="login"
 							type="submit"
 							variant="contained"
 							size="large"
-							onClick={handleLogin}
+							onClick={handleSubmit}
 						>
 							Login
 						</Button>
 						<Button
 							type="submit"
+							name="register"
 							variant="contained"
 							color="primary"
 							size="large"
-							onClick={handleRegister}
+							onClick={handleSubmit}
 						>
 							Register
 						</Button>

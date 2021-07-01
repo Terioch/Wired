@@ -1,10 +1,14 @@
 import axios from "axios";
 
 class Users {
-	signIn = async (username: string, password: string) => {
+	signIn = async (
+		username: string,
+		password: string,
+		endpoint: string
+	) => {
 		try {
 			const body = { username, password };
-			const { data } = await axios.post("/api/users", body, {
+			const { data } = await axios.post(`/api/users/${endpoint}`, body, {
 				withCredentials: true,
 			});
 			return data;
