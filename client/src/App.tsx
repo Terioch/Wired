@@ -4,7 +4,7 @@ import { socket } from "./config/socket";
 import Routes from "./routes/Routes";
 import {} from "@material-ui/core";
 
-const { Login, Home, Room } = Routes;
+const { Login, Dashboard, Room } = Routes;
 
 function App() {
 	const user = false;
@@ -13,7 +13,7 @@ function App() {
 		<main>
 			<Switch>
 				<Route exact path="/login" component={Login} />
-				<Route exact path="/" component={Home} />
+				<Route exact path="/" component={Dashboard} />
 				<Route exact path={"/:id"} component={Room} />
 			</Switch>
 		</main>

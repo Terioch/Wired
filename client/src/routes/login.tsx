@@ -112,25 +112,41 @@ const Login: React.FC<props> = ({}) => {
 	// Login user
 	const handleLogin = async (name: string) => {
 		const { username, password } = values;
-		await users.signIn(username, password, name);
+		const response = await users.signIn(username, password, name);
+
+		// Set new errors upon receiving an error message
+		if (Object.keys(response).length < 2) {
+			const errorKey = Object.keys(response)[0];
+			const errorValue = Object.values(response)[0];
+			let temp = {
+				username: "",
+				password: "",
+			};
+
+			setErrors({
+				...temp,
+				[errorKey]: errorValue,
+			});
+		}
 	};
 
 	// Register a new user
 	const handleRegister = async (name: string) => {
 		const { username, password } = values;
-		const user = await users.signIn(username, password, name);
+		const response = await users.signIn(username, password, name);
+
+		// window.location.href = "/";
 	};
 
 	// Handle form submit
 	const handleSubmit = (e: any) => {
 		e.preventDefault();
-		const { name } = e.target;
+		const { name } = e.currentTarget;
 		const { username, password } = values;
 
 		// Attempt to either login or register user if values are valid
 		if (validateValues(username, password)) {
 			name === "login" ? handleLogin(name) : handleRegister(name);
-			//window.location.href = "/";
 		}
 	};
 

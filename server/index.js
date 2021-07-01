@@ -26,7 +26,6 @@ app.set("trust proxy", 1); // Trust first proxy
 
 // Parse middleware and serve files
 app.use(express.json());
-// app.use(express.static(path.join(__dirname, "build")));
 app.use(
 	session({
 		secret: process.env.SESSION_SECRET,
@@ -48,9 +47,6 @@ app.use(
 	})
 );
 
-// app.get("*", (req, res) => {
-// 	res.sendFile(path.join(__dirname, "build", "index.html"));
-// });
 app.get("/api", (req, res) => {
 	res.send("Head to the '/api' endpoint to view api responses...");
 });
@@ -72,31 +68,39 @@ const insertUser = async (username, password) => {
 };
 
 // Check if login details are valid by comparing encrypted passwords
-const authenticateUser = async (password, user) => {
-	console.log(user);
-	// try {
-	// 	const isMatch = await bcrypt.compare(password, user.password);
-	// 	if (isMatch) return user;
-	// 	return {};
-	// } catch (err) {
-	// 	console.error(err.message);
-	// 	throw err;
-	// }
+const authenticatePassword = async (password, user) => {
+	try {
+		const isMatch = await bcrypt.compare(password, user.password);
+		if (isMatch) return user;
+		return { password: "Password is incorrect" };
+	} catch (err) {
+		console.error(`Login error: ${err.message}`);
+		throw err;
+	}
+};
+
+// Query database for a specific username
+const searchUsername = async username => {
+	const query = "SELECT * FROM users WHERE username = $1";
+	return await db.query(query, [username]);
 };
 
 // Register a new user
 app.post("/api/users/register", async (req, res) => {
 	try {
 		const { username, password } = req.body;
-		const query = "SELECT password FROM users WHERE username = $1";
-		const result = await db.query(query, [username]);
+		const result = await searchUsername(username);
+		console.log(result.rows);
 
-		// Request user to change username or login if found in database
+		// Check if username is found
 		if (result.rows.length > 0) {
-			return res.status(200).send(false);
+			return res.status(200).send({
+				username:
+					"Username is already in use. Either login or try a different username.",
+			});
 		}
 
-		// Insert new user
+		// Insert a new user
 		const user = await insertUser(username, password);
 		return res.status(200).send(user);
 	} catch (err) {
@@ -109,9 +113,16 @@ app.post("/api/users/register", async (req, res) => {
 app.post("/api/users/login", async (req, res) => {
 	try {
 		const { username, password } = req.body;
-		const query = "SELECT password FROM users WHERE username = $1";
-		const result = await db.query(query, [username]);
-		authenticateUser(username, password, result.rows[0]);
+		const result = await searchUsername(username);
+
+		// Check if username is found
+		if (result.rows.length < 1) {
+			return res.status(200).send({ username: "Username is incorrect" });
+		}
+
+		// Compare passwords
+		const user = await authenticatePassword(password, result.rows[0]);
+		return res.status(200).send(user);
 	} catch (err) {
 		console.error(`POST ${err.message}`);
 		return res.status(500);

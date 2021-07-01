@@ -1,10 +1,10 @@
 import Login from "./login";
-import Home from "./home";
+import Dashboard from "./dashboard";
 import Room from "./room";
 
 const Routes = {
 	Login,
-	Home,
+	Dashboard,
 	Room,
 };
 
