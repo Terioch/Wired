@@ -5,23 +5,31 @@ import React, {
 	createContext,
 } from "react";
 
-interface User {
+interface AuthState {
 	token: string | null;
 	expiresAt: string | null;
-	info: string | null;
+	user: string | null;
 }
 
 const AuthContext = createContext({});
 
 export const AuthProvider: React.FC = ({ children }) => {
-	const [user, setUser] = useState<User>({
+	const [authState, setAuthState] = useState<AuthState>({
 		token: null,
 		expiresAt: null,
-		info: null,
+		user: null,
 	});
 
+	const setAuthInfo = ({ token, expiresAt, user }: AuthState) => {
+		setAuthState({
+			token,
+			expiresAt,
+			user,
+		});
+	};
+
 	return (
-		<AuthContext.Provider value={{ user, setUser }}>
+		<AuthContext.Provider value={{ authState, setAuthState }}>
 			{children}
 		</AuthContext.Provider>
 	);
