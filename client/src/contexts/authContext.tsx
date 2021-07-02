@@ -3,7 +3,11 @@ import React, {
 	useEffect,
 	useContext,
 	createContext,
+	SetStateAction,
+	Dispatch,
 } from "react";
+
+type Dispatcher<S> = Dispatch<SetStateAction<S>>;
 
 interface AuthState {
 	token: string | null;
@@ -11,7 +15,15 @@ interface AuthState {
 	user: string | null;
 }
 
-const AuthContext = createContext({});
+interface IAuthContext {
+	authState: AuthState;
+	setAuthState: Dispatcher<AuthState>;
+}
+
+const AuthContext = createContext<IAuthContext>({
+	authState: { token: null, expiresAt: null, user: null },
+	setAuthState: () => {},
+});
 
 export const AuthProvider: React.FC = ({ children }) => {
 	const [authState, setAuthState] = useState<AuthState>({
