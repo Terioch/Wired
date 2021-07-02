@@ -8,9 +8,10 @@ const session = require("express-session");
 
 const users = require("./api/users");
 
+const { PORT, SESSION_SECRET, SESSION_MAX_AGE } = process.env;
+
 const app = express();
 const server = http.createServer(app);
-const PORT = process.env.PORT || 5000;
 const io = socketio(server, {
 	cors: {
 		origin: "*",
@@ -20,19 +21,17 @@ const io = socketio(server, {
 	},
 });
 
-app.set("trust proxy", 1); // Trust first proxy
-
-// Parse middleware and serve files
+// Parse middleware
 app.use(express.json());
 app.use(
 	session({
-		secret: process.env.SESSION_SECRET,
+		secret: SESSION_SECRET,
 		resave: false,
 		saveUninitialized: false,
 		cookie: {
-			httpOnly: true,
+			httpOnly: false,
 			secure: true,
-			maxAge: parseInt(process.env.SESSION_MAX_AGE),
+			maxAge: parseInt(SESSION_MAX_AGE),
 			sameSite: true,
 		},
 	})
@@ -54,6 +53,15 @@ app.get("/api", (req, res) => {
 	);
 });
 
+// Verify user authentication status on the current session
+const requireAuth = (req, res, next) => {
+	const { user } = req.session;
+	if (!user) {
+		return res.status(401).json({ message: "Unauthorized" });
+	}
+	next();
+};
+
 // Handle requests for users table
 
 // Register a new user
@@ -72,7 +80,7 @@ app.post("/api/users/register", async (req, res) => {
 
 		// Insert a new user and set session id
 		const user = await users.insertUser(username, password);
-		req.session.userId = user.id;
+		req.session.user = user;
 		return res.status(200).send(user);
 	} catch (err) {
 		console.error(`POST ${err.message}`);
@@ -96,7 +104,7 @@ app.post("/api/users/login", async (req, res) => {
 			password,
 			result.rows[0]
 		);
-		req.session.userId = user.id;
+		req.session.user = user;
 		console.log(req.session.userId);
 		return res.status(200).send(user);
 	} catch (err) {

@@ -8,9 +8,7 @@ class Users {
 	) => {
 		try {
 			const body = { username, password };
-			const { data } = await axios.post(`/api/users/${endpoint}`, body, {
-				withCredentials: true,
-			});
+			const { data } = await axios.post(`/api/users/${endpoint}`, body);
 			return data;
 		} catch (err) {
 			console.error(`POST ${err.message}`);
