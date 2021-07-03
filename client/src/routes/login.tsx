@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import users from "../api/users";
+import { useAuth } from "../contexts/authContext";
 import {
 	Button,
 	TextField,
@@ -68,6 +69,7 @@ type ChangeE = React.ChangeEvent<HTMLInputElement>;
 
 const Login: React.FC<props> = ({}) => {
 	const classes = useStyles();
+	const { setAuthState } = useAuth();
 	const [values, setValues] = useState<Values>({
 		username: "",
 		password: "",
@@ -138,6 +140,7 @@ const Login: React.FC<props> = ({}) => {
 				handleServerResponseErrors(response);
 				return;
 			}
+			setAuthState(response);
 			window.location.href = "/";
 		}
 	};
