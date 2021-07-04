@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import users from "../api/users";
 import { useAuth } from "../contexts/authContext";
+import { User } from "../models/Auth";
 import {
 	Button,
 	TextField,
@@ -111,10 +112,10 @@ const Login: React.FC<props> = ({}) => {
 		return Object.values(temp).every(v => v === "");
 	};
 
-	const handleServerResponseErrors = (response: any) => {
+	const handleServerResponseErrors = (error: object) => {
 		// Set new errors received from the server
-		const errorKey = Object.keys(response)[0];
-		const errorValue = Object.values(response)[0];
+		const errorKey = Object.keys(error)[0];
+		const errorValue = Object.values(error)[0];
 		let temp = {
 			username: "",
 			password: "",
@@ -136,12 +137,13 @@ const Login: React.FC<props> = ({}) => {
 		if (validateValues(username, password)) {
 			const { username, password } = values;
 			const response = await users.signIn(username, password, name);
+			console.log(response);
 			if (Object.keys(response).length < 2) {
 				handleServerResponseErrors(response);
 				return;
 			}
-			setAuthState(response);
-			window.location.href = "/";
+			setAuthState(response.user);
+			//window.location.href = "/";
 		}
 	};
 

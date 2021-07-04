@@ -72,7 +72,7 @@ app.post("/api/users/register", async (req, res) => {
 
 		// Check if username is found
 		if (result.rows.length > 0) {
-			return res.status(200).send({
+			return res.status(200).json({
 				username:
 					"Username is already in use. Either login or try a different username.",
 			});
@@ -80,8 +80,13 @@ app.post("/api/users/register", async (req, res) => {
 
 		// Insert a new user and set session id
 		const user = await users.insertUser(username, password);
+		const { id, expiresAt } = req.session;
 		req.session.user = user;
-		return res.status(200).send(user);
+		return res.status(200).json({
+			token: id,
+			expiresAt,
+			user,
+		});
 	} catch (err) {
 		console.error(`POST ${err.message}`);
 		return res.status(500);
@@ -96,17 +101,25 @@ app.post("/api/users/login", async (req, res) => {
 
 		// Check if username is found
 		if (result.rows.length < 1) {
-			return res.status(200).send({ username: "Username is incorrect" });
+			return res.status(200).json({ username: "Username is incorrect" });
 		}
 
-		// Compare passwords and set session id
+		// Compare passwords and set session id if password is correct
 		const user = await users.authenticatePassword(
 			password,
 			result.rows[0]
 		);
+		const { id, expiresAt } = req.session;
+
+		if (!user) {
+			return res.status(200).json({ password: "Password is incorrect" });
+		}
 		req.session.user = user;
-		console.log(req.session.userId);
-		return res.status(200).send(user);
+		return res.status(200).json({
+			token: id,
+			expiresAt,
+			user,
+		});
 	} catch (err) {
 		console.error(`POST ${err.message}`);
 		return res.status(500);

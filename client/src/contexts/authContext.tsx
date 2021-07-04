@@ -6,14 +6,9 @@ import React, {
 	SetStateAction,
 	Dispatch,
 } from "react";
+import { AuthState } from "../models/Auth";
 
 type Dispatcher<S> = Dispatch<SetStateAction<S>>;
-
-interface AuthState {
-	token: string | null;
-	expiresAt: string | null;
-	user: string | null;
-}
 
 interface IAuthContext {
 	authState: AuthState;
@@ -21,7 +16,11 @@ interface IAuthContext {
 }
 
 const AuthContext = createContext<IAuthContext>({
-	authState: { token: null, expiresAt: null, user: null },
+	authState: {
+		token: null,
+		expiresAt: null,
+		user: { id: null, username: null },
+	},
 	setAuthState: () => {},
 });
 
@@ -29,7 +28,7 @@ export const AuthProvider: React.FC = ({ children }) => {
 	const [authState, setAuthState] = useState<AuthState>({
 		token: null,
 		expiresAt: null,
-		user: null,
+		user: { id: null, username: null },
 	});
 
 	const setAuthInfo = ({ token, expiresAt, user }: AuthState) => {

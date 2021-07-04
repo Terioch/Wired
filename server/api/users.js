@@ -15,7 +15,7 @@ class Users {
 		try {
 			const isMatch = await bcrypt.compare(password, user.password);
 			if (isMatch) return user;
-			return { password: "Password is incorrect" };
+			return null;
 		} catch (err) {
 			console.error(`Login error: ${err.message}`);
 			throw err;
