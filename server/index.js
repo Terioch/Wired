@@ -1,14 +1,14 @@
 require("dotenv").config();
-
 const http = require("http");
 const express = require("express");
 const cors = require("cors");
 const socketio = require("socket.io");
-const session = require("express-session");
+const jwt = require("jsonwebtoken");
+const jwtDecode = require("jwt-decode");
 
 const users = require("./api/users");
 
-const { PORT, SESSION_SECRET, SESSION_MAX_AGE } = process.env;
+const { PORT, JWT_SECRET, JWT_MAX_AGE } = process.env;
 
 const app = express();
 const server = http.createServer(app);
@@ -23,19 +23,19 @@ const io = socketio(server, {
 
 // Parse middleware
 app.use(express.json());
-app.use(
-	session({
-		secret: SESSION_SECRET,
-		resave: false,
-		saveUninitialized: false,
-		cookie: {
-			httpOnly: false,
-			secure: true,
-			maxAge: parseInt(SESSION_MAX_AGE),
-			sameSite: true,
-		},
-	})
-);
+// app.use(
+// 	session({
+// 		secret: SESSION_SECRET,
+// 		resave: false,
+// 		saveUninitialized: false,
+// 		cookie: {
+// 			httpOnly: false,
+// 			secure: true,
+// 			maxAge: parseInt(SESSION_MAX_AGE),
+// 			sameSite: true,
+// 		},
+// 	})
+// );
 app.use(
 	cors({
 		origin: "http://localhost:5000",
@@ -68,22 +68,29 @@ const requireAuth = (req, res, next) => {
 app.post("/api/users/register", async (req, res) => {
 	try {
 		const { username, password } = req.body;
-		const result = await users.searchUsername(username);
+		const result = await users.findOne(username);
 
 		// Check if username is found
 		if (result.rows.length > 0) {
 			return res.status(200).json({
 				username:
-					"Username is already in use. Either login or try a different username.",
+					"Username already exists. Either login or try a different username.",
 			});
 		}
 
-		// Insert a new user and set session id
-		const user = await users.insertUser(username, password);
-		const { id, expiresAt } = req.session;
-		req.session.user = user;
+		// Insert a new user then send both the token and user
+		const user = await users.insertOne(username, password);
+		const token = users.createToken(user);
+		const decodedToken = jwtDecode(token);
+		const expiresAt = decodedToken.exp;
+
+		// Send token as a cookie
+		res.cookie("token", token, {
+			httpOnly: true,
+		});
+
 		return res.status(200).json({
-			token: id,
+			token,
 			expiresAt,
 			user,
 		});
@@ -97,7 +104,7 @@ app.post("/api/users/register", async (req, res) => {
 app.post("/api/users/login", async (req, res) => {
 	try {
 		const { username, password } = req.body;
-		const result = await users.searchUsername(username);
+		const result = await users.findOne(username);
 
 		// Check if username is found
 		if (result.rows.length < 1) {
@@ -105,18 +112,23 @@ app.post("/api/users/login", async (req, res) => {
 		}
 
 		// Compare passwords and set session id if password is correct
-		const user = await users.authenticatePassword(
-			password,
-			result.rows[0]
-		);
-		const { id, expiresAt } = req.session;
+		const user = await users.verifyPassword(password, result.rows[0]);
 
 		if (!user) {
 			return res.status(200).json({ password: "Password is incorrect" });
 		}
-		req.session.user = user;
+
+		// Send both token and user
+		const token = users.createToken(user);
+		const decodedToken = jwtDecode(token);
+		const expiresAt = decodedToken.exp;
+
+		res.cookie("token", token, {
+			httpOnly: true,
+		});
+
 		return res.status(200).json({
-			token: id,
+			token,
 			expiresAt,
 			user,
 		});
