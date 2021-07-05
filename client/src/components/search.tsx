@@ -36,7 +36,7 @@ const Search: React.FC<Props> = () => {
 				InputProps={{
 					startAdornment: (
 						<InputAdornment position="start">
-							{/* <SearchIcon /> */}
+							<SearchIcon />
 						</InputAdornment>
 					),
 				}}

@@ -17,6 +17,14 @@ const useStyles = makeStyles(theme => ({
 		justifyContent: "space-between",
 		alignItems: "center",
 	},
+	logo: {
+		flex: 1,
+	},
+	logoutContainer: {
+		display: "flex",
+		justifyContent: "flex-end",
+		flex: 1,
+	},
 	logout: {
 		color: "#ffffff",
 		border: "1px solid #A9A9A9",
@@ -30,15 +38,19 @@ const Nav: React.FC<Props> = () => {
 	return (
 		<AppBar position="static" color="secondary">
 			<Toolbar className={classes.toolbar}>
-				<Typography variant="h5">Wired</Typography>
+				<Typography className={classes.logo} variant="h4">
+					Wired
+				</Typography>
 				<Search />
-				<Button
-					className={classes.logout}
-					variant="outlined"
-					onClick={users.signOut}
-				>
-					Logout
-				</Button>
+				<div className={classes.logoutContainer}>
+					<Button
+						className={classes.logout}
+						variant="outlined"
+						onClick={users.signOut}
+					>
+						Logout
+					</Button>
+				</div>
 			</Toolbar>
 		</AppBar>
 	);
