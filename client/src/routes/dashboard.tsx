@@ -8,7 +8,7 @@ interface Props {}
 
 const useStyles = makeStyles(theme => ({}));
 
-const Home: React.FC<Props> = ({}) => {
+const Dashboard: React.FC<Props> = ({}) => {
 	const classes = useStyles();
 
 	return (
@@ -21,4 +21,4 @@ const Home: React.FC<Props> = ({}) => {
 	);
 };
 
-export default Home;
+export default Dashboard;

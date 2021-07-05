@@ -6,6 +6,7 @@ import {
 	ListItem,
 	makeStyles,
 } from "@material-ui/core";
+import { Search as SearchIcon } from "@material-ui/icons";
 
 interface Props {}
 
@@ -35,7 +36,7 @@ const Search: React.FC<Props> = () => {
 				InputProps={{
 					startAdornment: (
 						<InputAdornment position="start">
-							<Search />
+							{/* <SearchIcon /> */}
 						</InputAdornment>
 					),
 				}}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect, Link } from "react-router-dom";
 import { socket } from "./config/socket";
 import Routes from "./routes/Routes";
 import { useAuth } from "./contexts/authContext";
@@ -16,8 +16,12 @@ function App() {
 			<Switch>
 				<Route exact path="/login" component={Login} />
 				<Route exact path="/dashboard" component={Dashboard} />
-				<Route exact path={"/:id"} component={Room} />
+				<Route exact path="/:id" component={Room} />
 			</Switch>
+			<div>
+				<Link to="/dashboard">Go to Dashboard</Link>
+			</div>
+			<Link to="/login">Go to Login</Link>
 		</main>
 	);
 }

@@ -8,8 +8,6 @@ import {
 	makeStyles,
 } from "@material-ui/core";
 
-const { Search } = Components;
-
 interface Props {}
 
 const useStyles = makeStyles(theme => ({
@@ -25,6 +23,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Nav: React.FC<Props> = () => {
+	const { Search } = Components;
 	const classes = useStyles();
 
 	return (
