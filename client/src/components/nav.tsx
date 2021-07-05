@@ -1,5 +1,6 @@
 import React from "react";
 import Components from "./Components";
+import users from "../api/users";
 import {
 	Typography,
 	AppBar,
@@ -31,7 +32,11 @@ const Nav: React.FC<Props> = () => {
 			<Toolbar className={classes.toolbar}>
 				<Typography variant="h5">Wired</Typography>
 				<Search />
-				<Button className={classes.logout} variant="outlined">
+				<Button
+					className={classes.logout}
+					variant="outlined"
+					onClick={users.signOut}
+				>
 					Logout
 				</Button>
 			</Toolbar>
