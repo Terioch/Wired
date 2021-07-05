@@ -137,13 +137,13 @@ const Login: React.FC<props> = ({}) => {
 		if (validateValues(username, password)) {
 			const { username, password } = values;
 			const response = await users.signIn(username, password, name);
-			console.log(response);
+
 			if (Object.keys(response).length < 2) {
 				handleServerResponseErrors(response);
 				return;
 			}
-			setAuthState(response.user);
-			//window.location.href = "/";
+			setAuthState(response);
+			window.location.href = "/dashboard";
 		}
 	};
 

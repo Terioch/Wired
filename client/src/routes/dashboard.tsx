@@ -1,15 +1,23 @@
-import React from "react";
-import { Typography } from "@material-ui/core";
+import React, { useState } from "react";
+import Components from "../components/Components";
+import { Typography, makeStyles } from "@material-ui/core";
 
-interface props {}
+const { Nav } = Components;
 
-const Home: React.FC<props> = ({}) => {
+interface Props {}
+
+const useStyles = makeStyles(theme => ({}));
+
+const Home: React.FC<Props> = ({}) => {
+	const classes = useStyles();
+
 	return (
-		<div>
+		<>
+			<Nav />
 			<Typography variant="h4" color="secondary">
 				Create and search for rooms here...
 			</Typography>
-		</div>
+		</>
 	);
 };
 

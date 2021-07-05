@@ -3,7 +3,6 @@ const http = require("http");
 const express = require("express");
 const cors = require("cors");
 const socketio = require("socket.io");
-const jwt = require("jsonwebtoken");
 const jwtDecode = require("jwt-decode");
 
 const users = require("./api/users");
