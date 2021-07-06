@@ -6,6 +6,7 @@ const socketio = require("socket.io");
 const jwtDecode = require("jwt-decode");
 
 const users = require("./api/users");
+const db = require("./config/db");
 
 const { PORT, JWT_SECRET, JWT_MAX_AGE } = process.env;
 
@@ -22,19 +23,6 @@ const io = socketio(server, {
 
 // Parse middleware
 app.use(express.json());
-// app.use(
-// 	session({
-// 		secret: SESSION_SECRET,
-// 		resave: false,
-// 		saveUninitialized: false,
-// 		cookie: {
-// 			httpOnly: false,
-// 			secure: true,
-// 			maxAge: parseInt(SESSION_MAX_AGE),
-// 			sameSite: true,
-// 		},
-// 	})
-// );
 app.use(
 	cors({
 		origin: "http://localhost:5000",
@@ -137,6 +125,16 @@ app.post("/api/users/login", async (req, res) => {
 	}
 });
 
+// Handle requests for rooms table
+
+app.post("/api/rooms/:id", async (req, res) => {
+	// TODO: Store new room info in rooms table
+	try {
+	} catch (err) {
+		console.error(`Rooms POST: ${err.message}`);
+	}
+});
+
 // Handle requests for messages table
 
 app.get("/api/messages", async (req, res) => {
@@ -150,6 +148,20 @@ io.on("connection", socket => {
 		console.log(message);
 		socket.emit("message", message);
 	});
+
+	// New room was created
+	socket.on("new-room", async data => {
+		try {
+			const { name, admin, userId } = data;
+			const query =
+				"INSERT into rooms (name, admin) VALUES ($1, $2) RETURNING *";
+			const result = await db.query(query, [name, admin]);
+			console.log(result.rows[0]);
+		} catch (err) {
+			console.error(`new-room: ${err.message}`);
+		}
+	});
+
 	socket.on("disconnect", () => {
 		console.log("User disconnected");
 	});

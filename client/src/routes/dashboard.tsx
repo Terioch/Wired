@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import Components from "../components/Components";
+import { socket } from "../config/socket";
+import { useAuth } from "../contexts/authContext";
 import {
 	Container,
 	Paper,
@@ -47,6 +49,7 @@ type ChangeE = React.ChangeEvent<HTMLInputElement>;
 const Dashboard: React.FC<Props> = ({}) => {
 	const classes = useStyles();
 	const history = useHistory();
+	const { authState } = useAuth();
 	const [newRoomName, setNewRoomName] = useState("");
 
 	const handleNewRoomName = (e: ChangeE) => {
@@ -55,7 +58,14 @@ const Dashboard: React.FC<Props> = ({}) => {
 	};
 
 	const createNewRoom = () => {
-		history.push(`/room/${newRoomName}`);
+		const info = {
+			name: newRoomName,
+			admin: authState.user.username,
+			userId: authState.user.id,
+		};
+		// history.push(`/room/${newRoomName}`);
+		socket.emit("new-room", info);
+		console.log(authState.user.username);
 	};
 
 	return (
