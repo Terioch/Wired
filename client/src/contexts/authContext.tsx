@@ -12,7 +12,6 @@ type Dispatcher<S> = Dispatch<SetStateAction<S>>;
 
 interface IAuthContext {
 	authState: AuthState;
-	// setAuthState: Dispatcher<AuthState>;
 	setAuthInfo: (authInfo: AuthState) => void;
 }
 
@@ -33,7 +32,7 @@ export const AuthProvider: React.FC = ({ children }) => {
 	});
 
 	useEffect(() => {
-		const token = null;
+		const token = localStorage.getItem("token");
 		const expiresAt = localStorage.getItem("expires-at");
 		const user = localStorage.getItem("user-info");
 
@@ -45,8 +44,9 @@ export const AuthProvider: React.FC = ({ children }) => {
 	}, []);
 
 	const setAuthInfo = ({ token, expiresAt, user }: AuthState) => {
-		localStorage.setItem("user-info", JSON.stringify(user));
+		localStorage.setItem("token", JSON.stringify(token));
 		localStorage.setItem("expires-at", JSON.stringify(expiresAt));
+		localStorage.setItem("user-info", JSON.stringify(user));
 
 		setAuthState({
 			token,
