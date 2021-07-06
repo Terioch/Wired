@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import Components from "../components/Components";
 import {
-	Grid,
 	Container,
 	Paper,
 	Button,
@@ -42,8 +42,21 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
+type ChangeE = React.ChangeEvent<HTMLInputElement>;
+
 const Dashboard: React.FC<Props> = ({}) => {
 	const classes = useStyles();
+	const history = useHistory();
+	const [newRoomName, setNewRoomName] = useState("");
+
+	const handleNewRoomName = (e: ChangeE) => {
+		const { value } = e.target;
+		setNewRoomName(value);
+	};
+
+	const createNewRoom = () => {
+		history.push(`/room/${newRoomName}`);
+	};
 
 	return (
 		<main className={classes.main}>
@@ -54,12 +67,18 @@ const Dashboard: React.FC<Props> = ({}) => {
 						<Typography variant="h4" gutterBottom>
 							Create a new room
 						</Typography>
-						<TextField label="Provide a room name..." color="secondary" />
+						<TextField
+							label="Provide a room name..."
+							color="secondary"
+							value={newRoomName}
+							onChange={handleNewRoomName}
+						/>
 						<Button
 							className={classes.newRoomBtn}
 							variant="contained"
 							color="primary"
 							size="large"
+							onClick={createNewRoom}
 						>
 							Create Room
 						</Button>

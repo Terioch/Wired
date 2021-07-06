@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { socket } from "../config/socket";
+import { Typography } from "@material-ui/core";
 
 const Room: React.FC = () => {
 	const [value, setValue] = useState("");
@@ -14,6 +15,9 @@ const Room: React.FC = () => {
 
 	return (
 		<div>
+			<Typography variant="h4" color="primary">
+				Welcome to the chat room
+			</Typography>
 			<input
 				type="text"
 				value={value}

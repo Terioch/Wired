@@ -150,6 +150,9 @@ io.on("connection", socket => {
 		console.log(message);
 		socket.emit("message", message);
 	});
+	socket.on("disconnect", () => {
+		console.log("User disconnected");
+	});
 });
 
 server.listen(PORT, () => {
