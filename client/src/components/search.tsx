@@ -27,9 +27,8 @@ const Search: React.FC<Props> = () => {
 		<>
 			<TextField
 				className={classes.input}
-				label="Search For Room By ID"
+				label="Search For Room By Name"
 				variant="outlined"
-				color="secondary"
 				size="small"
 				value={filter}
 				onChange={handleFilter}

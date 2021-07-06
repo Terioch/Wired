@@ -3,25 +3,36 @@ import { Route, Switch, Redirect, Link } from "react-router-dom";
 import { socket } from "./config/socket";
 import Routes from "./routes/Routes";
 import { useAuth } from "./contexts/authContext";
-import {} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 
 const { Login, Dashboard, Room } = Routes;
 
+const useStyles = makeStyles(theme => ({
+	background: {
+		height: "100vh",
+		width: "100vw",
+		backgroundColor: "#333",
+	},
+}));
+
 function App() {
+	const classes = useStyles();
 	const { authState } = useAuth();
 	console.log(authState);
 
 	return (
-		<main>
+		<main className={classes.background}>
 			<Switch>
 				<Route exact path="/login" component={Login} />
 				<Route exact path="/dashboard" component={Dashboard} />
 				<Route exact path="/:id" component={Room} />
 			</Switch>
-			<div>
-				<Link to="/dashboard">Go to Dashboard</Link>
-			</div>
-			<Link to="/login">Go to Login</Link>
+			<Route exact path="/">
+				<div>
+					<Link to="/dashboard">Go to Dashboard</Link>
+				</div>
+				<Link to="/login">Go to Login</Link>
+			</Route>
 		</main>
 	);
 }

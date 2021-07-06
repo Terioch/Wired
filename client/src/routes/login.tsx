@@ -11,13 +11,12 @@ import {
 } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
-	background: {
+	main: {
 		height: "100vh",
 		width: "100vw",
 		display: "flex",
 		justifyContent: "center",
 		alignItems: "center",
-		backgroundColor: "#333",
 	},
 	form: {
 		display: "flex",
@@ -148,7 +147,7 @@ const Login: React.FC<props> = ({}) => {
 	};
 
 	return (
-		<main className={classes.background}>
+		<main className={classes.main}>
 			<form className={classes.form}>
 				<Paper className={classes.paper} elevation={10}>
 					<div className={classes.headerContainer}>
