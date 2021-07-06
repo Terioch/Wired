@@ -69,7 +69,7 @@ type ChangeE = React.ChangeEvent<HTMLInputElement>;
 
 const Login: React.FC<props> = ({}) => {
 	const classes = useStyles();
-	const { setAuthState } = useAuth();
+	const { setAuthInfo } = useAuth();
 	const [values, setValues] = useState<Values>({
 		username: "",
 		password: "",
@@ -141,7 +141,7 @@ const Login: React.FC<props> = ({}) => {
 				handleServerResponseErrors(response);
 				return;
 			}
-			setAuthState(response);
+			setAuthInfo(response);
 			window.location.href = "/dashboard";
 		}
 	};

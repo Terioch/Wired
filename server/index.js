@@ -4,6 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const socketio = require("socket.io");
 const jwtDecode = require("jwt-decode");
+const cookieParser = require("cookie-parser");
 
 const users = require("./api/users");
 const db = require("./config/db");
@@ -23,6 +24,7 @@ const io = socketio(server, {
 
 // Parse middleware
 app.use(express.json());
+app.use(cookieParser());
 app.use(
 	cors({
 		origin: "http://localhost:5000",
