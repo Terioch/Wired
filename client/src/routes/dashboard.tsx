@@ -15,8 +15,6 @@ import {
 
 const { Nav, Search } = Components;
 
-interface Props {}
-
 const useStyles = makeStyles(theme => ({
 	main: {
 		// height: "100vh",
@@ -43,6 +41,14 @@ const useStyles = makeStyles(theme => ({
 		fontSize: "18px",
 	},
 }));
+
+interface Props {}
+
+interface Room {
+	id: number;
+	name: string;
+	admin: string;
+}
 
 type ChangeE = React.ChangeEvent<HTMLInputElement>;
 
@@ -75,11 +81,11 @@ const Dashboard: React.FC<Props> = ({}) => {
 		if (validateRoomName()) {
 			socket.emit("new-room", info);
 
-			socket.on("new-room-error", (error: any) => {
+			socket.on("new-room-error", (error: string) => {
 				setRoomNameError(error);
 			});
 
-			socket.on("new-room", (room: any) => {
+			socket.on("new-room", (room: Room) => {
 				history.push(`/room/${roomName}`);
 			});
 		}

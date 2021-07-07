@@ -130,7 +130,6 @@ app.post("/api/users/login", async (req, res) => {
 // Handle requests for rooms table
 
 app.post("/api/rooms/:id", async (req, res) => {
-	// TODO: Store new room info in rooms table
 	try {
 	} catch (err) {
 		console.error(`Rooms POST: ${err.message}`);
@@ -143,7 +142,7 @@ app.get("/api/messages", async (req, res) => {
 	return res.status(200).send("Hello from the messages endpoint...");
 });
 
-// Listen for a new web socket connection
+// Handle web socket signals
 io.on("connection", socket => {
 	console.log("Initialized a new web socket connection...");
 	socket.on("message", message => {
