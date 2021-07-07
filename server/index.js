@@ -158,11 +158,11 @@ io.on("connection", socket => {
 			const result = await rooms.findOne(name);
 
 			if (result.rows.length > 0) {
-				return res.status(200).send("Room name already exists");
+				return socket.emit("new-room-error", "Room name already exists");
 			}
 
 			const room = await rooms.insertOne(name, admin);
-			return res.status(200).json(room);
+			return socket.emit("new-room", room);
 		} catch (err) {
 			console.error(`new-room: ${err.message}`);
 		}

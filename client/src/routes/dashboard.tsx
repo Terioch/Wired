@@ -51,7 +51,7 @@ const Dashboard: React.FC<Props> = ({}) => {
 	const history = useHistory();
 	const { authState } = useAuth();
 	const [roomName, setRoomName] = useState("");
-	const [roomNameErrors, setRoomNameErrors] = useState("");
+	const [roomNameError, setRoomNameError] = useState("");
 
 	const handleNewRoomName = (e: ChangeE) => {
 		const { value } = e.target;
@@ -61,7 +61,7 @@ const Dashboard: React.FC<Props> = ({}) => {
 	const validateRoomName = () => {
 		const temp =
 			roomName.length < 21 ? "" : "Room Name cannot exceed 22 characters";
-		setRoomNameErrors(temp);
+		setRoomNameError(temp);
 		return temp === "";
 	};
 
@@ -71,10 +71,17 @@ const Dashboard: React.FC<Props> = ({}) => {
 			admin: authState.user.username,
 		};
 
+		// Verify if room name is unique and then redirect to the room route
 		if (validateRoomName()) {
-			// history.push(`/room/${newRoomName}`);
 			socket.emit("new-room", info);
-			console.log(authState.user.username);
+
+			socket.on("new-room-error", (error: any) => {
+				setRoomNameError(error);
+			});
+
+			socket.on("new-room", (room: any) => {
+				history.push(`/room/${roomName}`);
+			});
 		}
 	};
 
@@ -92,8 +99,8 @@ const Dashboard: React.FC<Props> = ({}) => {
 							color="secondary"
 							value={roomName}
 							onChange={handleNewRoomName}
-							error={roomNameErrors ? true : false}
-							helperText={roomNameErrors}
+							error={roomNameError ? true : false}
+							helperText={roomNameError}
 						/>
 						<Button
 							className={classes.newRoomBtn}
