@@ -3,6 +3,11 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 class Users {
+	findOne = async username => {
+		const query = "SELECT * FROM users WHERE username = $1";
+		return await db.query(query, [username]);
+	};
+
 	insertOne = async (username, password) => {
 		const query =
 			"INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id, username";
@@ -21,12 +26,6 @@ class Users {
 			console.error(`Login error: ${err.message}`);
 			throw err;
 		}
-	};
-
-	// Query database for a specific username
-	findOne = async username => {
-		const query = "SELECT * FROM users WHERE username = $1";
-		return await db.query(query, [username]);
 	};
 
 	// Sign the JWT

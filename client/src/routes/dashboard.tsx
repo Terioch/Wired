@@ -69,7 +69,6 @@ const Dashboard: React.FC<Props> = ({}) => {
 		const info = {
 			name: roomName,
 			admin: authState.user.username,
-			userId: authState.user.id,
 		};
 
 		if (validateRoomName()) {

@@ -7,7 +7,7 @@ const jwtDecode = require("jwt-decode");
 const cookieParser = require("cookie-parser");
 
 const users = require("./api/users");
-const db = require("./config/db");
+const rooms = require("./api/rooms");
 
 const { PORT, JWT_SECRET, JWT_MAX_AGE } = process.env;
 
@@ -154,11 +154,15 @@ io.on("connection", socket => {
 	// New room was created
 	socket.on("new-room", async data => {
 		try {
-			const { name, admin, userId } = data;
-			const query =
-				"INSERT into rooms (name, admin) VALUES ($1, $2) RETURNING *";
-			const result = await db.query(query, [name, admin]);
-			console.log(result.rows[0]);
+			const { name, admin } = data;
+			const result = await rooms.findOne(name);
+
+			if (result.rows.length > 0) {
+				return res.status(200).send("Room name already exists");
+			}
+
+			const room = await rooms.insertOne(name, admin);
+			return res.status(200).json(room);
 		} catch (err) {
 			console.error(`new-room: ${err.message}`);
 		}
