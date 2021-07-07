@@ -50,22 +50,33 @@ const Dashboard: React.FC<Props> = ({}) => {
 	const classes = useStyles();
 	const history = useHistory();
 	const { authState } = useAuth();
-	const [newRoomName, setNewRoomName] = useState("");
+	const [roomName, setRoomName] = useState("");
+	const [roomNameErrors, setRoomNameErrors] = useState("");
 
 	const handleNewRoomName = (e: ChangeE) => {
 		const { value } = e.target;
-		setNewRoomName(value);
+		setRoomName(value);
+	};
+
+	const validateRoomName = () => {
+		const temp =
+			roomName.length < 21 ? "" : "Room Name cannot exceed 22 characters";
+		setRoomNameErrors(temp);
+		return temp === "";
 	};
 
 	const createNewRoom = () => {
 		const info = {
-			name: newRoomName,
+			name: roomName,
 			admin: authState.user.username,
 			userId: authState.user.id,
 		};
-		// history.push(`/room/${newRoomName}`);
-		socket.emit("new-room", info);
-		console.log(authState.user.username);
+
+		if (validateRoomName()) {
+			// history.push(`/room/${newRoomName}`);
+			socket.emit("new-room", info);
+			console.log(authState.user.username);
+		}
 	};
 
 	return (
@@ -80,8 +91,10 @@ const Dashboard: React.FC<Props> = ({}) => {
 						<TextField
 							label="Provide a room name..."
 							color="secondary"
-							value={newRoomName}
+							value={roomName}
 							onChange={handleNewRoomName}
+							error={roomNameErrors ? true : false}
+							helperText={roomNameErrors}
 						/>
 						<Button
 							className={classes.newRoomBtn}

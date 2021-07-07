@@ -3,12 +3,8 @@ import React, {
 	useEffect,
 	useContext,
 	createContext,
-	SetStateAction,
-	Dispatch,
 } from "react";
 import { AuthState } from "../models/Auth";
-
-type Dispatcher<S> = Dispatch<SetStateAction<S>>;
 
 interface IAuthContext {
 	authState: AuthState;

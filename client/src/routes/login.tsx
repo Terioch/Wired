@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import users from "../api/users";
 import { useAuth } from "../contexts/authContext";
-import { User } from "../models/Auth";
 import {
 	Button,
 	TextField,
@@ -69,7 +69,9 @@ type ChangeE = React.ChangeEvent<HTMLInputElement>;
 
 const Login: React.FC<props> = ({}) => {
 	const classes = useStyles();
+	const history = useHistory();
 	const { setAuthInfo } = useAuth();
+
 	const [values, setValues] = useState<Values>({
 		username: "",
 		password: "",
@@ -142,7 +144,7 @@ const Login: React.FC<props> = ({}) => {
 				return;
 			}
 			setAuthInfo(response);
-			window.location.href = "/dashboard";
+			history.push("/dashboard"); // Redirect to dashboard
 		}
 	};
 
