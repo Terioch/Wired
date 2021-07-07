@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
 		alignItems: "center",
 	},
 	paper: {
-		padding: "1rem",
+		padding: theme.spacing(2),
 		textAlign: "center",
 	},
 	newRoom: {
@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
 		alignItems: "center",
 	},
 	newRoomBtn: {
-		marginTop: "1rem",
+		marginTop: theme.spacing(2),
 		fontSize: "18px",
 	},
 }));

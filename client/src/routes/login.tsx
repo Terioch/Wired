@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
 			width: "85%",
 		},
 		"& > *": {
-			margin: "0.5rem 0",
+			margin: theme.spacing(1, 0),
 		},
 	},
 	headerContainer: {
@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
 		justifyContent: "center",
 		alignItems: "center",
 		"& > *": {
-			margin: "0 .5rem",
+			margin: theme.spacing(0, 1),
 		},
 	},
 	login: {
