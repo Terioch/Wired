@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import Components from "../components/Components";
 import { socket } from "../config/socket";
+import { ChangeE } from "../models/Events";
 import { useAuth } from "../contexts/authContext";
 import {
 	Container,
@@ -49,8 +50,6 @@ interface Room {
 	name: string;
 	admin: string;
 }
-
-type ChangeE = React.ChangeEvent<HTMLInputElement>;
 
 const Dashboard: React.FC<Props> = ({}) => {
 	const classes = useStyles();

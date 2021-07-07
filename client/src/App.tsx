@@ -18,7 +18,6 @@ const useStyles = makeStyles(theme => ({
 function App() {
 	const classes = useStyles();
 	const { authState } = useAuth();
-	console.log(authState);
 
 	return (
 		<main className={classes.background}>

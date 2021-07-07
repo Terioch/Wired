@@ -1,5 +1,4 @@
 import React from "react";
-import Components from "./Components";
 import users from "../api/users";
 import {
 	Typography,
@@ -26,15 +25,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Nav: React.FC<Props> = () => {
-	const { Search } = Components;
 	const classes = useStyles();
 
 	return (
-		<AppBar
-			position="fixed"
-			color="secondary"
-			// style={{ position: "absolute" }}
-		>
+		<AppBar position="fixed" color="secondary">
 			<Toolbar className={classes.toolbar}>
 				<Typography className={classes.logo} variant="h4">
 					Wired

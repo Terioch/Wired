@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import users from "../api/users";
+import { ChangeE, BtnE } from "../models/Events";
 import { useAuth } from "../contexts/authContext";
 import {
 	Button,
@@ -63,9 +64,6 @@ interface Values {
 	username: string;
 	password: string;
 }
-
-type BtnE = React.MouseEvent<HTMLButtonElement>;
-type ChangeE = React.ChangeEvent<HTMLInputElement>;
 
 const Login: React.FC<props> = ({}) => {
 	const classes = useStyles();
