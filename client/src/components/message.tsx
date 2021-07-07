@@ -4,17 +4,20 @@ import { Message as IMessage } from "../models/Message";
 import { Typography, Box, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
-	container: {
-		margin: theme.spacing(3, 0),
+	message: {
+		width: "max-content",
+		margin: theme.spacing(2, 0),
 		padding: theme.spacing(1, 2.5),
 		borderRadius: "50px",
 		color: "#ffffff",
 	},
-	toContainer: {
+	toMessage: {
+		float: "right",
 		backgroundColor: "#28992E",
 	},
-	fromContainer: {
-		backgroundColor: "grey",
+	fromMessage: {
+		clear: "right",
+		backgroundColor: "#727274",
 	},
 }));
 
@@ -29,14 +32,17 @@ const Message: React.FC<Props> = ({ message }) => {
 
 	const recipient = authState.user.username !== sender;
 
+	const formatMessage = () => {
+		return recipient ? classes.fromMessage : classes.toMessage;
+	};
+
+	const formatSender = () => {
+		return recipient ? sender : "You";
+	};
+
 	return (
-		<Box
-			className={`${classes.container} ${
-				recipient ? classes.fromContainer : classes.toContainer
-			}`}
-			color="primary"
-		>
-			<Typography variant="subtitle2">{sender}</Typography>
+		<Box className={`${classes.message} ${formatMessage()}`}>
+			<Typography variant="subtitle2">{formatSender()}</Typography>
 			<Typography variant="body1">{value}</Typography>
 		</Box>
 	);

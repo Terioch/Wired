@@ -26,6 +26,7 @@ const useStyles = makeStyles(theme => ({
 		display: "flex",
 		flexDirection: "column",
 		padding: theme.spacing(1.5),
+		backgroundColor: "#eeeeee",
 	},
 	title: {
 		textAlign: "center",
