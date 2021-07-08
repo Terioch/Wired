@@ -69,10 +69,9 @@ const Room: React.FC = () => {
 	]);
 
 	useEffect(() => {
-		console.log("hi");
-		Client.rooms.findAllExcluding(user.username).then(data => {
-			console.log("hi", data);
-			setRooms(data);
+		Client.rooms.findAllExcluding(user.username).then(rooms => {
+			console.log(rooms);
+			setRooms(rooms);
 		});
 	}, []);
 
