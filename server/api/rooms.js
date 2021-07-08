@@ -1,6 +1,11 @@
 const db = require("../config/db");
 
 class Rooms {
+	findAllExcluding = async () => {
+		const query = "SELECT * FROM rooms WHERE ";
+		return await db.query(query);
+	};
+
 	findOne = async name => {
 		const query = "SELECT * FROM rooms WHERE name = $1";
 		return await db.query(query, [name]);

@@ -10,13 +10,13 @@ const useStyles = makeStyles(theme => ({
 		padding: theme.spacing(1, 2.5),
 		borderRadius: "50px",
 		color: "#ffffff",
+		clear: "both",
 	},
 	toMessage: {
 		float: "right",
 		backgroundColor: "#28992E",
 	},
 	fromMessage: {
-		clear: "right",
 		backgroundColor: "#727274",
 	},
 }));

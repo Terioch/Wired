@@ -139,7 +139,12 @@ app.post("/api/rooms/:id", async (req, res) => {
 // Handle requests for messages table
 
 app.get("/api/messages", async (req, res) => {
-	return res.status(200).send("Hello from the messages endpoint...");
+	try {
+		const result = await rooms.findAllExcluding();
+		return res.status(200).send(result.rows[0]);
+	} catch (err) {
+		console.error(`GET ${err.message}`);
+	}
 });
 
 // Handle web socket signals

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { socket } from "../config/socket";
 import Components from "../components/Components";
-import { ChangeE } from "../models/Events";
+import rooms from "../api/rooms";
+import { ChangeE, FormE } from "../models/Events";
 import {
 	Typography,
 	Paper,
@@ -62,13 +63,24 @@ const Room: React.FC = () => {
 		},
 	]);
 
+	useEffect(() => {
+		rooms.findAll().then(data => {
+			console.log(data);
+		});
+	});
+
 	const handleMessage = (e: ChangeE) => {
 		const { value } = e.target;
 		setMessage(value);
 	};
 
+	const handleSubmit = (e: FormE) => {
+		e.preventDefault();
+		setMessage("");
+	};
+
 	return (
-		<main className={classes.main}>
+		<form className={classes.main} onSubmit={handleSubmit}>
 			<Paper className={classes.paper} elevation={3}>
 				<section className={classes.title}>
 					<Typography variant="h5" color="secondary" gutterBottom>
@@ -98,7 +110,7 @@ const Room: React.FC = () => {
 					/>
 				</section>
 			</Paper>
-		</main>
+		</form>
 	);
 };
 

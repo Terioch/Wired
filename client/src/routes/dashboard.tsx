@@ -84,7 +84,7 @@ const Dashboard: React.FC<Props> = ({}) => {
 				setRoomNameError(error);
 			});
 
-			socket.on("new-room", (room: Room) => {
+			socket.on("new-room", () => {
 				history.push(`/room/${roomName}`);
 			});
 		}
