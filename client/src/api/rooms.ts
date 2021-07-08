@@ -1,8 +1,8 @@
 import axios from "axios";
 
 class Rooms {
-	findAll = async () => {
-		const { data } = await axios.get("/api/messages");
+	findAllExcluding = async (username: string | null) => {
+		const { data } = await axios.post("/api/messages", username);
 		return data;
 	};
 }

@@ -3,6 +3,7 @@ import { socket } from "../config/socket";
 import Components from "../components/Components";
 import rooms from "../api/rooms";
 import { ChangeE, FormE } from "../models/Events";
+import { useAuth } from "../contexts/authContext";
 import {
 	Typography,
 	Paper,
@@ -43,7 +44,11 @@ const useStyles = makeStyles(theme => ({
 
 const Room: React.FC = () => {
 	const classes = useStyles();
+	const {
+		authState: { user },
+	} = useAuth();
 
+	const [myRooms, setMyRooms] = useState([]);
 	const [message, setMessage] = useState("");
 	const [messages, setMessages] = useState([
 		{
@@ -64,10 +69,12 @@ const Room: React.FC = () => {
 	]);
 
 	useEffect(() => {
-		rooms.findAll().then(data => {
-			console.log(data);
+		console.log("hi");
+		rooms.findAllExcluding(user.username).then(data => {
+			console.log("hi", data);
+			setMyRooms(data);
 		});
-	});
+	}, []);
 
 	const handleMessage = (e: ChangeE) => {
 		const { value } = e.target;

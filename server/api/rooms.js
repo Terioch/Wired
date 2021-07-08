@@ -1,9 +1,9 @@
 const db = require("../config/db");
 
 class Rooms {
-	findAllExcluding = async () => {
-		const query = "SELECT * FROM rooms WHERE ";
-		return await db.query(query);
+	findAllExcluding = async username => {
+		const query = "SELECT * FROM rooms WHERE admin = $1";
+		return await db.query(query, [username]);
 	};
 
 	findOne = async name => {
@@ -13,8 +13,8 @@ class Rooms {
 
 	insertOne = async (name, admin) => {
 		const query =
-			"INSERT into rooms (name, admin) VALUES ($1, $2) RETURNING *";
-		const result = await db.query(query, [name, admin]);
+			"INSERT into rooms (name, admin, members) VALUES ($1, $2, $3) RETURNING *";
+		const result = await db.query(query, [name, admin, admin]);
 		return result.rows[0];
 	};
 }

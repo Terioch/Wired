@@ -138,12 +138,12 @@ app.post("/api/rooms/:id", async (req, res) => {
 
 // Handle requests for messages table
 
-app.get("/api/messages", async (req, res) => {
+app.post("/api/messages", async ({ username }, res) => {
 	try {
-		const result = await rooms.findAllExcluding();
-		return res.status(200).send(result.rows[0]);
+		const result = await rooms.findAllExcluding(username);
+		return res.status(200).send(result.rows);
 	} catch (err) {
-		console.error(`GET ${err.message}`);
+		console.error(`POST ${err.message}`);
 	}
 });
 
