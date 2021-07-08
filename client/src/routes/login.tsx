@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import users from "../api/users";
+import Client from "../api/Client";
 import { ChangeE, BtnE } from "../models/Events";
 import { useAuth } from "../contexts/authContext";
 import {
@@ -135,7 +135,7 @@ const Login: React.FC<props> = ({}) => {
 		// Handle errors from server or succesfully login/register the user
 		if (validateValues(username, password)) {
 			const { username, password } = values;
-			const response = await users.signIn(username, password, name);
+			const response = await Client.users.signIn(username, password, name);
 
 			if (Object.keys(response).length < 2) {
 				handleServerResponseErrors(response);

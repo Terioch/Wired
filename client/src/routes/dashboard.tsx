@@ -45,12 +45,6 @@ const useStyles = makeStyles(theme => ({
 
 interface Props {}
 
-interface Room {
-	id: number;
-	name: string;
-	admin: string;
-}
-
 const Dashboard: React.FC<Props> = ({}) => {
 	const classes = useStyles();
 	const history = useHistory();

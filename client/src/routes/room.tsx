@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { socket } from "../config/socket";
 import Components from "../components/Components";
-import rooms from "../api/rooms";
+import Client from "../api/Client";
 import { ChangeE, FormE } from "../models/Events";
 import { useAuth } from "../contexts/authContext";
 import {
@@ -48,7 +48,7 @@ const Room: React.FC = () => {
 		authState: { user },
 	} = useAuth();
 
-	const [myRooms, setMyRooms] = useState([]);
+	const [rooms, setRooms] = useState([]);
 	const [message, setMessage] = useState("");
 	const [messages, setMessages] = useState([
 		{
@@ -70,9 +70,9 @@ const Room: React.FC = () => {
 
 	useEffect(() => {
 		console.log("hi");
-		rooms.findAllExcluding(user.username).then(data => {
+		Client.rooms.findAllExcluding(user.username).then(data => {
 			console.log("hi", data);
-			setMyRooms(data);
+			setRooms(data);
 		});
 	}, []);
 
