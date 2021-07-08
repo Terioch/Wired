@@ -4,11 +4,13 @@ import React, {
 	useContext,
 	createContext,
 } from "react";
+import { useHistory } from "react-router-dom";
 import { AuthState } from "../models/Auth";
 
 interface IAuthContext {
 	authState: AuthState;
 	setAuthInfo: (authInfo: AuthState) => void;
+	logout: () => void;
 }
 
 const AuthContext = createContext<IAuthContext>({
@@ -18,9 +20,11 @@ const AuthContext = createContext<IAuthContext>({
 		user: { id: null, username: null },
 	},
 	setAuthInfo: () => {},
+	logout: () => {},
 });
 
 export const AuthProvider: React.FC = ({ children }) => {
+	const history = useHistory();
 	const [authState, setAuthState] = useState<AuthState>({
 		token: null,
 		expiresAt: null,
@@ -51,8 +55,20 @@ export const AuthProvider: React.FC = ({ children }) => {
 		});
 	};
 
+	const logout = () => {
+		localStorage.removeItem("token");
+		localStorage.removeItem("expires-at");
+		localStorage.removeItem("user-info");
+		setAuthState({
+			token: null,
+			expiresAt: null,
+			user: { id: null, username: null },
+		});
+		history.push("/login");
+	};
+
 	return (
-		<AuthContext.Provider value={{ authState, setAuthInfo }}>
+		<AuthContext.Provider value={{ authState, setAuthInfo, logout }}>
 			{children}
 		</AuthContext.Provider>
 	);

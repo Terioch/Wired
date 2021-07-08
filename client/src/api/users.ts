@@ -14,10 +14,6 @@ class Users {
 			console.error(`POST ${err.message}`);
 		}
 	};
-
-	signOut = async () => {
-		// TODO: Sign-Out the current user
-	};
 }
 
 export default new Users();

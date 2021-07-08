@@ -1,5 +1,5 @@
 import React from "react";
-import users from "../api/users";
+import { useAuth } from "../contexts/authContext";
 import {
 	Typography,
 	AppBar,
@@ -26,6 +26,7 @@ const useStyles = makeStyles(theme => ({
 
 const Nav: React.FC<Props> = () => {
 	const classes = useStyles();
+	const { logout } = useAuth();
 
 	return (
 		<AppBar position="fixed" color="secondary">
@@ -36,7 +37,7 @@ const Nav: React.FC<Props> = () => {
 				<Button
 					className={classes.logout}
 					variant="outlined"
-					onClick={users.signOut}
+					onClick={logout}
 				>
 					Logout
 				</Button>
