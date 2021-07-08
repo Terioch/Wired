@@ -13,8 +13,8 @@ class Rooms {
 
 	insertOne = async (name, admin) => {
 		const query =
-			"INSERT into rooms (name, admin, members) VALUES ($1, $2, $3) RETURNING *";
-		const result = await db.query(query, [name, admin, admin]);
+			"INSERT into rooms (name, admin, members) VALUES ($1, $2, Array[$2]) RETURNING *";
+		const result = await db.query(query, [name, admin]);
 		return result.rows[0];
 	};
 }
