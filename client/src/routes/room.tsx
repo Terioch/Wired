@@ -75,7 +75,7 @@ const Room: React.FC = () => {
 		});
 	}, []);
 
-	const handleMessage = (e: ChangeE) => {
+	const handleInputChange = (e: ChangeE) => {
 		const { value } = e.target;
 		setMessage(value);
 	};
@@ -105,7 +105,7 @@ const Room: React.FC = () => {
 						label="Your message..."
 						color="secondary"
 						value={message}
-						onChange={handleMessage}
+						onChange={handleInputChange}
 						InputProps={{
 							endAdornment: (
 								<InputAdornment position="start">

@@ -9,7 +9,7 @@ const cookieParser = require("cookie-parser");
 const users = require("./api/users");
 const rooms = require("./api/rooms");
 
-const { PORT, JWT_SECRET, JWT_MAX_AGE } = process.env;
+const { PORT } = process.env;
 
 const app = express();
 const server = http.createServer(app);
@@ -129,7 +129,7 @@ app.post("/api/users/login", async (req, res) => {
 
 // Handle requests for rooms table
 
-app.post("/api/rooms/:id", async (req, res) => {
+app.post("/api/rooms/:slug", async (req, res) => {
 	try {
 	} catch (err) {
 		console.error(`Rooms POST: ${err.message}`);
