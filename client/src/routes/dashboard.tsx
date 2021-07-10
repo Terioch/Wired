@@ -51,6 +51,7 @@ const Dashboard: React.FC<Props> = ({}) => {
 	const classes = useStyles();
 	const history = useHistory();
 	const { authState } = useAuth();
+
 	const [rooms, setRooms] = useState([]);
 	const [roomName, setRoomName] = useState("");
 	const [roomNameError, setRoomNameError] = useState("");
