@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Components from "../components/Components";
+import Client from "../api/Client";
 import { socket } from "../config/socket";
 import { ChangeE } from "../models/Events";
+import { Room } from "../models/Room";
 import { useAuth } from "../contexts/authContext";
 import {
 	Container,
@@ -49,8 +51,16 @@ const Dashboard: React.FC<Props> = ({}) => {
 	const classes = useStyles();
 	const history = useHistory();
 	const { authState } = useAuth();
+	const [rooms, setRooms] = useState([]);
 	const [roomName, setRoomName] = useState("");
 	const [roomNameError, setRoomNameError] = useState("");
+
+	useEffect(() => {
+		Client.rooms.findAllExcluding(authState.user.username).then(rooms => {
+			console.log(rooms);
+			setRooms(rooms);
+		});
+	}, []);
 
 	const handleNewRoomName = (e: ChangeE) => {
 		const { value } = e.target;
@@ -78,8 +88,9 @@ const Dashboard: React.FC<Props> = ({}) => {
 				setRoomNameError(error);
 			});
 
-			socket.on("new-room", () => {
-				history.push(`/room/${roomName}`);
+			socket.on("new-room", (room: Room) => {
+				const roomNameSlug = roomName.toLowerCase().split(" ").join("-");
+				history.push(`/room/${roomNameSlug}`);
 			});
 		}
 	};

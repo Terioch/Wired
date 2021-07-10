@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { socket } from "../config/socket";
 import Components from "../components/Components";
 import Client from "../api/Client";
@@ -44,11 +44,8 @@ const useStyles = makeStyles(theme => ({
 
 const Room: React.FC = () => {
 	const classes = useStyles();
-	const {
-		authState: { user },
-	} = useAuth();
+	const { authState } = useAuth();
 
-	const [rooms, setRooms] = useState([]);
 	const [message, setMessage] = useState("");
 	const [messages, setMessages] = useState([
 		{
@@ -67,13 +64,6 @@ const Room: React.FC = () => {
 			value: "Good Morning",
 		},
 	]);
-
-	useEffect(() => {
-		Client.rooms.findAllExcluding(user.username).then(rooms => {
-			console.log(rooms);
-			setRooms(rooms);
-		});
-	}, []);
 
 	const handleInputChange = (e: ChangeE) => {
 		const { value } = e.target;

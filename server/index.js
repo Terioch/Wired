@@ -129,7 +129,14 @@ app.post("/api/users/login", async (req, res) => {
 
 // Handle requests for rooms table
 
-app.post("/api/rooms/:slug", async (req, res) => {
+app.post("/api/rooms", async ({ username }, res) => {
+	try {
+		const result = await rooms.findAllExcluding(username);
+		return res.status(200).send(result.rows);
+	} catch (err) {}
+});
+
+app.get("/api/rooms/:slug", async (req, res) => {
 	try {
 	} catch (err) {
 		console.error(`Rooms POST: ${err.message}`);
@@ -138,10 +145,8 @@ app.post("/api/rooms/:slug", async (req, res) => {
 
 // Handle requests for messages table
 
-app.post("/api/messages", async ({ username }, res) => {
+app.get("/api/messages", async (req, res) => {
 	try {
-		const result = await rooms.findAllExcluding(username);
-		return res.status(200).send(result.rows);
 	} catch (err) {
 		console.error(`POST ${err.message}`);
 	}
