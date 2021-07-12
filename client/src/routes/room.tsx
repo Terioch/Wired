@@ -78,7 +78,7 @@ const Room: React.FC = () => {
 		const pathnames = location.pathname.split("/");
 		const slug = pathnames[pathnames.length - 1];
 		const response = await Client.rooms.findOne(slug);
-		console.log(response);
+		console.log(location.state);
 	};
 
 	const handleInputChange = (e: ChangeE) => {

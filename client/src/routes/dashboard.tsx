@@ -75,6 +75,14 @@ const Dashboard: React.FC<Props> = ({}) => {
 		return temp === "";
 	};
 
+	const getRoomRouteInfo = (room: Room) => {
+		const roomNameSlug = roomName.toLowerCase().split(" ").join("-");
+		return {
+			pathname: `/rooms/${roomNameSlug}`,
+			state: { roomId: room.id },
+		};
+	};
+
 	const createNewRoom = () => {
 		const info = {
 			name: roomName,
@@ -90,8 +98,7 @@ const Dashboard: React.FC<Props> = ({}) => {
 			});
 
 			socket.on("new-room", (room: Room) => {
-				const roomNameSlug = roomName.toLowerCase().split(" ").join("-");
-				history.push(`/room/${roomNameSlug}`);
+				history.push(getRoomRouteInfo(room));
 			});
 		}
 	};
