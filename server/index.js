@@ -136,7 +136,7 @@ app.post("/api/rooms", async ({ username }, res) => {
 	} catch (err) {}
 });
 
-app.get("/api/rooms/:slug", async (req, res) => {
+app.post("/api/rooms/:id", async (req, res) => {
 	try {
 	} catch (err) {
 		console.error(`Rooms POST: ${err.message}`);

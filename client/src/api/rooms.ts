@@ -10,9 +10,9 @@ class Rooms {
 		}
 	};
 
-	findOne = async (slug: string) => {
+	findOne = async (id: number) => {
 		try {
-			const { data } = await axios.post(`/api/rooms/${slug}`);
+			const { data } = await axios.post(`/api/rooms/${id}`);
 			return data;
 		} catch (err) {
 			console.error(err.message);

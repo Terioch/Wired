@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { socket } from "../config/socket";
 import Components from "../components/Components";
 import Client from "../api/Client";
+import { Room as IRoom } from "../models/Room";
 import { ChangeE, FormE } from "../models/Events";
 import { useAuth } from "../contexts/authContext";
 import {
@@ -44,12 +45,26 @@ const useStyles = makeStyles(theme => ({
 	input: {},
 }));
 
+interface State {
+	room: IRoom;
+}
+
+interface Location {
+	pathname: string;
+	state: State;
+}
+
 const Room: React.FC = () => {
 	const classes = useStyles();
-	const location = useLocation();
+	const location: Location = useLocation();
 	const { authState } = useAuth();
 
-	const [room, setRoom] = useState({});
+	const [room, setRoom] = useState<IRoom>({
+		id: -1,
+		name: "",
+		admin: "",
+		members: [],
+	});
 	const [message, setMessage] = useState("");
 	const [messages, setMessages] = useState([
 		{
@@ -69,17 +84,12 @@ const Room: React.FC = () => {
 		},
 	]);
 
-	useEffect(() => {
-		fetchRoomData();
-	}, []);
-
 	// Fetch data for the current room
-	const fetchRoomData = async () => {
-		const pathnames = location.pathname.split("/");
-		const slug = pathnames[pathnames.length - 1];
-		const response = await Client.rooms.findOne(slug);
-		console.log(location.state);
-	};
+	useEffect(() => {
+		const { room } = location.state;
+		setRoom(room);
+		console.log(room);
+	}, []);
 
 	const handleInputChange = (e: ChangeE) => {
 		const { value } = e.target;
@@ -97,7 +107,7 @@ const Room: React.FC = () => {
 			<Paper className={classes.paper} elevation={3}>
 				<section className={classes.title}>
 					<Typography variant="h5" color="secondary" gutterBottom>
-						Room 101
+						{room.name}
 					</Typography>
 				</section>
 				<Divider light />

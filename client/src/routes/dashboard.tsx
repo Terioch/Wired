@@ -63,7 +63,7 @@ const Dashboard: React.FC<Props> = ({}) => {
 		});
 	}, []);
 
-	const handleNewRoomName = (e: ChangeE) => {
+	const handleInputChange = (e: ChangeE) => {
 		const { value } = e.target;
 		setRoomName(value);
 	};
@@ -78,8 +78,8 @@ const Dashboard: React.FC<Props> = ({}) => {
 	const getRoomRouteInfo = (room: Room) => {
 		const roomNameSlug = roomName.toLowerCase().split(" ").join("-");
 		return {
-			pathname: `/rooms/${roomNameSlug}`,
-			state: { roomId: room.id },
+			pathname: `/room/${roomNameSlug}`,
+			state: { room },
 		};
 	};
 
@@ -116,7 +116,7 @@ const Dashboard: React.FC<Props> = ({}) => {
 							label="Provide a room name..."
 							color="secondary"
 							value={roomName}
-							onChange={handleNewRoomName}
+							onChange={handleInputChange}
 							error={roomNameError ? true : false}
 							helperText={roomNameError}
 						/>
