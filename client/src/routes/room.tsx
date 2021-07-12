@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { socket } from "../config/socket";
 import Components from "../components/Components";
 import Client from "../api/Client";
@@ -13,6 +14,7 @@ import {
 	makeStyles,
 } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
+import { useEffect } from "react";
 
 const { Message } = Components;
 
@@ -44,8 +46,10 @@ const useStyles = makeStyles(theme => ({
 
 const Room: React.FC = () => {
 	const classes = useStyles();
+	const location = useLocation();
 	const { authState } = useAuth();
 
+	const [room, setRoom] = useState({});
 	const [message, setMessage] = useState("");
 	const [messages, setMessages] = useState([
 		{
@@ -65,11 +69,24 @@ const Room: React.FC = () => {
 		},
 	]);
 
+	useEffect(() => {
+		fetchRoomData();
+	}, []);
+
+	// Fetch data for the current room
+	const fetchRoomData = async () => {
+		const pathnames = location.pathname.split("/");
+		const slug = pathnames[pathnames.length - 1];
+		const response = await Client.rooms.findOne(slug);
+		console.log(response);
+	};
+
 	const handleInputChange = (e: ChangeE) => {
 		const { value } = e.target;
 		setMessage(value);
 	};
 
+	// Send a new message
 	const handleSubmit = (e: FormE) => {
 		e.preventDefault();
 		setMessage("");

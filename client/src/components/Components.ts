@@ -1,6 +1,6 @@
-import Nav from "./nav";
-import Search from "./search";
-import Message from "./message";
+import Nav from "./Nav";
+import Search from "./Search";
+import Message from "./Message";
 
 const Components = {
 	Nav,
