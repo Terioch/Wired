@@ -89,19 +89,17 @@ const Room: React.FC = () => {
 
 	// Fetch data for the current room
 	useEffect(() => {
-		fetchCurrentRoom();
+		location.state ? fetchRoomFromLocation() : fetchRoomFromServer();
 	}, []);
 
-	const fetchCurrentRoom = async () => {
-		const { state, pathname } = location;
+	const fetchRoomFromLocation = () => {
+		const { room } = location.state;
+		setRoom(room);
+	};
 
-		if (state) {
-			setRoom(state.room);
-			return;
-		}
-
-		const pathnameList = pathname.split("/");
-		const slug = pathnameList[pathnameList.length - 1];
+	const fetchRoomFromServer = async () => {
+		const pathnameParts = location.pathname.split("/");
+		const slug = pathnameParts[pathnameParts.length - 1];
 		const room = await Client.rooms.findOne(slug);
 		setRoom(room);
 	};
