@@ -12,7 +12,7 @@ class Rooms {
 
 	findOne = async (slug: string) => {
 		try {
-			const { data } = await axios.post(`/api/rooms/${slug}`, { slug });
+			const { data } = await axios.post(`/api/room/${slug}`, { slug });
 			return data;
 		} catch (err) {
 			console.error(err.message);

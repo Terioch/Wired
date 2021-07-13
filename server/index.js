@@ -10,6 +10,7 @@ const users = require("./api/users");
 const rooms = require("./api/rooms");
 const messages = require("./api/messages");
 const db = require("./config/db");
+const messages = require("./api/messages");
 
 const { PORT } = process.env;
 
@@ -129,7 +130,7 @@ app.post("/api/users/login", async (req, res) => {
 	}
 });
 
-// Handle requests for rooms table
+// Handle requests for rooms and messages table
 
 app.post("/api/rooms", async ({ username }, res) => {
 	try {
@@ -140,36 +141,26 @@ app.post("/api/rooms", async ({ username }, res) => {
 				.status(200)
 				.json({ error: "You are not yet an admin of any room" });
 		}
+
 		return res.status(200).send(result);
 	} catch (err) {
 		console.error(`rooms-by-admin: ${err.message}`);
 	}
 });
 
-app.post("/api/rooms/:slug", async (req, res) => {
+app.post("/api/room/:slug", async (req, res) => {
 	try {
 		const { slug } = req.body;
-		const result = await rooms.findOne(slug);
+		const roomInfo = await rooms.findOne(slug);
+		const roomMessages = await messages.findAllByRoom(roomInfo.id);
 
-		if (!result) {
+		if (!roomInfo) {
 			return res.status(404).json({ error: "Page not found" });
 		}
 
-		return res.status(200).json(result);
+		return res.status(200).json({ roomInfo, roomMessages });
 	} catch (err) {
 		console.error(`one-room: ${err.message}`);
-	}
-});
-
-// Handle requests for messages table
-
-app.post("/api/messages", async (req, res) => {
-	try {
-		const { roomId } = req.body;
-		const result = await messages.findAllByRoom(roomId);
-		return result.status(200).json(result);
-	} catch (err) {
-		console.error(`POST ${err.message}`);
 	}
 });
 
@@ -181,7 +172,7 @@ io.on("connection", socket => {
 		socket.emit("message", message);
 	});
 
-	// New room was created
+	// Create a new room
 	socket.on("new-room", async data => {
 		try {
 			const { name, slug, admin } = data;

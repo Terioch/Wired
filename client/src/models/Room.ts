@@ -1,3 +1,10 @@
+export interface Message {
+	id?: number;
+	sender: string;
+	value: string;
+	roomId: number;
+}
+
 export interface Member {
 	name: string;
 }
@@ -8,4 +15,5 @@ export interface Room {
 	slug: string;
 	admin: string;
 	members: Array<Member>;
+	messages: Array<Message>;
 }

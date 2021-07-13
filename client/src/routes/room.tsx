@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { socket } from "../config/socket";
 import Components from "../components/Components";
 import Client from "../api/Client";
-import { Room as IRoom } from "../models/Room";
-import { Message as IMessage } from "../models/Message";
+import { Room as IRoom, Message as IMessage } from "../models/Room";
 import { ChangeE, FormE } from "../models/Events";
 import { useAuth } from "../contexts/authContext";
 import {
@@ -16,8 +15,6 @@ import {
 	makeStyles,
 } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
-import { useEffect } from "react";
-import { AirlineSeatLegroomExtraSharp } from "@material-ui/icons";
 
 const { Message } = Components;
 
@@ -67,20 +64,20 @@ const Room: React.FC = () => {
 		slug: "",
 		admin: "",
 		members: [],
+		messages: [
+			{
+				sender: "Kasparov",
+				value: "We are here",
+				roomId: 1,
+			},
+			{
+				sender: "Takumi",
+				value: "Good Morning",
+				roomId: 2,
+			},
+		],
 	});
 	const [value, setValue] = useState("");
-	const [messages, setMessages] = useState([
-		{
-			sender: "Kasparov",
-			value: "We are here",
-			roomId: 1,
-		},
-		{
-			sender: "Takumi",
-			value: "Good Morning",
-			roomId: 2,
-		},
-	]);
 
 	// Fetch data for the current room
 	useEffect(() => {
@@ -97,8 +94,9 @@ const Room: React.FC = () => {
 	const fetchRoomFromServer = async () => {
 		const pathnameParts = location.pathname.split("/");
 		const slug = pathnameParts[pathnameParts.length - 1];
-		const room = await Client.rooms.findOne(slug);
-		setRoom(room);
+		const { roomInfo, roomMessages } = await Client.rooms.findOne(slug);
+		console.log(roomInfo);
+		setRoom({ ...roomInfo, roomMessages });
 	};
 
 	const handleInputChange = (e: ChangeE) => {
@@ -118,9 +116,9 @@ const Room: React.FC = () => {
 		// Emit message via socket signal
 		socket.emit("message", message);
 		socket.on("message", (message: IMessage) => {
-			const temp = [...messages];
-			temp.push(message);
-			setMessages(temp);
+			const messages = [...room.messages];
+			messages.push(message);
+			setRoom({ ...room, messages });
 		});
 		setValue("");
 	};
@@ -135,7 +133,7 @@ const Room: React.FC = () => {
 				</section>
 				<Divider light />
 				<section className={classes.messagesContainer}>
-					{messages.map(message => (
+					{room.messages.map(message => (
 						<Message key={message.roomId} message={message} />
 					))}
 				</section>
