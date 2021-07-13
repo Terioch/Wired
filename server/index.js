@@ -9,6 +9,7 @@ const cookieParser = require("cookie-parser");
 const users = require("./api/users");
 const rooms = require("./api/rooms");
 const messages = require("./api/messages");
+const db = require("./config/db");
 
 const { PORT } = process.env;
 
@@ -132,15 +133,31 @@ app.post("/api/users/login", async (req, res) => {
 
 app.post("/api/rooms", async ({ username }, res) => {
 	try {
-		const result = await rooms.findAllExcluding(username);
+		const result = await rooms.findAllByAdmin(username);
+
+		if (!result.rows.length) {
+			return res
+				.status(200)
+				.json({ error: "You are not yet an admin of any room" });
+		}
 		return res.status(200).send(result.rows);
-	} catch (err) {}
+	} catch (err) {
+		console.error(`rooms-by-admin: ${err.message}`);
+	}
 });
 
-app.post("/api/rooms/:id", async (req, res) => {
+app.post("/api/rooms/:slug", async (req, res) => {
 	try {
+		const { slug } = req.body;
+		const result = await rooms.findOne(slug);
+
+		if (!result) {
+			return res.status(404).json({ error: "Page not found" });
+		}
+
+		return res.status(200).json(result);
 	} catch (err) {
-		console.error(`Rooms POST: ${err.message}`);
+		console.error(`one-room: ${err.message}`);
 	}
 });
 
@@ -164,14 +181,14 @@ io.on("connection", socket => {
 	// New room was created
 	socket.on("new-room", async data => {
 		try {
-			const { name, admin } = data;
-			const result = await rooms.findOne(name);
+			const { name, slug, admin } = data;
+			const result = await rooms.findOne(slug);
 
-			if (result.rows.length > 0) {
+			if (result) {
 				return socket.emit("new-room-error", "Room name already exists");
 			}
 
-			const room = await rooms.insertOne(name, admin);
+			const room = await rooms.insertOne(name, slug, admin);
 			return socket.emit("new-room", room);
 		} catch (err) {
 			console.error(`new-room: ${err.message}`);

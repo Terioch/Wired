@@ -1,7 +1,7 @@
 import axios from "axios";
 
 class Rooms {
-	findAllExcluding = async (username: string | null) => {
+	findAllByAdmin = async (username: string | null) => {
 		try {
 			const { data } = await axios.post("/api/rooms", username);
 			return data;
@@ -10,9 +10,9 @@ class Rooms {
 		}
 	};
 
-	findOne = async (id: number) => {
+	findOne = async (slug: string) => {
 		try {
-			const { data } = await axios.post(`/api/rooms/${id}`);
+			const { data } = await axios.post(`/api/rooms/${slug}`, { slug });
 			return data;
 		} catch (err) {
 			console.error(err.message);

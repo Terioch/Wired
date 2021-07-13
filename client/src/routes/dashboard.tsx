@@ -57,8 +57,7 @@ const Dashboard: React.FC<Props> = ({}) => {
 	const [roomNameError, setRoomNameError] = useState("");
 
 	useEffect(() => {
-		Client.rooms.findAllExcluding(authState.user.username).then(rooms => {
-			console.log(rooms);
+		Client.rooms.findAllByAdmin(authState.user.username).then(rooms => {
 			setRooms(rooms);
 		});
 	}, []);
@@ -68,29 +67,30 @@ const Dashboard: React.FC<Props> = ({}) => {
 		setRoomName(value);
 	};
 
-	const validateRoomName = () => {
+	const validateRoomName = (slug: string) => {
 		const temp =
-			roomName.length < 21 ? "" : "Room Name cannot exceed 22 characters";
+			slug.length < 21 ? "" : "Room Name cannot exceed 22 characters";
 		setRoomNameError(temp);
 		return temp === "";
 	};
 
 	const getRoomRouteInfo = (room: Room) => {
-		const roomNameSlug = roomName.toLowerCase().split(" ").join("-");
 		return {
-			pathname: `/room/${roomNameSlug}`,
+			pathname: `/room/${room.slug}`,
 			state: { room },
 		};
 	};
 
 	const createNewRoom = () => {
+		const roomNameSlug = roomName.toLowerCase().split(" ").join("-");
 		const info = {
 			name: roomName,
+			slug: roomNameSlug,
 			admin: authState.user.username,
 		};
 
 		// Verify if room name is unique and then redirect to the room route
-		if (validateRoomName()) {
+		if (validateRoomName(roomNameSlug)) {
 			socket.emit("new-room", info);
 
 			socket.on("new-room-error", (error: string) => {

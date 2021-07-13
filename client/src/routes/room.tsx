@@ -17,6 +17,7 @@ import {
 } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
 import { useEffect } from "react";
+import { AirlineSeatLegroomExtraSharp } from "@material-ui/icons";
 
 const { Message } = Components;
 
@@ -63,6 +64,7 @@ const Room: React.FC = () => {
 	const [room, setRoom] = useState<IRoom>({
 		id: -1,
 		name: "",
+		slug: "",
 		admin: "",
 		members: [],
 	});
@@ -87,10 +89,22 @@ const Room: React.FC = () => {
 
 	// Fetch data for the current room
 	useEffect(() => {
-		const { room } = location.state;
-		setRoom(room);
-		console.log(room);
+		fetchCurrentRoom();
 	}, []);
+
+	const fetchCurrentRoom = async () => {
+		const { state, pathname } = location;
+
+		if (state) {
+			setRoom(state.room);
+			return;
+		}
+
+		const pathnameList = pathname.split("/");
+		const slug = pathnameList[pathnameList.length - 1];
+		const room = await Client.rooms.findOne(slug);
+		setRoom(room);
+	};
 
 	const handleInputChange = (e: ChangeE) => {
 		const { value } = e.target;

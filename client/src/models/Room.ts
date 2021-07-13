@@ -5,6 +5,7 @@ export interface Member {
 export interface Room {
 	id: number;
 	name: string;
+	slug: string;
 	admin: string;
 	members: Array<Member>;
 }
