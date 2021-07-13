@@ -1,12 +1,21 @@
 import axios from "axios";
 
+interface Info {
+	sender: string | null;
+	value: string;
+	roomId: number;
+}
+
 class Messages {
-	fetchAll = async () => {
+	fetchAllByRoom = async (username: string, roomId: number) => {
 		try {
-			const { data } = await axios.get("/api/messages");
+			const { data } = await axios.post("/api/messages", {
+				username,
+				roomId,
+			});
 			return data;
 		} catch (err) {
-			console.error(`GET ${err.message}`);
+			console.error(`POST ${err.message}`);
 		}
 	};
 }

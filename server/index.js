@@ -8,6 +8,7 @@ const cookieParser = require("cookie-parser");
 
 const users = require("./api/users");
 const rooms = require("./api/rooms");
+const messages = require("./api/messages");
 
 const { PORT } = process.env;
 
@@ -145,7 +146,7 @@ app.post("/api/rooms/:id", async (req, res) => {
 
 // Handle requests for messages table
 
-app.get("/api/messages", async (req, res) => {
+app.post("/api/messages", async (req, res) => {
 	try {
 	} catch (err) {
 		console.error(`POST ${err.message}`);
@@ -174,6 +175,15 @@ io.on("connection", socket => {
 			return socket.emit("new-room", room);
 		} catch (err) {
 			console.error(`new-room: ${err.message}`);
+		}
+	});
+
+	socket.on("message", async message => {
+		try {
+			const result = await messages.insertOne(message);
+			socket.broadcast.emit("message", result);
+		} catch (err) {
+			console.error(`message: ${err.message}`);
 		}
 	});
 

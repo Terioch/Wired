@@ -4,6 +4,7 @@ import { socket } from "../config/socket";
 import Components from "../components/Components";
 import Client from "../api/Client";
 import { Room as IRoom } from "../models/Room";
+import { Message as IMessage } from "../models/Message";
 import { ChangeE, FormE } from "../models/Events";
 import { useAuth } from "../contexts/authContext";
 import {
@@ -65,22 +66,22 @@ const Room: React.FC = () => {
 		admin: "",
 		members: [],
 	});
-	const [message, setMessage] = useState("");
+	const [value, setValue] = useState("");
 	const [messages, setMessages] = useState([
 		{
-			id: 1,
 			sender: "Terioch",
 			value: "Hello, Friends",
+			roomId: 1,
 		},
 		{
-			id: 2,
 			sender: "Kasparov",
 			value: "We are here",
+			roomId: 2,
 		},
 		{
-			id: 3,
 			sender: "Federer",
 			value: "Good Morning",
+			roomId: 3,
 		},
 	]);
 
@@ -93,13 +94,24 @@ const Room: React.FC = () => {
 
 	const handleInputChange = (e: ChangeE) => {
 		const { value } = e.target;
-		setMessage(value);
+		setValue(value);
 	};
 
 	// Send a new message
-	const handleSubmit = (e: FormE) => {
+	const handleSubmit = async (e: FormE) => {
 		e.preventDefault();
-		setMessage("");
+		const message = {
+			sender: authState.user.username,
+			value: value,
+			roomId: room.id,
+		};
+
+		// Emit message via socket signal
+		socket.emit("message", message);
+		socket.on("message", (message: IMessage) => {
+			console.log(message);
+		});
+		setValue("");
 	};
 
 	return (
@@ -113,7 +125,7 @@ const Room: React.FC = () => {
 				<Divider light />
 				<section className={classes.messagesContainer}>
 					{messages.map(message => (
-						<Message key={message.id} message={message} />
+						<Message key={message.roomId} message={message} />
 					))}
 				</section>
 				<section className={classes.inputContainer}>
@@ -121,7 +133,7 @@ const Room: React.FC = () => {
 						className={classes.input}
 						label="Your message..."
 						color="secondary"
-						value={message}
+						value={value}
 						onChange={handleInputChange}
 						InputProps={{
 							endAdornment: (
