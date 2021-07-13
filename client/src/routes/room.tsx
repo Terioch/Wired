@@ -64,18 +64,7 @@ const Room: React.FC = () => {
 		slug: "",
 		admin: "",
 		members: [],
-		messages: [
-			{
-				sender: "Kasparov",
-				value: "We are here",
-				roomId: 1,
-			},
-			{
-				sender: "Takumi",
-				value: "Good Morning",
-				roomId: 2,
-			},
-		],
+		messages: [],
 	});
 	const [value, setValue] = useState("");
 
@@ -94,9 +83,8 @@ const Room: React.FC = () => {
 	const fetchRoomFromServer = async () => {
 		const pathnameParts = location.pathname.split("/");
 		const slug = pathnameParts[pathnameParts.length - 1];
-		const { roomInfo, roomMessages } = await Client.rooms.findOne(slug);
-		console.log(roomInfo);
-		setRoom({ ...roomInfo, roomMessages });
+		const { info, messages } = await Client.rooms.findOne(slug);
+		setRoom({ ...info, messages });
 	};
 
 	const handleInputChange = (e: ChangeE) => {
@@ -110,12 +98,12 @@ const Room: React.FC = () => {
 		const message = {
 			sender: authState.user.username,
 			value: value,
-			roomId: room.id,
+			room_id: room.id,
 		};
 
 		// Emit message via socket signal
-		socket.emit("message", message);
-		socket.on("message", (message: IMessage) => {
+		socket.emit("send-message", message);
+		socket.on("return-message", (message: IMessage) => {
 			const messages = [...room.messages];
 			messages.push(message);
 			setRoom({ ...room, messages });
@@ -134,7 +122,7 @@ const Room: React.FC = () => {
 				<Divider light />
 				<section className={classes.messagesContainer}>
 					{room.messages.map(message => (
-						<Message key={message.roomId} message={message} />
+						<Message key={message.id} message={message} />
 					))}
 				</section>
 				<section className={classes.inputContainer}>

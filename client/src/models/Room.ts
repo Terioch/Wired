@@ -1,8 +1,8 @@
 export interface Message {
-	id?: number;
+	id: number;
 	sender: string;
 	value: string;
-	roomId: number;
+	room_id: number;
 }
 
 export interface Member {

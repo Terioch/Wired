@@ -6,11 +6,7 @@ const socketio = require("socket.io");
 const jwtDecode = require("jwt-decode");
 const cookieParser = require("cookie-parser");
 
-const users = require("./api/users");
-const rooms = require("./api/rooms");
-const messages = require("./api/messages");
-const db = require("./config/db");
-const messages = require("./api/messages");
+const Server = require("./api/Server");
 
 const { PORT } = process.env;
 
@@ -60,7 +56,7 @@ const requireAuth = (req, res, next) => {
 app.post("/api/users/register", async (req, res) => {
 	try {
 		const { username, password } = req.body;
-		const result = await users.findOne(username);
+		const result = await Server.users.findOne(username);
 
 		// Check if username is found
 		if (result.rows.length > 0) {
@@ -71,8 +67,8 @@ app.post("/api/users/register", async (req, res) => {
 		}
 
 		// Insert a new user then send both the token and user
-		const user = await users.insertOne(username, password);
-		const token = users.createToken(user);
+		const user = await Server.users.insertOne(username, password);
+		const token = Server.users.createToken(user);
 		const decodedToken = jwtDecode(token);
 		const expiresAt = decodedToken.exp;
 
@@ -96,7 +92,7 @@ app.post("/api/users/register", async (req, res) => {
 app.post("/api/users/login", async (req, res) => {
 	try {
 		const { username, password } = req.body;
-		const result = await users.findOne(username);
+		const result = await Server.users.findOne(username);
 
 		// Check if username is found
 		if (result.rows.length < 1) {
@@ -104,14 +100,17 @@ app.post("/api/users/login", async (req, res) => {
 		}
 
 		// Compare passwords and set session id if password is correct
-		const user = await users.verifyPassword(password, result.rows[0]);
+		const user = await Server.users.verifyPassword(
+			password,
+			result.rows[0]
+		);
 
 		if (!user) {
 			return res.status(200).json({ password: "Password is incorrect" });
 		}
 
 		// Send both token and user
-		const token = users.createToken(user);
+		const token = Server.users.createToken(user);
 		const decodedToken = jwtDecode(token);
 		const expiresAt = decodedToken.exp;
 
@@ -134,7 +133,7 @@ app.post("/api/users/login", async (req, res) => {
 
 app.post("/api/rooms", async ({ username }, res) => {
 	try {
-		const result = await rooms.findAllByAdmin(username);
+		const result = await Server.rooms.findAllByAdmin(username);
 
 		if (!result.length) {
 			return res
@@ -151,14 +150,14 @@ app.post("/api/rooms", async ({ username }, res) => {
 app.post("/api/room/:slug", async (req, res) => {
 	try {
 		const { slug } = req.body;
-		const roomInfo = await rooms.findOne(slug);
-		const roomMessages = await messages.findAllByRoom(roomInfo.id);
+		const info = await Server.rooms.findOne(slug);
+		const messages = await Server.messages.findAllByRoom(info.id);
 
-		if (!roomInfo) {
+		if (!info) {
 			return res.status(404).json({ error: "Page not found" });
 		}
 
-		return res.status(200).json({ roomInfo, roomMessages });
+		return res.status(200).json({ info, messages });
 	} catch (err) {
 		console.error(`one-room: ${err.message}`);
 	}
@@ -168,7 +167,6 @@ app.post("/api/room/:slug", async (req, res) => {
 io.on("connection", socket => {
 	console.log("Initialized a new web socket connection...");
 	socket.on("message", message => {
-		console.log(message);
 		socket.emit("message", message);
 	});
 
@@ -176,23 +174,24 @@ io.on("connection", socket => {
 	socket.on("new-room", async data => {
 		try {
 			const { name, slug, admin } = data;
-			const result = await rooms.findOne(slug);
+			const result = await Server.rooms.findOne(slug);
 
 			if (result) {
 				return socket.emit("new-room-error", "Room name already exists");
 			}
 
-			const room = await rooms.insertOne(name, slug, admin);
+			const room = await Server.rooms.insertOne(name, slug, admin);
+			room.messages = [];
 			return socket.emit("new-room", room);
 		} catch (err) {
 			console.error(`new-room: ${err.message}`);
 		}
 	});
 
-	socket.on("message", async message => {
+	socket.on("send-message", async message => {
 		try {
-			const result = await messages.insertOne(message);
-			socket.broadcast.emit("message", result);
+			const result = await Server.messages.insertOne(message);
+			socket.emit("return-message", result);
 		} catch (err) {
 			console.error(`message: ${err.message}`);
 		}
