@@ -71,19 +71,14 @@ const Room: React.FC = () => {
 	const [value, setValue] = useState("");
 	const [messages, setMessages] = useState([
 		{
-			sender: "Terioch",
-			value: "Hello, Friends",
+			sender: "Kasparov",
+			value: "We are here",
 			roomId: 1,
 		},
 		{
-			sender: "Kasparov",
-			value: "We are here",
-			roomId: 2,
-		},
-		{
-			sender: "Federer",
+			sender: "Takumi",
 			value: "Good Morning",
-			roomId: 3,
+			roomId: 2,
 		},
 	]);
 
@@ -123,7 +118,9 @@ const Room: React.FC = () => {
 		// Emit message via socket signal
 		socket.emit("message", message);
 		socket.on("message", (message: IMessage) => {
-			console.log(message);
+			const temp = [...messages];
+			temp.push(message);
+			setMessages(temp);
 		});
 		setValue("");
 	};

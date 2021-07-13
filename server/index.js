@@ -135,12 +135,12 @@ app.post("/api/rooms", async ({ username }, res) => {
 	try {
 		const result = await rooms.findAllByAdmin(username);
 
-		if (!result.rows.length) {
+		if (!result.length) {
 			return res
 				.status(200)
 				.json({ error: "You are not yet an admin of any room" });
 		}
-		return res.status(200).send(result.rows);
+		return res.status(200).send(result);
 	} catch (err) {
 		console.error(`rooms-by-admin: ${err.message}`);
 	}
@@ -165,6 +165,9 @@ app.post("/api/rooms/:slug", async (req, res) => {
 
 app.post("/api/messages", async (req, res) => {
 	try {
+		const { roomId } = req.body;
+		const result = await messages.findAllByRoom(roomId);
+		return result.status(200).json(result);
 	} catch (err) {
 		console.error(`POST ${err.message}`);
 	}

@@ -3,7 +3,8 @@ const db = require("../config/db");
 class Rooms {
 	findAllByAdmin = async username => {
 		const query = "SELECT * FROM rooms WHERE admin = $1";
-		return await db.query(query, [username]);
+		const result = await db.query(query, [username]);
+		return result.rows;
 	};
 
 	findOne = async slug => {

@@ -1,7 +1,11 @@
 const db = require("../config/db");
 
 class Messages {
-	fetchAllByRoom = async () => {};
+	findAllByRoom = async roomId => {
+		const query = "SELECT * FROM messages WHERE room_id = $1";
+		const result = await db.query(query, [roomId]);
+		return result.rows;
+	};
 
 	insertOne = async message => {
 		const { sender, value, roomId } = message;
