@@ -92,11 +92,13 @@ const Room: React.FC = () => {
 		location.state ? fetchRoomFromLocation() : fetchRoomFromServer();
 	}, []);
 
+	// Fetch room data from location state within route
 	const fetchRoomFromLocation = () => {
 		const { room } = location.state;
 		setRoom(room);
 	};
 
+	// Fetch room data from the server when location state is undefined
 	const fetchRoomFromServer = async () => {
 		const pathnameParts = location.pathname.split("/");
 		const slug = pathnameParts[pathnameParts.length - 1];
