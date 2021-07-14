@@ -166,9 +166,6 @@ app.post("/api/room/:slug", async (req, res) => {
 // Handle web socket signals
 io.on("connection", socket => {
 	console.log("Initialized a new web socket connection...");
-	socket.on("message", message => {
-		socket.emit("message", message);
-	});
 
 	// Create a new room
 	socket.on("new-room", async data => {
@@ -188,12 +185,23 @@ io.on("connection", socket => {
 		}
 	});
 
+	// New user joined a room
+	socket.on("joined-room", async username => {
+		try {
+			const result = await Server.rooms.insertMember(username);
+			return socket.emit("joined-room", result);
+		} catch (err) {
+			console.error(`joined-room: ${err.message}`);
+		}
+	});
+
+	// Receive a new message
 	socket.on("send-message", async message => {
 		try {
 			const result = await Server.messages.insertOne(message);
-			socket.emit("return-message", result);
+			return socket.emit("return-message", result);
 		} catch (err) {
-			console.error(`message: ${err.message}`);
+			console.error(`new-message: ${err.message}`);
 		}
 	});
 
