@@ -186,9 +186,9 @@ io.on("connection", socket => {
 	});
 
 	// New user joined a room
-	socket.on("joined-room", async username => {
+	socket.on("joined-room", async (username, room_id) => {
 		try {
-			const result = await Server.rooms.insertMember(username);
+			const result = await Server.rooms.insertMember(username, room_id);
 			return socket.emit("joined-room", result);
 		} catch (err) {
 			console.error(`joined-room: ${err.message}`);
