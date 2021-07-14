@@ -133,15 +133,9 @@ app.post("/api/users/login", async (req, res) => {
 
 app.post("/api/rooms", async ({ username }, res) => {
 	try {
-		const result = await Server.rooms.findAllByAdmin(username);
-
-		if (!result.length) {
-			return res
-				.status(200)
-				.json({ error: "You are not yet an admin of any room" });
-		}
-
-		return res.status(200).send(result);
+		const adminRooms = await Server.rooms.findAllByAdmin(username);
+		const memberRooms = await Server.rooms.findAllByMember(username);
+		return res.status(200).send({ adminRooms, memberRooms });
 	} catch (err) {
 		console.error(`rooms-by-admin: ${err.message}`);
 	}

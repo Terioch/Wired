@@ -8,7 +8,9 @@ class Rooms {
 	};
 
 	findAllByMember = async username => {
-		// TODO: Find all rooms where user is a member
+		const query = "SELECT * FROM rooms WHERE admin = $1 OR members = $1";
+		const result = await db.query(query, [username]);
+		return result.rows;
 	};
 
 	findOne = async slug => {

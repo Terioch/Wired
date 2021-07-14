@@ -18,7 +18,7 @@ const Search: React.FC<Props> = () => {
 	const classes = useStyles();
 	const [filter, setFilter] = useState("");
 
-	const handleFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { value } = e.target;
 		setFilter(value);
 	};
@@ -31,7 +31,7 @@ const Search: React.FC<Props> = () => {
 				variant="outlined"
 				size="small"
 				value={filter}
-				onChange={handleFilter}
+				onChange={handleInputChange}
 				InputProps={{
 					startAdornment: (
 						<InputAdornment position="start">

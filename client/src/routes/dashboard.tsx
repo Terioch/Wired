@@ -52,13 +52,16 @@ const Dashboard: React.FC<Props> = ({}) => {
 	const history = useHistory();
 	const { authState } = useAuth();
 
-	const [rooms, setRooms] = useState([]);
+	const [adminRooms, setAdminRooms] = useState([]);
+	const [memberRooms, setMemberRooms] = useState([]);
 	const [roomName, setRoomName] = useState("");
 	const [roomNameError, setRoomNameError] = useState("");
 
+	// Fetch all rooms where current user has joined then delineate
 	useEffect(() => {
-		Client.rooms.findAllByAdmin(authState.user.username).then(rooms => {
-			setRooms(rooms);
+		Client.rooms.findAllJoined(authState.user.username).then(rooms => {
+			setAdminRooms(rooms.adminRooms);
+			setMemberRooms(rooms.memberRooms);
 		});
 	}, []);
 
