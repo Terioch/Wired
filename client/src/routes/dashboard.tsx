@@ -59,10 +59,12 @@ const Dashboard: React.FC<Props> = ({}) => {
 
 	// Fetch all rooms where current user has joined then delineate
 	useEffect(() => {
-		Client.rooms.findAllJoined(authState.user.username).then(rooms => {
-			setAdminRooms(rooms.adminRooms);
-			setMemberRooms(rooms.memberRooms);
-		});
+		Client.rooms
+			.findAllJoined(authState.user.username)
+			.then(({ adminRooms, memberRooms }) => {
+				setAdminRooms(adminRooms);
+				setMemberRooms(memberRooms);
+			});
 	}, []);
 
 	const handleInputChange = (e: ChangeE) => {
