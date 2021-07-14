@@ -131,13 +131,12 @@ app.post("/api/users/login", async (req, res) => {
 
 // Handle requests for rooms and messages table
 
-app.post("/api/rooms", async ({ username }, res) => {
+app.get("/api/rooms", async (req, res) => {
 	try {
-		const adminRooms = await Server.rooms.findAllByAdmin(username);
-		const memberRooms = await Server.rooms.findAllByMember(username);
-		return res.status(200).send({ adminRooms, memberRooms });
+		const rooms = await Server.rooms.findAll();
+		return res.status(200).send(rooms);
 	} catch (err) {
-		console.error(`rooms-by-admin: ${err.message}`);
+		console.error(`rooms: ${err.message}`);
 	}
 });
 

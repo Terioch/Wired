@@ -52,19 +52,15 @@ const Dashboard: React.FC<Props> = ({}) => {
 	const history = useHistory();
 	const { authState } = useAuth();
 
-	const [adminRooms, setAdminRooms] = useState([]);
-	const [memberRooms, setMemberRooms] = useState([]);
+	const [rooms, setRooms] = useState([]);
 	const [roomName, setRoomName] = useState("");
 	const [roomNameError, setRoomNameError] = useState("");
 
 	// Fetch all rooms where current user has joined then delineate
 	useEffect(() => {
-		Client.rooms
-			.findAllJoined(authState.user.username)
-			.then(({ adminRooms, memberRooms }) => {
-				setAdminRooms(adminRooms);
-				setMemberRooms(memberRooms);
-			});
+		Client.rooms.findAll().then(rooms => {
+			setRooms(rooms);
+		});
 	}, []);
 
 	const handleInputChange = (e: ChangeE) => {
@@ -140,7 +136,7 @@ const Dashboard: React.FC<Props> = ({}) => {
 						<Typography variant="h4" style={{ marginBottom: "1rem" }}>
 							Search for an existing room
 						</Typography>
-						<Search />
+						<Search rooms={rooms} />
 					</div>
 				</Paper>
 			</Container>

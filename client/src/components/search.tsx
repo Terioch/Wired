@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Room } from "../models/Room";
 import {
 	TextField,
 	InputAdornment,
@@ -8,13 +9,15 @@ import {
 } from "@material-ui/core";
 import { Search as SearchIcon } from "@material-ui/icons";
 
-interface Props {}
+interface Props {
+	rooms: Array<Room>;
+}
 
 const useStyles = makeStyles(theme => ({
 	input: {},
 }));
 
-const Search: React.FC<Props> = () => {
+const Search: React.FC<Props> = ({ rooms }) => {
 	const classes = useStyles();
 	const [filter, setFilter] = useState("");
 

@@ -1,7 +1,16 @@
 import axios from "axios";
 
 class Rooms {
-	findAllJoined = async (username: string | null) => {
+	findAll = async () => {
+		try {
+			const {data} = await axios.get("/api/rooms");
+			return data;
+		} catch (err) {
+			console.error(err.message);
+		}
+	}
+
+	findAllByUser = async (username: string | null) => {
 		try {
 			const { data } = await axios.post("/api/rooms", username);
 			return data;

@@ -1,6 +1,11 @@
 const db = require("../config/db");
 
 class Rooms {
+	findAll = async () => {
+		const result = await db.query("SELECT * FROM rooms");
+		return result.rows;
+	};
+
 	findAllByAdmin = async username => {
 		const query = "SELECT * FROM rooms WHERE admin = $1";
 		const result = await db.query(query, [username]);
@@ -8,7 +13,7 @@ class Rooms {
 	};
 
 	findAllByMember = async username => {
-		const query = "SELECT * FROM rooms WHERE admin = $1 OR members = $1";
+		const query = "SELECT * FROM rooms WHERE $1 = ANY(members)";
 		const result = await db.query(query, [username]);
 		return result.rows;
 	};
