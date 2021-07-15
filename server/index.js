@@ -198,8 +198,8 @@ io.on("connection", socket => {
 		}
 	});
 
-	socket.on("disconnect", () => {
-		console.log("User disconnected");
+	socket.on("left-room", () => {
+		console.log("User left the room");
 	});
 });
 
