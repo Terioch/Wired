@@ -7,20 +7,14 @@ import { makeStyles } from "@material-ui/core";
 
 const { Login, Dashboard, Room } = Routes;
 
-const useStyles = makeStyles(theme => ({
-	background: {
-		height: "100vh",
-		width: "100vw",
-		backgroundColor: "#333",
-	},
-}));
+const useStyles = makeStyles(theme => ({}));
 
 function App() {
 	const classes = useStyles();
 	const { authState } = useAuth();
 
 	return (
-		<main className={classes.background}>
+		<main>
 			<Switch>
 				<Route exact path="/login" component={Login} />
 				<Route exact path="/dashboard" component={Dashboard} />

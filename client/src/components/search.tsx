@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Room } from "../models/Room";
+import { ChangeE } from "../models/Events";
 import {
 	TextField,
 	InputAdornment,
@@ -21,7 +22,7 @@ const Search: React.FC<Props> = ({ rooms }) => {
 	const classes = useStyles();
 	const [filter, setFilter] = useState("");
 
-	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleInputChange = (e: ChangeE) => {
 		const { value } = e.target;
 		setFilter(value);
 	};
