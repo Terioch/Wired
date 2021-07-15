@@ -8,7 +8,7 @@ import { Room } from "../models/Room";
 import { useAuth } from "../contexts/authContext";
 import {
 	Container,
-	Paper,
+	Grid,
 	Button,
 	Typography,
 	Divider,
@@ -16,18 +16,22 @@ import {
 } from "@material-ui/core";
 import { CardMembershipTwoTone, RoomOutlined } from "@material-ui/icons";
 
-const { Nav, UsersRoom, CreateRoom, Search } = Components;
+const { Nav, RoomItem, CreateRoom, Search } = Components;
 
 const useStyles = makeStyles(theme => ({
 	main: {
+		position: "fixed",
+		height: "100vh",
+		width: "100vw",
 		paddingTop: "70px",
+		backgroundColor: "#f6f6f6",
 	},
 	searchContainer: {
 		paddingTop: "1rem",
 		textAlign: "center",
 	},
 	roomsContainer: {
-		padding: "0.5rem 0",
+		padding: "0.9rem 0",
 	},
 	roomsHeader: {
 		display: "flex",
@@ -72,17 +76,19 @@ const Dashboard: React.FC<Props> = ({}) => {
 				<Divider light />
 				<section className={classes.roomsContainer}>
 					<div className={classes.roomsHeader}>
-						<Typography variant="h3">Chat Rooms</Typography>
+						<Typography variant="h4">Chat Rooms</Typography>
 						<Button className={classes.createRoom} color="secondary">
 							Create Room
 						</Button>
 					</div>
 				</section>
-				<ul>
+				<Grid container spacing={1}>
 					{filterJoinedRooms().map((room: Room, idx: number) => (
-						<li key={idx}>{room.name}</li>
+						<Grid key={idx} item xs={12}>
+							<RoomItem room={room} />
+						</Grid>
 					))}
-				</ul>
+				</Grid>
 			</Container>
 		</main>
 	);

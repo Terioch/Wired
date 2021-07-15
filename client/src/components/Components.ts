@@ -1,5 +1,5 @@
 import Nav from "./Nav";
-import UsersRoom from "./UsersRoom";
+import RoomItem from "./RoomItem";
 import CreateRoom from "./CreateRoom";
 import Search from "./Search";
 import Message from "./Message";
@@ -7,7 +7,7 @@ import Message from "./Message";
 const Components = {
 	Nav,
 	Search,
-	UsersRoom,
+	RoomItem,
 	CreateRoom,
 	Message,
 };
