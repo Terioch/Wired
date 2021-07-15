@@ -22,11 +22,19 @@ const useStyles = makeStyles(theme => ({
 	main: {
 		paddingTop: "70px",
 	},
-	container: {},
 	searchContainer: {
 		paddingTop: "1rem",
 		textAlign: "center",
 	},
+	roomsContainer: {
+		padding: "0.5rem 0",
+	},
+	roomsHeader: {
+		display: "flex",
+		justifyContent: "space-between",
+		alignItems: "center",
+	},
+	createRoom: {},
 }));
 
 interface Props {}
@@ -48,10 +56,19 @@ const Dashboard: React.FC<Props> = ({}) => {
 	return (
 		<main className={classes.main}>
 			<Nav />
-			<Container className={classes.container}>
+			<Container>
 				<div className={classes.searchContainer}>
 					<Search rooms={rooms} />
 				</div>
+				<Divider light />
+				<section className={classes.roomsContainer}>
+					<div className={classes.roomsHeader}>
+						<Typography variant="h3">Chat Rooms</Typography>
+						<Button className={classes.createRoom} color="secondary">
+							Create Room
+						</Button>
+					</div>
+				</section>
 			</Container>
 		</main>
 	);
