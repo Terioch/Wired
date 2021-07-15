@@ -9,13 +9,13 @@ import "./index.css";
 
 ReactDOM.render(
 	<React.StrictMode>
-		<ThemeProvider theme={theme}>
-			<AuthProvider>
-				<Router>
+		<Router>
+			<ThemeProvider theme={theme}>
+				<AuthProvider>
 					<App />
-				</Router>
-			</AuthProvider>
-		</ThemeProvider>
+				</AuthProvider>
+			</ThemeProvider>
+		</Router>
 	</React.StrictMode>,
 	document.getElementById("root")
 );
