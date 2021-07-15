@@ -12,11 +12,11 @@ import {
 	Button,
 	Typography,
 	Divider,
-	TextField,
 	makeStyles,
 } from "@material-ui/core";
+import { CardMembershipTwoTone, RoomOutlined } from "@material-ui/icons";
 
-const { Nav, CreateRoom, Search } = Components;
+const { Nav, UsersRoom, CreateRoom, Search } = Components;
 
 const useStyles = makeStyles(theme => ({
 	main: {
@@ -44,7 +44,7 @@ const Dashboard: React.FC<Props> = ({}) => {
 	const history = useHistory();
 	const { authState } = useAuth();
 
-	const [rooms, setRooms] = useState([]);
+	const [rooms, setRooms] = useState<Array<Room>>([]);
 
 	// Fetch all rooms where current user has joined then delineate
 	useEffect(() => {
@@ -52,6 +52,15 @@ const Dashboard: React.FC<Props> = ({}) => {
 			setRooms(rooms);
 		});
 	}, []);
+
+	// Filter rooms where user is either an admin or member
+	const filterJoinedRooms = () => {
+		const { username } = authState.user;
+		return rooms.filter(room => {
+			if (username === room.admin) return true;
+			return room.members.filter(member => member === username).length;
+		});
+	};
 
 	return (
 		<main className={classes.main}>
@@ -69,6 +78,11 @@ const Dashboard: React.FC<Props> = ({}) => {
 						</Button>
 					</div>
 				</section>
+				<ul>
+					{filterJoinedRooms().map((room: Room, idx: number) => (
+						<li key={idx}>{room.name}</li>
+					))}
+				</ul>
 			</Container>
 		</main>
 	);

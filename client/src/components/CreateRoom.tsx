@@ -23,7 +23,9 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-const CreateRoom = () => {
+interface Props {}
+
+const CreateRoom: React.FC<Props> = () => {
 	const classes = useStyles();
 	const history = useHistory();
 	const { authState } = useAuth();

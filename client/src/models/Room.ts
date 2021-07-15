@@ -5,15 +5,11 @@ export interface Message {
 	room_id: number;
 }
 
-export interface Member {
-	name: string;
-}
-
 export interface Room {
 	id: number;
 	name: string;
 	slug: string;
 	admin: string;
-	members: Array<Member>;
+	members: Array<String>;
 	messages: Array<Message>;
 }

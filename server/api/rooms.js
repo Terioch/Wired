@@ -6,6 +6,13 @@ class Rooms {
 		return result.rows;
 	};
 
+	findAllJoined = async username => {
+		const query =
+			"SELECT * FROM rooms WHERE admin = $1 OR $1 = ANY(members)";
+		const result = await db.query(query, [username]);
+		return result.rows;
+	};
+
 	findAllByAdmin = async username => {
 		const query = "SELECT * FROM rooms WHERE admin = $1";
 		const result = await db.query(query, [username]);
