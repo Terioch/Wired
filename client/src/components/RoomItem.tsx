@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory, Link } from "react-router-dom";
 import { Room } from "../models/Room";
 import {
 	Card,
@@ -15,6 +16,9 @@ const useStyles = makeStyles(theme => ({
 	title: {
 		color: "#ffffff",
 	},
+	admin: {
+		fontWeight: "bold",
+	},
 }));
 
 interface Props {
@@ -23,12 +27,22 @@ interface Props {
 
 const RoomItem: React.FC<Props> = ({ room }) => {
 	const classes = useStyles();
+	const history = useHistory();
+
+	const handleRoomRoute = () => {
+		history.push(`/room/${room.slug}`);
+	};
 
 	return (
-		<Card className={classes.card} elevation={3}>
+		<Card className={classes.card} elevation={3} onClick={handleRoomRoute}>
 			<CardActionArea>
 				<CardContent>
-					<Typography variant="body1" color="secondary" gutterBottom>
+					<Typography
+						className={classes.admin}
+						variant="body1"
+						color="secondary"
+						gutterBottom
+					>
 						Admin: {room.admin}
 					</Typography>
 					<Typography className={classes.title} variant="h5" gutterBottom>

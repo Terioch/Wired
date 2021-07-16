@@ -11,6 +11,9 @@ import {
 interface Props {}
 
 const useStyles = makeStyles(theme => ({
+	appbar: {
+		backgroundColor: "#27262C",
+	},
 	toolbar: {
 		display: "flex",
 		justifyContent: "space-between",
@@ -32,7 +35,7 @@ const Nav: React.FC<Props> = () => {
 	const { logout } = useAuth();
 
 	return (
-		<AppBar position="fixed" color="secondary">
+		<AppBar className={classes.appbar} position="fixed">
 			<Toolbar className={classes.toolbar}>
 				<Typography className={classes.logo} variant="h4">
 					Wired

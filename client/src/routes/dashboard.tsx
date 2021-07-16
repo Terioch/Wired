@@ -49,6 +49,7 @@ const Dashboard: React.FC<Props> = ({}) => {
 	const { authState } = useAuth();
 
 	const [rooms, setRooms] = useState<Array<Room>>([]);
+	const [createRoomOpen, setCreateRoomOpen] = useState(false);
 
 	// Fetch all rooms where current user has joined then delineate
 	useEffect(() => {
@@ -66,6 +67,11 @@ const Dashboard: React.FC<Props> = ({}) => {
 		});
 	};
 
+	// Toggle create room modal
+	const handleCreateRoomOpen = () => {
+		setCreateRoomOpen(!createRoomOpen);
+	};
+
 	return (
 		<main className={classes.main}>
 			<Nav />
@@ -77,10 +83,18 @@ const Dashboard: React.FC<Props> = ({}) => {
 				<section className={classes.roomsContainer}>
 					<div className={classes.roomsHeader}>
 						<Typography variant="h4">Chat Rooms</Typography>
-						<Button className={classes.createRoom} color="secondary">
-							Create Room
+						<Button
+							className={classes.createRoom}
+							color="secondary"
+							onClick={handleCreateRoomOpen}
+						>
+							New Room
 						</Button>
 					</div>
+					<CreateRoom
+						createRoomOpen={createRoomOpen}
+						handleCreateRoomOpen={handleCreateRoomOpen}
+					/>
 				</section>
 				<Grid container spacing={1}>
 					{filterJoinedRooms().map((room: Room, idx: number) => (

@@ -4,7 +4,13 @@ import { socket } from "../config/socket";
 import { Room } from "../models/Room";
 import { ChangeE } from "../models/Events";
 import { useAuth } from "../contexts/authContext";
-import { Paper, TextField, Button, makeStyles } from "@material-ui/core";
+import {
+	Modal,
+	Paper,
+	TextField,
+	Button,
+	makeStyles,
+} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -23,9 +29,15 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-interface Props {}
+interface Props {
+	createRoomOpen: boolean;
+	handleCreateRoomOpen: () => void;
+}
 
-const CreateRoom: React.FC<Props> = () => {
+const CreateRoom: React.FC<Props> = ({
+	createRoomOpen,
+	handleCreateRoomOpen,
+}) => {
 	const classes = useStyles();
 	const history = useHistory();
 	const { authState } = useAuth();
@@ -75,27 +87,29 @@ const CreateRoom: React.FC<Props> = () => {
 	};
 
 	return (
-		<Paper className={classes.paper} elevation={12}>
-			<div className={classes.newRoom}>
-				<TextField
-					label="Provide a room name..."
-					color="secondary"
-					value={roomName}
-					onChange={handleInputChange}
-					error={roomNameError ? true : false}
-					helperText={roomNameError}
-				/>
-				<Button
-					className={classes.newRoomBtn}
-					variant="contained"
-					color="primary"
-					size="large"
-					onClick={createNewRoom}
-				>
-					Create Room
-				</Button>
-			</div>
-		</Paper>
+		<Modal open={createRoomOpen} onClose={handleCreateRoomOpen}>
+			<Paper className={classes.paper} elevation={12}>
+				<div className={classes.newRoom}>
+					<TextField
+						label="Provide a room name..."
+						color="secondary"
+						value={roomName}
+						onChange={handleInputChange}
+						error={roomNameError ? true : false}
+						helperText={roomNameError}
+					/>
+					<Button
+						className={classes.newRoomBtn}
+						variant="contained"
+						color="primary"
+						size="large"
+						onClick={createNewRoom}
+					>
+						Create Room
+					</Button>
+				</div>
+			</Paper>
+		</Modal>
 	);
 };
 
