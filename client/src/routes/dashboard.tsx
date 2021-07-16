@@ -62,7 +62,7 @@ const Dashboard: React.FC<Props> = ({}) => {
 	useEffect(() => {
 		const joinedRooms = filterJoinedRooms();
 		setJoinedRooms(joinedRooms);
-	});
+	}, [rooms]);
 
 	// Filter rooms where user is either an admin or member
 	const filterJoinedRooms = () => {

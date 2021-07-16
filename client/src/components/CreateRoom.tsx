@@ -14,6 +14,11 @@ import {
 import { Close } from "@material-ui/icons";
 
 const useStyles = makeStyles(theme => ({
+	modal: {
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+	},
 	paper: {
 		padding: theme.spacing(2),
 		textAlign: "center",
@@ -23,6 +28,7 @@ const useStyles = makeStyles(theme => ({
 		flexDirection: "column",
 		justifyContent: "center",
 		alignItems: "center",
+		marginTop: "1rem",
 	},
 	newRoomBtn: {
 		marginTop: theme.spacing(2),
@@ -32,6 +38,7 @@ const useStyles = makeStyles(theme => ({
 		float: "right",
 		cursor: "pointer",
 		color: "grey",
+		margin: "-0.5rem -0.5rem 2rem 0",
 		"&:hover": {
 			color: "#A1A0A0",
 		},
@@ -60,10 +67,16 @@ const CreateRoom: React.FC<Props> = ({
 	};
 
 	const validateRoomName = (slug: string) => {
-		const temp =
-			slug.length < 21 ? "" : "Room Name cannot exceed 22 characters";
-		setRoomNameError(temp);
-		return temp === "";
+		let error: string = "";
+
+		if (!slug) {
+			error = "Room name cannot be empty";
+		} else if (slug.length > 22) {
+			error = "Room name cannot exceed 22 characters";
+		}
+
+		setRoomNameError(error);
+		return error === "";
 	};
 
 	const getRoomRouteInfo = (room: Room) => {
@@ -96,13 +109,14 @@ const CreateRoom: React.FC<Props> = ({
 	};
 
 	return (
-		<Modal open={createRoomOpen}>
+		<Modal className={classes.modal} open={createRoomOpen}>
 			<Paper className={classes.paper} elevation={12}>
 				<Close
 					className={classes.close}
 					fontSize="large"
 					onClick={handleCreateRoomOpen}
 				/>
+
 				<div className={classes.newRoom}>
 					<TextField
 						label="Provide a room name..."

@@ -15,7 +15,16 @@ interface Props {
 }
 
 const useStyles = makeStyles(theme => ({
-	input: {},
+	input: {
+		textAlign: "center",
+	},
+	listItemContainer: {
+		display: "flex",
+		justifyContent: "center",
+	},
+	listItem: {
+		width: "255px",
+	},
 }));
 
 const Search: React.FC<Props> = ({ rooms }) => {
@@ -26,7 +35,7 @@ const Search: React.FC<Props> = ({ rooms }) => {
 	useEffect(() => {
 		const filteredRooms = filterRooms();
 		setFilteredRooms(filteredRooms);
-	});
+	}, [filter]);
 
 	const handleInputChange = (e: ChangeE) => {
 		const { value } = e.target;
@@ -35,7 +44,10 @@ const Search: React.FC<Props> = ({ rooms }) => {
 
 	const filterRooms = () => {
 		if (!filter) return [];
-		return rooms.filter(room => room.name === filter);
+		return rooms.filter(room => {
+			const trimmedRoomName = room.name.trim().toLowerCase();
+			return trimmedRoomName === filter;
+		});
 	};
 
 	return (
@@ -57,7 +69,16 @@ const Search: React.FC<Props> = ({ rooms }) => {
 			/>
 			<List color="primary" dense>
 				{filteredRooms.map((room: Room) => (
-					<ListItem key={room.id}>{room.name}</ListItem>
+					<div className={classes.listItemContainer}>
+						<ListItem
+							className={classes.listItem}
+							key={room.id}
+							alignItems="center"
+							button
+						>
+							{room.name}
+						</ListItem>
+					</div>
 				))}
 			</List>
 		</>
