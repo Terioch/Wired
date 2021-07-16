@@ -2,23 +2,29 @@ import React, { useState, useEffect } from "react";
 import { Route, Switch, Redirect, Link } from "react-router-dom";
 import { socket } from "./config/socket";
 import Routes from "./routes/Routes";
+import Components from "./components/Components";
 import { useAuth } from "./contexts/authContext";
 import { makeStyles } from "@material-ui/core";
 
 const { Login, Dashboard, Room } = Routes;
+const { Unauthorized } = Components;
 
 const useStyles = makeStyles(theme => ({}));
 
 function App() {
 	const classes = useStyles();
-	const { authState } = useAuth();
+	const { isAuthenticated } = useAuth();
 
 	return (
 		<main>
 			<Switch>
 				<Route exact path="/login" component={Login} />
 				<Route exact path="/dashboard" component={Dashboard} />
-				<Route exact path="/room/:slug" component={Room} />
+				<Route
+					exact
+					path="/room/:slug"
+					component={isAuthenticated() ? Room : Unauthorized}
+				/>
 			</Switch>
 			<Route exact path="/">
 				<div>

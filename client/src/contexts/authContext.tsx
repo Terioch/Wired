@@ -10,7 +10,7 @@ import { AuthState } from "../models/Auth";
 interface IAuthContext {
 	authState: AuthState;
 	setAuthInfo: (authInfo: AuthState) => void;
-	isAuthenticated: () => void;
+	isAuthenticated: () => boolean;
 	logout: () => void;
 }
 
@@ -21,7 +21,7 @@ const AuthContext = createContext<IAuthContext>({
 		user: { id: null, username: null },
 	},
 	setAuthInfo: () => {},
-	isAuthenticated: () => {},
+	isAuthenticated: () => true || false,
 	logout: () => {},
 });
 

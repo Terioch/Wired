@@ -1,6 +1,7 @@
 import React from "react";
 import { useHistory, Link } from "react-router-dom";
 import { Room } from "../models/Room";
+import { useAuth } from "../contexts/authContext";
 import {
 	Card,
 	CardActionArea,
@@ -28,6 +29,7 @@ interface Props {
 const RoomItem: React.FC<Props> = ({ room }) => {
 	const classes = useStyles();
 	const history = useHistory();
+	const { isAuthenticated } = useAuth();
 
 	const handleRoomRoute = () => {
 		history.push(`/room/${room.slug}`);
