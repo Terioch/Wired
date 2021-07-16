@@ -10,6 +10,7 @@ import { AuthState } from "../models/Auth";
 interface IAuthContext {
 	authState: AuthState;
 	setAuthInfo: (authInfo: AuthState) => void;
+	isAuthenticated: () => void;
 	logout: () => void;
 }
 
@@ -20,6 +21,7 @@ const AuthContext = createContext<IAuthContext>({
 		user: { id: null, username: null },
 	},
 	setAuthInfo: () => {},
+	isAuthenticated: () => {},
 	logout: () => {},
 });
 
@@ -55,6 +57,13 @@ export const AuthProvider: React.FC = ({ children }) => {
 		});
 	};
 
+	const isAuthenticated = () => {
+		if (!authState.token || !authState.expiresAt) {
+			return false;
+		}
+		return new Date().getTime() / 1000 < parseInt(authState.expiresAt);
+	};
+
 	const logout = () => {
 		localStorage.removeItem("token");
 		localStorage.removeItem("expires-at");
@@ -68,7 +77,9 @@ export const AuthProvider: React.FC = ({ children }) => {
 	};
 
 	return (
-		<AuthContext.Provider value={{ authState, setAuthInfo, logout }}>
+		<AuthContext.Provider
+			value={{ authState, setAuthInfo, isAuthenticated, logout }}
+		>
 			{children}
 		</AuthContext.Provider>
 	);
