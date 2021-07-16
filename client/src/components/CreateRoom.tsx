@@ -11,6 +11,7 @@ import {
 	Button,
 	makeStyles,
 } from "@material-ui/core";
+import { Close } from "@material-ui/icons";
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -26,6 +27,14 @@ const useStyles = makeStyles(theme => ({
 	newRoomBtn: {
 		marginTop: theme.spacing(2),
 		fontSize: "18px",
+	},
+	close: {
+		float: "right",
+		cursor: "pointer",
+		color: "grey",
+		"&:hover": {
+			color: "#A1A0A0",
+		},
 	},
 }));
 
@@ -87,8 +96,13 @@ const CreateRoom: React.FC<Props> = ({
 	};
 
 	return (
-		<Modal open={createRoomOpen} onClose={handleCreateRoomOpen}>
+		<Modal open={createRoomOpen}>
 			<Paper className={classes.paper} elevation={12}>
+				<Close
+					className={classes.close}
+					fontSize="large"
+					onClick={handleCreateRoomOpen}
+				/>
 				<div className={classes.newRoom}>
 					<TextField
 						label="Provide a room name..."

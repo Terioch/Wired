@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Room } from "../models/Room";
 import { ChangeE } from "../models/Events";
 import {
@@ -21,10 +21,21 @@ const useStyles = makeStyles(theme => ({
 const Search: React.FC<Props> = ({ rooms }) => {
 	const classes = useStyles();
 	const [filter, setFilter] = useState("");
+	const [filteredRooms, setFilteredRooms] = useState<Array<Room>>([]);
+
+	useEffect(() => {
+		const filteredRooms = filterRooms();
+		setFilteredRooms(filteredRooms);
+	});
 
 	const handleInputChange = (e: ChangeE) => {
 		const { value } = e.target;
 		setFilter(value);
+	};
+
+	const filterRooms = () => {
+		if (!filter) return [];
+		return rooms.filter(room => room.name === filter);
 	};
 
 	return (
@@ -44,7 +55,11 @@ const Search: React.FC<Props> = ({ rooms }) => {
 					),
 				}}
 			/>
-			<List dense color="primary"></List>
+			<List color="primary" dense>
+				{filteredRooms.map((room: Room) => (
+					<ListItem key={room.id}>{room.name}</ListItem>
+				))}
+			</List>
 		</>
 	);
 };

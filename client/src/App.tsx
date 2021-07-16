@@ -18,13 +18,14 @@ function App() {
 	return (
 		<main>
 			<Switch>
-				<Route exact path="/login" component={Login} />
-				<Route exact path="/dashboard" component={Dashboard} />
-				<Route
-					exact
-					path="/room/:slug"
-					component={isAuthenticated() ? Room : Unauthorized}
-				/>
+				{!isAuthenticated() ? (
+					<Route exact path="/login" component={Login} />
+				) : (
+					<>
+						<Route exact path="/dashboard" component={Dashboard} />
+						<Route exact path="/room/:slug" component={Room} />
+					</>
+				)}
 			</Switch>
 			<Route exact path="/">
 				<div>

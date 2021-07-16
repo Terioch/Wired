@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { Route, useHistory } from "react-router-dom";
 import Components from "../components/Components";
 import Client from "../api/Client";
 import { socket } from "../config/socket";
@@ -49,6 +49,7 @@ const Dashboard: React.FC<Props> = ({}) => {
 	const { authState } = useAuth();
 
 	const [rooms, setRooms] = useState<Array<Room>>([]);
+	const [joinedRooms, setJoinedRooms] = useState<Array<Room>>([]);
 	const [createRoomOpen, setCreateRoomOpen] = useState(false);
 
 	// Fetch all rooms where current user has joined then delineate
@@ -57,6 +58,11 @@ const Dashboard: React.FC<Props> = ({}) => {
 			setRooms(rooms);
 		});
 	}, []);
+
+	useEffect(() => {
+		const joinedRooms = filterJoinedRooms();
+		setJoinedRooms(joinedRooms);
+	});
 
 	// Filter rooms where user is either an admin or member
 	const filterJoinedRooms = () => {
@@ -97,8 +103,8 @@ const Dashboard: React.FC<Props> = ({}) => {
 					/>
 				</section>
 				<Grid container spacing={1}>
-					{filterJoinedRooms().map((room: Room, idx: number) => (
-						<Grid key={idx} item xs={12}>
+					{joinedRooms.map((room: Room) => (
+						<Grid key={room.id} item xs={12}>
 							<RoomItem room={room} />
 						</Grid>
 					))}
