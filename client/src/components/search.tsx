@@ -57,6 +57,7 @@ const Search: React.FC<Props> = ({ rooms, joinedRooms }) => {
 		});
 	};
 
+	// Add user as a room member if required and then handle routing
 	const handleRoomNavigation = async ({ id, slug }: Room) => {
 		const joined = joinedRooms.filter(room => room.id === id).length;
 		if (joined) return history.push(`/room/${slug}`);
