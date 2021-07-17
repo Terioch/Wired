@@ -83,7 +83,7 @@ const Dashboard: React.FC<Props> = ({}) => {
 			<Nav />
 			<Container>
 				<div className={classes.searchContainer}>
-					<Search rooms={rooms} />
+					<Search rooms={rooms} joinedRooms={joinedRooms} />
 				</div>
 				<Divider light />
 				<section className={classes.roomsContainer}>
