@@ -59,12 +59,18 @@ const Search: React.FC<Props> = ({ rooms, joinedRooms }) => {
 		});
 	};
 
-	// Add user as a room member if required and then handle routing
+	// Add user as a room member if required and then navigate to the room
 	const handleRoomNavigation = async ({ id, slug }: Room) => {
 		const joined = joinedRooms.filter(room => room.id === id).length;
 		if (!joined) {
+			const { username } = authState.user;
+			const message = {
+				sender: username,
+				value: `${username} joined`,
+				room_id: id,
+			};
 			socket.emit("joined-room", id);
-			socket.emit("send-message", `${authState.user.username} joined`);
+			socket.emit("send-message", message);
 		}
 		history.push(`/room/${slug}`);
 	};

@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
 		padding: theme.spacing(2.5),
 	},
 	paper: {
-		height: "91.8vh",
+		minHeight: "91.8vh",
 		width: "700px",
 		display: "flex",
 		flexDirection: "column",
@@ -58,6 +58,7 @@ const useStyles = makeStyles(theme => ({
 	footer: {
 		display: "grid",
 		padding: theme.spacing(0, 1),
+		marginTop: theme.spacing(1),
 		"& > *": {
 			gridColumnStart: "1",
 			gridRowStart: "1",
