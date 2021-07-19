@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import { socket } from "../config/socket";
 import Components from "../components/Components";
 import Client from "../api/Client";
@@ -14,7 +14,7 @@ import {
 	Divider,
 	makeStyles,
 } from "@material-ui/core";
-import SendIcon from "@material-ui/icons/Send";
+import { Send, ArrowBackRounded } from "@material-ui/icons";
 
 const { Message } = Components;
 
@@ -32,8 +32,9 @@ const useStyles = makeStyles(theme => ({
 		padding: theme.spacing(1.5),
 		backgroundColor: "#eeeeee",
 	},
-	title: {
+	header: {
 		textAlign: "center",
+		padding: "0 .5rem",
 	},
 	messagesContainer: {
 		flex: 1,
@@ -42,6 +43,15 @@ const useStyles = makeStyles(theme => ({
 		textAlign: "center",
 	},
 	input: {},
+	arrowBack: {
+		float: "left",
+		borderRadius: "25px",
+		cursor: "pointer",
+		padding: ".25rem",
+		"&:hover": {
+			backgroundColor: "#dddddd",
+		},
+	},
 }));
 
 interface State {
@@ -56,6 +66,7 @@ interface Location {
 const Room: React.FC = () => {
 	const classes = useStyles();
 	const location: Location = useLocation();
+	const history = useHistory();
 	const { authState } = useAuth();
 
 	const [room, setRoom] = useState<IRoom>({
@@ -73,6 +84,13 @@ const Room: React.FC = () => {
 		location.state ? fetchRoomFromLocation() : fetchRoomFromServer();
 	}, []);
 
+	const handleRouting = (path: string) => history.push(path);
+
+	const handleInputChange = (e: ChangeE) => {
+		const { value } = e.target;
+		setValue(value);
+	};
+
 	// Fetch room data from location state within route
 	const fetchRoomFromLocation = () => {
 		const { room } = location.state;
@@ -85,11 +103,6 @@ const Room: React.FC = () => {
 		const slug = pathnameParts[pathnameParts.length - 1];
 		const { info, messages } = await Client.rooms.findOne(slug);
 		setRoom({ ...info, messages });
-	};
-
-	const handleInputChange = (e: ChangeE) => {
-		const { value } = e.target;
-		setValue(value);
 	};
 
 	// Send a new message
@@ -114,7 +127,11 @@ const Room: React.FC = () => {
 	return (
 		<form className={classes.main} onSubmit={handleSubmit}>
 			<Paper className={classes.paper} elevation={3}>
-				<section className={classes.title}>
+				<section className={classes.header}>
+					<ArrowBackRounded
+						className={classes.arrowBack}
+						onClick={() => handleRouting("/dashboard")}
+					/>
 					<Typography variant="h5" color="secondary" gutterBottom>
 						{room.name}
 					</Typography>
@@ -135,7 +152,7 @@ const Room: React.FC = () => {
 						InputProps={{
 							endAdornment: (
 								<InputAdornment position="start">
-									<SendIcon />
+									<Send />
 								</InputAdornment>
 							),
 						}}
