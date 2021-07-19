@@ -35,11 +35,16 @@ const useStyles = makeStyles(theme => ({
 	},
 	header: {
 		display: "grid",
-		gridTemplateColumns: "1fr repeat(3, auto) 1fr",
 		padding: "0 .5rem",
+		"& > *": {
+			gridColumnStart: "1",
+			gridRowStart: "1",
+			justifySelf: "center",
+		},
 	},
 	title: {},
 	arrowBack: {
+		justifySelf: "left",
 		borderRadius: "25px",
 		cursor: "pointer",
 		padding: ".25rem",
@@ -61,7 +66,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	input: {},
 	leaveBtn: {
-		alignSelf: "flex-end",
+		alignSelf: "end",
 		justifySelf: "right",
 		backgroundColor: "red",
 		color: "#ffffff",
