@@ -12,6 +12,7 @@ import {
 	TextField,
 	InputAdornment,
 	Divider,
+	Button,
 	makeStyles,
 } from "@material-ui/core";
 import { Send, ArrowBackRounded } from "@material-ui/icons";
@@ -33,23 +34,39 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: "#eeeeee",
 	},
 	header: {
-		textAlign: "center",
+		display: "grid",
+		gridTemplateColumns: "1fr repeat(3, auto) 1fr",
 		padding: "0 .5rem",
 	},
-	messagesContainer: {
-		flex: 1,
-	},
-	inputContainer: {
-		textAlign: "center",
-	},
-	input: {},
+	title: {},
 	arrowBack: {
-		float: "left",
 		borderRadius: "25px",
 		cursor: "pointer",
 		padding: ".25rem",
 		"&:hover": {
 			backgroundColor: "#dddddd",
+		},
+	},
+	messagesContainer: {
+		flex: 1,
+	},
+	footer: {
+		display: "grid",
+		padding: "0 0.5rem",
+		"& > *": {
+			gridColumnStart: "1",
+			gridRowStart: "1",
+			justifySelf: "center",
+		},
+	},
+	input: {},
+	leaveBtn: {
+		alignSelf: "flex-end",
+		justifySelf: "right",
+		backgroundColor: "red",
+		color: "#ffffff",
+		"&:hover": {
+			backgroundColor: "red",
 		},
 	},
 }));
@@ -132,7 +149,12 @@ const Room: React.FC = () => {
 						className={classes.arrowBack}
 						onClick={() => handleRouting("/dashboard")}
 					/>
-					<Typography variant="h5" color="secondary" gutterBottom>
+					<Typography
+						className={classes.title}
+						variant="h5"
+						color="secondary"
+						gutterBottom
+					>
 						{room.name}
 					</Typography>
 				</section>
@@ -142,7 +164,7 @@ const Room: React.FC = () => {
 						<Message key={message.id} message={message} />
 					))}
 				</section>
-				<section className={classes.inputContainer}>
+				<section className={classes.footer}>
 					<TextField
 						className={classes.input}
 						label="Your message..."
@@ -157,6 +179,9 @@ const Room: React.FC = () => {
 							),
 						}}
 					/>
+					<Button className={classes.leaveBtn} variant="contained">
+						Leave
+					</Button>
 				</section>
 			</Paper>
 		</form>
