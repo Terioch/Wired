@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { socket } from "../config/socket";
 import { Room } from "../models/Room";
 import { ChangeE } from "../models/Events";
+import { useAuth } from "../contexts/authContext";
 import {
 	TextField,
 	InputAdornment,
@@ -33,6 +34,7 @@ interface Props {
 const Search: React.FC<Props> = ({ rooms, joinedRooms }) => {
 	const classes = useStyles();
 	const history = useHistory();
+	const { authState } = useAuth();
 
 	const [filter, setFilter] = useState("");
 	const [filteredRooms, setFilteredRooms] = useState<Array<Room>>([]);
@@ -60,10 +62,11 @@ const Search: React.FC<Props> = ({ rooms, joinedRooms }) => {
 	// Add user as a room member if required and then handle routing
 	const handleRoomNavigation = async ({ id, slug }: Room) => {
 		const joined = joinedRooms.filter(room => room.id === id).length;
-		if (joined) return history.push(`/room/${slug}`);
-		socket.emit("joined-room", id);
-		const room = await socket.on("joined-room");
-		console.log(room);
+		if (!joined) {
+			socket.emit("joined-room", id);
+			socket.emit("send-message", `${authState.user.username} joined`);
+		}
+		history.push(`/room/${slug}`);
 	};
 
 	return (

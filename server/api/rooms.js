@@ -40,9 +40,13 @@ class Rooms {
 
 	insertMember = async (username, room_id) => {
 		const query =
-			"INSERT INTO rooms (members) VALUES ($1) WHERE room_id = $2 RETURNING *";
+			"UPDATE rooms SET members = array_append(members, $1) WHERE id = $2";
 		const result = await db.query(query, [username, room_id]);
 		return result.rows[0];
+	};
+
+	deleteMember = async (username, room_id) => {
+		// TODO
 	};
 }
 

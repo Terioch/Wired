@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
 		justifySelf: "left",
 		borderRadius: "25px",
 		cursor: "pointer",
-		padding: ".25rem",
+		padding: theme.spacing(0.5),
 		"&:hover": {
 			backgroundColor: "#dddddd",
 		},
@@ -57,16 +57,22 @@ const useStyles = makeStyles(theme => ({
 	},
 	footer: {
 		display: "grid",
-		padding: "0 0.5rem",
+		padding: theme.spacing(0, 1),
 		"& > *": {
 			gridColumnStart: "1",
 			gridRowStart: "1",
 			justifySelf: "center",
 		},
+		[theme.breakpoints.down("sm")]: {
+			display: "flex",
+			justifyContent: "space-between",
+			alignItems: "flex-end",
+			padding: theme.spacing(0),
+		},
 	},
 	input: {},
 	leaveBtn: {
-		alignSelf: "end",
+		alignSelf: "flex-end",
 		justifySelf: "right",
 		backgroundColor: "red",
 		color: "#ffffff",
@@ -146,6 +152,9 @@ const Room: React.FC = () => {
 		setValue("");
 	};
 
+	// Removes user from the current room
+	const handleLeaveRequest = () => {};
+
 	return (
 		<form className={classes.main} onSubmit={handleSubmit}>
 			<Paper className={classes.paper} elevation={3}>
@@ -184,7 +193,11 @@ const Room: React.FC = () => {
 							),
 						}}
 					/>
-					<Button className={classes.leaveBtn} variant="contained">
+					<Button
+						className={classes.leaveBtn}
+						variant="contained"
+						onClick={handleLeaveRequest}
+					>
 						Leave
 					</Button>
 				</section>

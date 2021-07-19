@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Route, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Components from "../components/Components";
 import Client from "../api/Client";
-import { socket } from "../config/socket";
-import { ChangeE } from "../models/Events";
 import { Room } from "../models/Room";
 import { useAuth } from "../contexts/authContext";
 import {

@@ -79,7 +79,7 @@ const CreateRoom: React.FC<Props> = ({
 		return error === "";
 	};
 
-	const getRoomRouteInfo = (room: Room) => {
+	const getRouteInfo = (room: Room) => {
 		return {
 			pathname: `/room/${room.slug}`,
 			state: { room },
@@ -103,7 +103,7 @@ const CreateRoom: React.FC<Props> = ({
 			});
 
 			socket.on("new-room", (room: Room) => {
-				history.push(getRoomRouteInfo(room));
+				history.push(getRouteInfo(room));
 			});
 		}
 	};
