@@ -33,20 +33,22 @@ class Rooms {
 
 	insertOne = async (name, slug, admin) => {
 		const query =
-			"INSERT into rooms (name, slug, admin, members) VALUES ($1, $2, $3, Array[$3]) RETURNING *";
+			"INSERT into rooms (name, slug, admin, members) VALUES ($1, $2, $3, ARRAY[$3]) RETURNING *";
 		const result = await db.query(query, [name, slug, admin]);
 		return result.rows[0];
 	};
 
 	insertMember = async (username, room_id) => {
 		const query =
-			"UPDATE rooms SET members = array_append(members, $1) WHERE id = $2";
+			"UPDATE rooms SET members = array_append(members, $1) WHERE id = $2 RETURNING *";
 		const result = await db.query(query, [username, room_id]);
 		return result.rows[0];
 	};
 
 	deleteMember = async (username, room_id) => {
-		// TODO
+		const query = "DELETE from rooms WHERE id = $1";
+		const result = await db.query(query, [username, room_id]);
+		return result.rows[0];
 	};
 }
 

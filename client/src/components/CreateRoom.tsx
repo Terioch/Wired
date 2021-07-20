@@ -20,6 +20,7 @@ const useStyles = makeStyles(theme => ({
 		alignItems: "center",
 	},
 	paper: {
+		position: "relative",
 		padding: theme.spacing(2),
 		textAlign: "center",
 	},
@@ -35,7 +36,8 @@ const useStyles = makeStyles(theme => ({
 		fontSize: "18px",
 	},
 	close: {
-		float: "right",
+		position: "absolute",
+		right: "15px",
 		cursor: "pointer",
 		color: "grey",
 		margin: "-0.5rem -0.5rem 2rem 0",
@@ -113,10 +115,9 @@ const CreateRoom: React.FC<Props> = ({
 			<Paper className={classes.paper} elevation={12}>
 				<Close
 					className={classes.close}
-					fontSize="large"
+					fontSize="small"
 					onClick={handleCreateRoomOpen}
 				/>
-
 				<div className={classes.newRoom}>
 					<TextField
 						label="Provide a room name..."

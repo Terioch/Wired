@@ -69,7 +69,7 @@ const Search: React.FC<Props> = ({ rooms, joinedRooms }) => {
 				value: `${username} joined`,
 				room_id: id,
 			};
-			socket.emit("joined-room", id);
+			socket.emit("joined-room", username, id);
 			socket.emit("send-message", message);
 		}
 		history.push(`/room/${slug}`);
@@ -79,7 +79,7 @@ const Search: React.FC<Props> = ({ rooms, joinedRooms }) => {
 		<>
 			<TextField
 				className={classes.input}
-				label="Search For Room By Name"
+				label="Search Room By Name"
 				variant="outlined"
 				size="small"
 				value={filter}
