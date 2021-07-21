@@ -153,8 +153,20 @@ const Room: React.FC = () => {
 		setValue("");
 	};
 
+	const getLeaveRoomText = () => {
+		const { username } = authState.user;
+		return username === room.admin ? "Close Room" : "Leave";
+	};
+
 	// Removes user from the current room
-	const handleLeaveRequest = () => {};
+	const handleLeaveRequest = () => {
+		const { username } = authState.user;
+		if (username === room.admin) {
+			return socket.emit("closed-room", room.id);
+		}
+		socket.emit("left-room", username, room.id);
+		socket.emit("send-message", `${username} left`);
+	};
 
 	return (
 		<form className={classes.main} onSubmit={handleSubmit}>
@@ -199,7 +211,7 @@ const Room: React.FC = () => {
 						variant="contained"
 						onClick={handleLeaveRequest}
 					>
-						Leave
+						{getLeaveRoomText()}
 					</Button>
 				</section>
 			</Paper>

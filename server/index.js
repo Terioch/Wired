@@ -191,15 +191,28 @@ io.on("connection", socket => {
 	// Receive a new message
 	socket.on("send-message", async message => {
 		try {
-			const result = await Server.messages.insertOne(message);
-			return socket.emit("return-message", result);
+			return await Server.messages.insertOne(message);
 		} catch (err) {
 			console.error(`send-message: ${err.message}`);
 		}
 	});
 
-	socket.on("left-room", () => {
-		console.log("User left the room");
+	// Leave the current room
+	socket.on("left-room", async (username, room_id) => {
+		try {
+			return await Server.rooms.deleteMember(username, room_id);
+		} catch (err) {
+			console.error(`left-room: ${err.message}`);
+		}
+	});
+
+	// Close the current room
+	socket.on("closed-room", async room_id => {
+		try {
+			return await Server.rooms.deleteRoom(room_id);
+		} catch (err) {
+			console.error(`closed-room: ${err.message}`);
+		}
 	});
 });
 

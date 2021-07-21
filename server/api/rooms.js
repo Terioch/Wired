@@ -45,10 +45,15 @@ class Rooms {
 		return result.rows[0];
 	};
 
+	deleteRoom = async room_id => {
+		const query = "DELETE FROM rooms WHERE id = $1";
+		return await db.query(query, [room_id]);
+	};
+
 	deleteMember = async (username, room_id) => {
-		const query = "DELETE from rooms WHERE id = $1";
-		const result = await db.query(query, [username, room_id]);
-		return result.rows[0];
+		const query =
+			"SELECT array_remove(members, $1) AS removed_$1 FROM rooms";
+		return await db.query(query, [username, room_id]);
 	};
 }
 
