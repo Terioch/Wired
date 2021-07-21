@@ -162,10 +162,17 @@ const Room: React.FC = () => {
 	const handleLeaveRequest = () => {
 		const { username } = authState.user;
 		if (username === room.admin) {
-			return socket.emit("closed-room", room.id);
+			socket.emit("closed-room", room.id);
+		} else {
+			const message = {
+				sender: username,
+				value: `${username} left`,
+				room_id: room.id,
+			}
+			socket.emit("left-room", username, room.id);
+			socket.emit("send-message", message);
 		}
-		socket.emit("left-room", username, room.id);
-		socket.emit("send-message", `${username} left`);
+		history.push("/dashboard");
 	};
 
 	return (

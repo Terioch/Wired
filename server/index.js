@@ -209,7 +209,7 @@ io.on("connection", socket => {
 	// Close the current room
 	socket.on("closed-room", async room_id => {
 		try {
-			return await Server.rooms.deleteRoom(room_id);
+			return await Server.rooms.deleteOne(room_id);
 		} catch (err) {
 			console.error(`closed-room: ${err.message}`);
 		}
