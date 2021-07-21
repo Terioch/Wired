@@ -191,7 +191,8 @@ io.on("connection", socket => {
 	// Receive a new message
 	socket.on("send-message", async message => {
 		try {
-			return await Server.messages.insertOne(message);
+			const result = await Server.messages.insertOne(message);
+			return socket.emit("receive-message", result);
 		} catch (err) {
 			console.error(`send-message: ${err.message}`);
 		}

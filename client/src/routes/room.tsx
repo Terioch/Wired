@@ -143,9 +143,9 @@ const Room: React.FC = () => {
 			room_id: room.id,
 		};
 
-		// Emit message via socket signal
+		// Emit and push the message
 		socket.emit("send-message", message);
-		socket.on("return-message", (message: IMessage) => {
+		socket.on("receive-message", (message: IMessage) => {
 			const messages = [...room.messages];
 			messages.push(message);
 			setRoom({ ...room, messages });
@@ -168,7 +168,7 @@ const Room: React.FC = () => {
 				sender: username,
 				value: `${username} left`,
 				room_id: room.id,
-			}
+			};
 			socket.emit("left-room", username, room.id);
 			socket.emit("send-message", message);
 		}
