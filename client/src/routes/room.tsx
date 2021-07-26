@@ -158,7 +158,7 @@ const Room: React.FC = () => {
 		return username === room.admin ? "Close Room" : "Leave";
 	};
 
-	// Removes user from the current room
+	// Remove a user as a room member or close the room if they're admin
 	const handleLeaveRequest = () => {
 		const { username } = authState.user;
 		if (username === room.admin) {
