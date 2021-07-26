@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { socket } from "../config/socket";
+import SharedComponents from "../shared-components/SharedComponents";
 import { Room } from "../models/Room";
 import { ChangeE } from "../models/Events";
 import { useAuth } from "../contexts/authContext";
 import {
-	TextField,
 	InputAdornment,
 	List,
 	ListItem,
 	makeStyles,
 } from "@material-ui/core";
 import { Search as SearchIcon } from "@material-ui/icons";
+
+const { Input } = SharedComponents;
 
 const useStyles = makeStyles(theme => ({
 	input: {
@@ -77,7 +79,7 @@ const Search: React.FC<Props> = ({ rooms, joinedRooms }) => {
 
 	return (
 		<>
-			<TextField
+			<Input
 				className={classes.input}
 				label="Search Room By Name"
 				variant="outlined"

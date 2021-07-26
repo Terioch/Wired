@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import Client from "../api/Client";
+import SharedComponents from "../shared-components/SharedComponents";
 import { ChangeE, BtnE } from "../models/Events";
 import { useAuth } from "../contexts/authContext";
-import {
-	Button,
-	TextField,
-	Typography,
-	Paper,
-	makeStyles,
-} from "@material-ui/core";
+import { Button, Typography, Paper, makeStyles } from "@material-ui/core";
+
+const { Input } = SharedComponents;
 
 const useStyles = makeStyles(theme => ({
 	main: {
@@ -158,19 +155,17 @@ const Login: React.FC<props> = ({}) => {
 							Wired
 						</Typography>
 					</div>
-					<TextField
+					<Input
 						label="Username"
 						name="username"
-						color="secondary"
 						value={values.username}
 						error={errors.username ? true : false}
 						helperText={errors.username}
 						onChange={handleInputChange}
 					/>
-					<TextField
+					<Input
 						label="Password"
 						name="password"
-						color="secondary"
 						value={values.password}
 						error={errors.password ? true : false}
 						helperText={errors.password}

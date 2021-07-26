@@ -1,17 +1,14 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { socket } from "../config/socket";
+import SharedComponents from "../shared-components/SharedComponents";
 import { Room } from "../models/Room";
 import { ChangeE } from "../models/Events";
 import { useAuth } from "../contexts/authContext";
-import {
-	Modal,
-	Paper,
-	TextField,
-	Button,
-	makeStyles,
-} from "@material-ui/core";
+import { Modal, Paper, Button, makeStyles } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
+
+const { Input } = SharedComponents;
 
 const useStyles = makeStyles(theme => ({
 	modal: {
@@ -69,7 +66,7 @@ const CreateRoom: React.FC<Props> = ({
 	};
 
 	const validateRoomName = (slug: string) => {
-		let error: string = "";
+		let error = "";
 
 		if (!slug) {
 			error = "Room name cannot be empty";
@@ -119,9 +116,8 @@ const CreateRoom: React.FC<Props> = ({
 					onClick={handleCreateRoomOpen}
 				/>
 				<div className={classes.newRoom}>
-					<TextField
+					<Input
 						label="Provide a room name..."
-						color="secondary"
 						value={roomName}
 						onChange={handleInputChange}
 						error={roomNameError ? true : false}
