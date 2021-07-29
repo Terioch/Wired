@@ -130,7 +130,9 @@ const Room: React.FC = () => {
 	const fetchRoomFromServer = async () => {
 		const pathnameParts = location.pathname.split("/");
 		const slug = pathnameParts[pathnameParts.length - 1];
-		const { info, messages } = await Client.rooms.findOne(slug);
+		const { info, messages } = await new Client.rooms(
+			authState.token
+		).findOne(slug);
 		setRoom({ ...info, messages });
 	};
 

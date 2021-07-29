@@ -1,28 +1,22 @@
 import axios, { AxiosInstance } from "axios";
 import { useAuth } from "../contexts/authContext";
 
-const { authState } = useAuth();
-
-interface IRooms {
-	authAxios: () => void;
-}
-
 class Rooms {
 	/* Initialize authenticated instance of axios with token in authorization 
 	header */
 	authAxios: AxiosInstance;
 
-	constructor() {
+	constructor(token: string | null) {
 		this.authAxios = axios.create({
 			headers: {
-				Authorization: `Bearer ${authState.token}`,
+				Authorization: `Bearer ${token}`,
 			},
 		});
 	}
 
 	findAll = async () => {
 		try {
-			const { data } = await axios.get("/api/rooms");
+			const { data } = await this.authAxios.get("/api/rooms");
 			return data;
 		} catch (err) {
 			console.error(err.message);
@@ -48,4 +42,4 @@ class Rooms {
 	};
 }
 
-export default new Rooms();
+export default Rooms;

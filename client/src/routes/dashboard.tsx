@@ -43,7 +43,6 @@ interface Props {}
 
 const Dashboard: React.FC<Props> = ({}) => {
 	const classes = useStyles();
-	const history = useHistory();
 	const { authState } = useAuth();
 
 	const [rooms, setRooms] = useState<Array<Room>>([]);
@@ -52,7 +51,7 @@ const Dashboard: React.FC<Props> = ({}) => {
 
 	// Fetch all rooms where current user has joined then delineate
 	useEffect(() => {
-		Client.rooms.findAll().then(rooms => {
+		new Client.rooms(authState.token).findAll().then(rooms => {
 			setRooms(rooms);
 		});
 	}, []);
