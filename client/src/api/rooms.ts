@@ -1,22 +1,10 @@
-import axios, { AxiosInstance } from "axios";
-import { useAuth } from "../contexts/authContext";
+import axios from "axios";
 
 class Rooms {
-	/* Initialize authenticated instance of axios with token in authorization 
-	header */
-	authAxios: AxiosInstance;
-
-	constructor(token: string | null) {
-		this.authAxios = axios.create({
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		});
-	}
-
 	findAll = async () => {
 		try {
-			const { data } = await this.authAxios.get("/api/rooms");
+			const { data } = await axios.get("/api/rooms");
+			console.log("hi");
 			return data;
 		} catch (err) {
 			console.error(err.message);
