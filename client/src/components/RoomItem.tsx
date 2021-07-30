@@ -29,10 +29,16 @@ interface Props {
 const RoomItem: React.FC<Props> = ({ room }) => {
 	const classes = useStyles();
 	const history = useHistory();
-	const { isAuthenticated } = useAuth();
+	const { authState, isAuthenticated } = useAuth();
 
 	const handleRoomRoute = () => {
 		history.push(`/room/${room.slug}`);
+	};
+
+	const getRoomAdmin = () => {
+		return `Admin: ${
+			authState.user.username === room.admin ? "You" : room.admin
+		}`;
 	};
 
 	return (
@@ -45,7 +51,7 @@ const RoomItem: React.FC<Props> = ({ room }) => {
 						color="secondary"
 						gutterBottom
 					>
-						Admin: {room.admin}
+						{getRoomAdmin()}
 					</Typography>
 					<Typography className={classes.title} variant="h5" gutterBottom>
 						{room.name}
