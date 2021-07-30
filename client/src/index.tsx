@@ -5,6 +5,7 @@ import theme from "./theme";
 import App from "./App";
 import { ThemeProvider } from "@material-ui/core";
 import { AuthProvider } from "./contexts/authContext";
+import { FetchProvider } from "./contexts/fetchContext";
 import "./index.css";
 
 ReactDOM.render(
@@ -12,7 +13,9 @@ ReactDOM.render(
 		<Router>
 			<ThemeProvider theme={theme}>
 				<AuthProvider>
-					<App />
+					<FetchProvider>
+						<App />
+					</FetchProvider>
 				</AuthProvider>
 			</ThemeProvider>
 		</Router>

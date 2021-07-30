@@ -1,10 +1,10 @@
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
+import { AuthAxios } from "../models/Axios";
 
 class Rooms {
-	findAll = async () => {
+	findAll = async (authAxios: AxiosInstance) => {
 		try {
-			const { data } = await axios.get("/api/rooms");
-			console.log("hi");
+			const { data } = await authAxios.get("/api/rooms");
 			return data;
 		} catch (err) {
 			console.error(err.message);
@@ -20,9 +20,9 @@ class Rooms {
 		}
 	};
 
-	findOne = async (slug: string) => {
+	findOne = async (authAxios: AxiosInstance, slug: string) => {
 		try {
-			const { data } = await axios.post(`/api/room/${slug}`, { slug });
+			const { data } = await authAxios.post(`/api/room/${slug}`, { slug });
 			return data;
 		} catch (err) {
 			console.error(err.message);
@@ -30,4 +30,4 @@ class Rooms {
 	};
 }
 
-export default Rooms;
+export default new Rooms();

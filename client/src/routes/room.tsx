@@ -6,6 +6,7 @@ import Client from "../api/Client";
 import { Room as IRoom, Message as IMessage } from "../models/Room";
 import { ChangeE, FormE } from "../models/Events";
 import { useAuth } from "../contexts/authContext";
+import { useAuthAxios } from "../contexts/fetchContext";
 import {
 	Typography,
 	Paper,
@@ -97,6 +98,7 @@ const Room: React.FC = () => {
 	const location: Location = useLocation();
 	const history = useHistory();
 	const { authState } = useAuth();
+	const { authAxios } = useAuthAxios();
 
 	const [room, setRoom] = useState<IRoom>({
 		id: -1,
@@ -130,9 +132,7 @@ const Room: React.FC = () => {
 	const fetchRoomFromServer = async () => {
 		const pathnameParts = location.pathname.split("/");
 		const slug = pathnameParts[pathnameParts.length - 1];
-		const { info, messages } = await new Client.rooms(
-			authState.token
-		).findOne(slug);
+		const { info, messages } = await Client.rooms.findOne(authAxios, slug);
 		setRoom({ ...info, messages });
 	};
 

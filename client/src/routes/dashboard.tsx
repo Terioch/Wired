@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import Components from "../components/Components";
 import Client from "../api/Client";
 import { Room } from "../models/Room";
 import { useAuth } from "../contexts/authContext";
+import { useAuthAxios } from "../contexts/fetchContext";
 import {
 	Container,
 	Grid,
@@ -44,6 +44,7 @@ interface Props {}
 const Dashboard: React.FC<Props> = ({}) => {
 	const classes = useStyles();
 	const { authState } = useAuth();
+	const { authAxios } = useAuthAxios();
 
 	const [rooms, setRooms] = useState<Array<Room>>([]);
 	const [joinedRooms, setJoinedRooms] = useState<Array<Room>>([]);
@@ -51,7 +52,7 @@ const Dashboard: React.FC<Props> = ({}) => {
 
 	// Fetch all rooms where current user has joined then delineate
 	useEffect(() => {
-		new Client.rooms(authState.token).findAll().then(rooms => {
+		Client.rooms.findAll(authAxios).then(rooms => {
 			setRooms(rooms);
 		});
 	}, []);
