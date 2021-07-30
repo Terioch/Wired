@@ -1,4 +1,4 @@
-import { server } from "./server";
+import { SERVER_URL } from "./server";
 const io = require("socket.io-client");
 
-export const socket = io.connect(server);
+export const socket = io.connect(SERVER_URL);

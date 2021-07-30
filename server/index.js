@@ -4,6 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const socketio = require("socket.io");
 const jwtDecode = require("jwt-decode");
+const jwt = require("express-jwt");
 const cookieParser = require("cookie-parser");
 
 const Server = require("./api/Server");
@@ -21,7 +22,7 @@ const io = socketio(server, {
 	},
 });
 
-// Parse middleware
+// Define middleware
 app.use(express.json());
 app.use(cookieParser());
 app.use(
@@ -31,6 +32,10 @@ app.use(
 		credentials: true,
 	})
 );
+app.use((req, res, next) => {
+	console.log("Authorization: ", req.headers.authorization);
+	next();
+});
 
 app.get("/api", (req, res) => {
 	res.send("Head to the '/api' endpoint to view api responses...");
@@ -41,14 +46,13 @@ app.get("/api", (req, res) => {
 	);
 });
 
-// Verify user authentication status on the current session
-const requireAuth = (req, res, next) => {
-	const { user } = req.session;
-	if (!user) {
-		return res.status(401).json({ message: "Unauthorized" });
-	}
-	next();
-};
+// Verify JWT
+const checkJwt = jwt({
+	secret: process.env.JWT_SECRET,
+	issuer: "api.wired",
+	audience: "api.wired",
+	algorithms: ["HS256"],
+});
 
 // Handle requests for users table
 
@@ -129,7 +133,7 @@ app.post("/api/users/login", async (req, res) => {
 	}
 });
 
-// Handle requests for rooms and messages table
+// Handle requests for rooms table
 
 app.get("/api/rooms", async (req, res) => {
 	try {
@@ -140,7 +144,7 @@ app.get("/api/rooms", async (req, res) => {
 	}
 });
 
-app.post("/api/room/:slug", async (req, res) => {
+app.post("/api/room/:slug", checkJwt, async (req, res) => {
 	try {
 		const { slug } = req.body;
 		const info = await Server.rooms.findOne(slug);

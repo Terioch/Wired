@@ -55,7 +55,7 @@ const Dashboard: React.FC<Props> = ({}) => {
 		Client.rooms.findAll(authAxios).then(rooms => {
 			setRooms(rooms);
 		});
-	}, []);
+	}, [authAxios]);
 
 	useEffect(() => {
 		const joinedRooms = filterJoinedRooms();

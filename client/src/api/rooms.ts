@@ -11,9 +11,12 @@ class Rooms {
 		}
 	};
 
-	findAllByUser = async (username: string | null) => {
+	findAllByUser = async (
+		authAxios: AxiosInstance,
+		username: string | null
+	) => {
 		try {
-			const { data } = await axios.post("/api/rooms", username);
+			const { data } = await authAxios.post("/api/rooms", username);
 			return data;
 		} catch (err) {
 			console.error(err.message);

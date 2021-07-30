@@ -1,4 +1,5 @@
 import React, { useContext, createContext } from "react";
+import { SERVER_URL } from "../config/server";
 import { useAuth } from "./authContext";
 import axios, { AxiosInstance } from "axios";
 
@@ -14,7 +15,7 @@ export const FetchProvider: React.FC = ({ children }) => {
 	} = useAuth();
 
 	const authAxios = axios.create({
-		baseURL: "http://localhost:3000",
+		baseURL: SERVER_URL,
 	});
 
 	authAxios.interceptors.request.use(
@@ -26,6 +27,7 @@ export const FetchProvider: React.FC = ({ children }) => {
 			return Promise.reject(error);
 		}
 	);
+	console.log(token);
 
 	return (
 		<FetchContext.Provider value={{ authAxios }}>
