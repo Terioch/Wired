@@ -4,10 +4,10 @@ import { useAuth } from "./authContext";
 import axios, { AxiosInstance } from "axios";
 
 interface IFetchContext {
-	authAxios: any;
+	authAxios: AxiosInstance;
 }
 
-const FetchContext = createContext<IFetchContext>({ authAxios: () => {} });
+const FetchContext = createContext<IFetchContext>({} as IFetchContext);
 
 export const FetchProvider: React.FC = ({ children }) => {
 	const {

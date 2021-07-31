@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Route, Switch, Redirect, Link } from "react-router-dom";
-import { socket } from "./config/socket";
+import React from "react";
+import { Route, Switch, Link, Redirect } from "react-router-dom";
 import Routes from "./routes/Routes";
 import Components from "./components/Components";
 import { useAuth } from "./contexts/authContext";
