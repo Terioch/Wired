@@ -33,7 +33,7 @@ app.use(
 	})
 );
 app.use((req, res, next) => {
-	console.log("Authorization: ", req.headers.authorization);
+	console.log("Authorization: ", req.headers["authorization"]);
 	next();
 });
 
@@ -44,14 +44,6 @@ app.get("/api", (req, res) => {
 	res.send(
 		"Starting route for api requests. Navigate to '/users' or '/messages' to view direct responses..."
 	);
-});
-
-// Verify JWT
-const checkJwt = jwt({
-	secret: process.env.JWT_SECRET,
-	issuer: "api.wired",
-	audience: "api.wired",
-	algorithms: ["HS256"],
 });
 
 // Handle requests for users table
@@ -135,6 +127,14 @@ app.post("/api/users/login", async (req, res) => {
 
 // Handle requests for rooms table
 
+// Verify JWT
+const checkJwt = jwt({
+	secret: process.env.JWT_SECRET,
+	issuer: "api.wired",
+	audience: "api.wired",
+	algorithms: ["HS256"],
+});
+
 app.get("/api/rooms", async (req, res) => {
 	try {
 		const rooms = await Server.rooms.findAll();
@@ -144,7 +144,7 @@ app.get("/api/rooms", async (req, res) => {
 	}
 });
 
-app.post("/api/room/:slug", checkJwt, async (req, res) => {
+app.post("/api/room/:slug", async (req, res) => {
 	try {
 		const { slug } = req.body;
 		const info = await Server.rooms.findOne(slug);

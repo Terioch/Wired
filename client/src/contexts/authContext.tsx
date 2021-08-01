@@ -18,21 +18,22 @@ const AuthContext = createContext<IAuthContext>({} as IAuthContext);
 
 export const AuthProvider: React.FC = ({ children }) => {
 	const history = useHistory();
+
+	const token = localStorage.getItem("token");
+	const expiresAt = localStorage.getItem("expires-at");
+	const user = localStorage.getItem("user-info");
+
 	const [authState, setAuthState] = useState<AuthState>({
-		token: null,
-		expiresAt: null,
+		token,
+		expiresAt,
 		user: { id: null, username: null },
 	});
 
 	useEffect(() => {
-		const token = localStorage.getItem("token");
-		const expiresAt = localStorage.getItem("expires-at");
-		const user = localStorage.getItem("user-info");
-
 		setAuthState({
 			token,
 			expiresAt,
-			user: user ? JSON.parse(user) : {},
+			user: user && JSON.parse(user),
 		});
 	}, []);
 
