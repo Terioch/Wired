@@ -18,7 +18,10 @@ const useStyles = makeStyles(theme => ({
 		display: "flex",
 		justifyContent: "space-between",
 		alignItems: "center",
-		padding: "0 1.5rem",
+		padding: theme.spacing(0, 3),
+		[theme.breakpoints.down("xs")]: {
+			padding: theme.spacing(0, 1.5),
+		},
 	},
 	logo: {},
 	logout: {
