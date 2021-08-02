@@ -4,6 +4,7 @@ import Client from "../api/Client";
 import { Room } from "../models/Room";
 import { useAuth } from "../contexts/authContext";
 import { useAuthAxios } from "../contexts/fetchContext";
+import { useScreenSize } from "../contexts/screenSizeContext";
 import {
 	Container,
 	Grid,
@@ -49,6 +50,7 @@ const Dashboard: React.FC<Props> = ({}) => {
 	const classes = useStyles();
 	const { authState } = useAuth();
 	const { authAxios } = useAuthAxios();
+	const { screenWidth } = useScreenSize();
 
 	const [rooms, setRooms] = useState<Array<Room>>([]);
 	const [joinedRooms, setJoinedRooms] = useState<Array<Room>>([]);
@@ -90,7 +92,9 @@ const Dashboard: React.FC<Props> = ({}) => {
 				<Divider light />
 				<section className={classes.roomsContainer}>
 					<div className={classes.roomsHeader}>
-						<Typography variant="h4">Chat Rooms</Typography>
+						<Typography variant={screenWidth < 310 ? "h5" : "h4"}>
+							{screenWidth < 415 ? "Chat's" : "Chat Rooms"}
+						</Typography>
 						<Button
 							className={classes.createRoom}
 							color="secondary"

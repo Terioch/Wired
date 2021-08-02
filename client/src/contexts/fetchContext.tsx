@@ -2,7 +2,6 @@ import React, { useContext, createContext } from "react";
 import { SERVER_URL } from "../config/server";
 import { useAuth } from "./authContext";
 import axios, { AxiosInstance } from "axios";
-import { useEffect } from "react";
 
 interface IFetchContext {
 	authAxios: AxiosInstance;

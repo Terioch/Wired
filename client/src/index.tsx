@@ -6,6 +6,7 @@ import App from "./App";
 import { ThemeProvider } from "@material-ui/core";
 import { AuthProvider } from "./contexts/authContext";
 import { FetchProvider } from "./contexts/fetchContext";
+import { ScreenSizeProvider } from "./contexts/screenSizeContext";
 import "./index.css";
 
 ReactDOM.render(
@@ -14,7 +15,9 @@ ReactDOM.render(
 			<ThemeProvider theme={theme}>
 				<AuthProvider>
 					<FetchProvider>
-						<App />
+						<ScreenSizeProvider>
+							<App />
+						</ScreenSizeProvider>
 					</FetchProvider>
 				</AuthProvider>
 			</ThemeProvider>
