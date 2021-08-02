@@ -12,7 +12,7 @@ import {
 	Divider,
 	makeStyles,
 } from "@material-ui/core";
-import { CardMembershipTwoTone, RoomOutlined } from "@material-ui/icons";
+import { AddBox } from "@material-ui/icons";
 
 const { Nav, RoomItem, CreateRoom, Search } = Components;
 
@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: "#f6f6f6",
 	},
 	searchContainer: {
-		paddingTop: "1rem",
+		paddingTop: theme.spacing(2),
 		textAlign: "center",
 	},
 	roomsContainer: {
@@ -36,7 +36,11 @@ const useStyles = makeStyles(theme => ({
 		justifyContent: "space-between",
 		alignItems: "center",
 	},
-	createRoom: {},
+	createRoom: {
+		display: "flex",
+		alignItems: "flex-start",
+		"& > *": {},
+	},
 }));
 
 interface Props {}
@@ -93,6 +97,7 @@ const Dashboard: React.FC<Props> = ({}) => {
 							onClick={handleCreateRoomOpen}
 						>
 							New Room
+							<AddBox color="primary" style={{ marginLeft: ".25rem" }} />
 						</Button>
 					</div>
 					<CreateRoom
