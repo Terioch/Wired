@@ -32,10 +32,6 @@ app.use(
 		credentials: true,
 	})
 );
-app.use((req, res, next) => {
-	console.log("Authorization: ", req.headers["authorization"]);
-	next();
-});
 
 app.get("/api", (req, res) => {
 	res.send("Head to the '/api' endpoint to view api responses...");

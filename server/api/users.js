@@ -32,10 +32,10 @@ class Users {
 	createToken = user => {
 		return jwt.sign(
 			{
-				sub: user.id,
+				subject: user.id,
 				username: user.username,
-				iss: "api.wired",
-				aud: "api.wired",
+				issuer: "api.wired",
+				audience: "api.wired",
 			},
 			process.env.JWT_SECRET,
 			{ algorithm: "HS256", expiresIn: "1h" }

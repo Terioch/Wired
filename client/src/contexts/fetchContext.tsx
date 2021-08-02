@@ -2,6 +2,7 @@ import React, { useContext, createContext } from "react";
 import { SERVER_URL } from "../config/server";
 import { useAuth } from "./authContext";
 import axios, { AxiosInstance } from "axios";
+import { useEffect } from "react";
 
 interface IFetchContext {
 	authAxios: AxiosInstance;
@@ -16,17 +17,23 @@ export const FetchProvider: React.FC = ({ children }) => {
 
 	const authAxios = axios.create({
 		baseURL: SERVER_URL,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
 	});
 
-	authAxios.interceptors.request.use(
-		config => {
-			config.headers.Authorization = `Bearer ${token}`;
-			return config;
-		},
-		error => {
-			return Promise.reject(error);
-		}
-	);
+	// useEffect(() => {
+	// authAxios.interceptors.request.use(
+	// 	config => {
+	// 		config.headers.Authorization = `Bearer ${token}`;
+	// 		return config;
+	// 	},
+	// 	error => {
+	// 		return Promise.reject(error);
+	// 	}
+	// );
+	// });
+
 	console.log(token);
 
 	return (
