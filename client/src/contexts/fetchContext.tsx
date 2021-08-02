@@ -17,24 +17,17 @@ export const FetchProvider: React.FC = ({ children }) => {
 
 	const authAxios = axios.create({
 		baseURL: SERVER_URL,
-		headers: {
-			Authorization: `Bearer ${token}`,
-		},
 	});
 
-	// useEffect(() => {
-	// authAxios.interceptors.request.use(
-	// 	config => {
-	// 		config.headers.Authorization = `Bearer ${token}`;
-	// 		return config;
-	// 	},
-	// 	error => {
-	// 		return Promise.reject(error);
-	// 	}
-	// );
-	// });
-
-	console.log(token);
+	authAxios.interceptors.request.use(
+		config => {
+			config.headers.Authorization = `Bearer ${token}`;
+			return config;
+		},
+		error => {
+			return Promise.reject(error);
+		}
+	);
 
 	return (
 		<FetchContext.Provider value={{ authAxios }}>

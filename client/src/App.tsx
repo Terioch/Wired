@@ -6,7 +6,6 @@ import { useAuth } from "./contexts/authContext";
 import { makeStyles } from "@material-ui/core";
 
 const { Login, Dashboard, Room } = Routes;
-const { Unauthorized } = Components;
 
 const useStyles = makeStyles(theme => ({}));
 
@@ -14,11 +13,30 @@ function App() {
 	const classes = useStyles();
 	const { isAuthenticated } = useAuth();
 
+	const authenticatedRoutes = <Dashboard />;
+
 	return (
 		<main>
 			<Switch>
+				<Route
+					exact
+					path="/"
+					render={() =>
+						isAuthenticated() ? (
+							<Redirect to="/dashboard" />
+						) : (
+							<Redirect to="/login" />
+						)
+					}
+				/>
 				<Route exact path="/login" component={Login} />
-				<Route exact path="/dashboard" component={Dashboard} />
+				<Route
+					exact
+					path="/dashboard"
+					render={() =>
+						isAuthenticated() ? <Dashboard /> : <Redirect to="/login" />
+					}
+				/>
 				<Route exact path="/room/:slug" component={Room} />
 			</Switch>
 			<Route exact path="/">
