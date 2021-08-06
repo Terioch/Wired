@@ -96,10 +96,9 @@ const Search: React.FC<Props> = ({ rooms, joinedRooms }) => {
 			/>
 			<List color="primary" dense>
 				{filteredRooms.map((room: Room) => (
-					<div className={classes.listItemContainer}>
+					<div className={classes.listItemContainer} key={room.id}>
 						<ListItem
 							className={classes.listItem}
-							key={room.id}
 							alignItems="center"
 							button
 							onClick={() => handleRoomNavigation(room)}
