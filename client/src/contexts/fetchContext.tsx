@@ -18,6 +18,7 @@ export const FetchProvider: React.FC = ({ children }) => {
 		baseURL: SERVER_URL,
 	});
 
+	// Attach the token authorization header to the request
 	authAxios.interceptors.request.use(
 		config => {
 			config.headers.Authorization = `Bearer ${token}`;
