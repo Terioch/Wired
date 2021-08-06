@@ -76,10 +76,10 @@ const useStyles = makeStyles(theme => ({
 	leaveBtn: {
 		alignSelf: "flex-end",
 		justifySelf: "right",
-		backgroundColor: "red",
+		backgroundColor: "#FC0000",
 		color: "#ffffff",
 		"&:hover": {
-			backgroundColor: "red",
+			backgroundColor: "#FC0000",
 		},
 	},
 }));
