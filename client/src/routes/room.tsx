@@ -43,7 +43,11 @@ const useStyles = makeStyles(theme => ({
 			justifySelf: "center",
 		},
 	},
-	title: {},
+	title: {
+		[theme.breakpoints.down("xs")]: {
+			justifySelf: "right",
+		},
+	},
 	arrowBack: {
 		justifySelf: "left",
 		borderRadius: "25px",
@@ -65,14 +69,12 @@ const useStyles = makeStyles(theme => ({
 			gridRowStart: "1",
 			justifySelf: "center",
 		},
+	},
+	input: {
 		[theme.breakpoints.down("sm")]: {
-			display: "flex",
-			justifyContent: "space-between",
-			alignItems: "flex-end",
-			padding: theme.spacing(0),
+			justifySelf: "left",
 		},
 	},
-	input: {},
 	leaveBtn: {
 		alignSelf: "flex-end",
 		justifySelf: "right",
@@ -180,7 +182,7 @@ const Room: React.FC = () => {
 	return (
 		<form className={classes.main} onSubmit={handleSubmit}>
 			<Paper className={classes.paper} elevation={3}>
-				<section className={classes.header}>
+				<header className={classes.header}>
 					<ArrowBackRounded
 						className={classes.arrowBack}
 						onClick={() => handleRouting("/dashboard")}
@@ -193,14 +195,14 @@ const Room: React.FC = () => {
 					>
 						{room.name}
 					</Typography>
-				</section>
+				</header>
 				<Divider light />
 				<section className={classes.messagesContainer}>
 					{room.messages.map(message => (
 						<Message key={message.id} message={message} />
 					))}
 				</section>
-				<section className={classes.footer}>
+				<footer className={classes.footer}>
 					<TextField
 						className={classes.input}
 						label="Your message..."
@@ -222,7 +224,7 @@ const Room: React.FC = () => {
 					>
 						{getLeaveRoomText()}
 					</Button>
-				</section>
+				</footer>
 			</Paper>
 		</form>
 	);
