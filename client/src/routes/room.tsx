@@ -8,6 +8,7 @@ import { ChangeE, FormE } from "../models/Events";
 import { useAuth } from "../contexts/authContext";
 import { useAuthAxios } from "../contexts/fetchContext";
 import { useScreenSize } from "../contexts/screenSizeContext";
+import usePopover from "../controls/usePopover";
 import {
 	Typography,
 	Paper,
@@ -15,6 +16,8 @@ import {
 	InputAdornment,
 	Divider,
 	Button,
+	Popover,
+	Link,
 	makeStyles,
 } from "@material-ui/core";
 import { Send, ArrowBackRounded, MoreVert } from "@material-ui/icons";
@@ -111,6 +114,7 @@ const Room: React.FC = () => {
 	const { authState } = useAuth();
 	const { authAxios } = useAuthAxios();
 	const { screenWidth } = useScreenSize();
+	const { anchor, handleAnchorOpen, handleAnchorClose } = usePopover();
 
 	const [room, setRoom] = useState<IRoom>({
 		id: -1,
@@ -206,7 +210,19 @@ const Room: React.FC = () => {
 						{room.name}
 					</Typography>
 					{screenWidth < 568 && (
-						<MoreVert className={classes.dottedMenu} />
+						<>
+							<MoreVert
+								className={classes.dottedMenu}
+								onClick={handleAnchorOpen}
+							/>
+							<Popover
+								open={Boolean(anchor)}
+								anchorEl={anchor}
+								onClose={handleAnchorClose}
+							>
+								<Typography>{getLeaveRoomText()}</Typography>
+							</Popover>
+						</>
 					)}
 				</header>
 				<Divider light />
