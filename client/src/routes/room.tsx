@@ -15,11 +15,9 @@ import {
 	InputAdornment,
 	Divider,
 	Button,
-	Breadcrumbs,
-	Link,
 	makeStyles,
 } from "@material-ui/core";
-import { Send, ArrowBackRounded } from "@material-ui/icons";
+import { Send, ArrowBackRounded, MoreVert } from "@material-ui/icons";
 
 const { Message } = Components;
 
@@ -27,6 +25,7 @@ const useStyles = makeStyles(theme => ({
 	main: {
 		display: "flex",
 		justifyContent: "center",
+		alignItems: "center",
 		padding: theme.spacing(2.5),
 	},
 	paper: {
@@ -45,18 +44,24 @@ const useStyles = makeStyles(theme => ({
 			gridColumnStart: "1",
 			gridRowStart: "1",
 			justifySelf: "center",
+			// alignSelf: "center",
 		},
 	},
-	title: {
-		[theme.breakpoints.down("xs")]: {
-			justifySelf: "right",
-		},
-	},
+	title: {},
 	arrowBack: {
 		justifySelf: "left",
 		borderRadius: "25px",
 		cursor: "pointer",
 		padding: theme.spacing(0.5),
+		"&:hover": {
+			backgroundColor: "#dddddd",
+		},
+	},
+	dottedMenu: {
+		justifySelf: "right",
+		borderRadius: "25px",
+		padding: theme.spacing(0.5),
+		cursor: "pointer",
 		"&:hover": {
 			backgroundColor: "#dddddd",
 		},
@@ -194,12 +199,15 @@ const Room: React.FC = () => {
 					/>
 					<Typography
 						className={classes.title}
-						variant="h5"
+						variant={screenWidth < 568 ? "h6" : "h5"}
 						color="secondary"
 						gutterBottom
 					>
 						{room.name}
 					</Typography>
+					{screenWidth < 568 && (
+						<MoreVert className={classes.dottedMenu} />
+					)}
 				</header>
 				<Divider light />
 				<section className={classes.messagesContainer}>
@@ -212,8 +220,7 @@ const Room: React.FC = () => {
 						className={classes.input}
 						label="Your message..."
 						color="secondary"
-						size={screenWidth < 568 ? "small" : "medium"}
-						multiline={true}
+						multiline
 						value={value}
 						onChange={handleInputChange}
 						InputProps={{
