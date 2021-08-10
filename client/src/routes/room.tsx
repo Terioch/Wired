@@ -7,6 +7,7 @@ import { Room as IRoom, Message as IMessage } from "../models/Room";
 import { ChangeE, FormE } from "../models/Events";
 import { useAuth } from "../contexts/authContext";
 import { useAuthAxios } from "../contexts/fetchContext";
+import { useScreenSize } from "../contexts/screenSizeContext";
 import {
 	Typography,
 	Paper,
@@ -14,6 +15,8 @@ import {
 	InputAdornment,
 	Divider,
 	Button,
+	Breadcrumbs,
+	Link,
 	makeStyles,
 } from "@material-ui/core";
 import { Send, ArrowBackRounded } from "@material-ui/icons";
@@ -28,6 +31,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	paper: {
 		minHeight: "91.8vh",
+		maxWidth: "100%",
 		width: "700px",
 		display: "flex",
 		flexDirection: "column",
@@ -101,6 +105,7 @@ const Room: React.FC = () => {
 	const history = useHistory();
 	const { authState } = useAuth();
 	const { authAxios } = useAuthAxios();
+	const { screenWidth } = useScreenSize();
 
 	const [room, setRoom] = useState<IRoom>({
 		id: -1,
@@ -207,6 +212,8 @@ const Room: React.FC = () => {
 						className={classes.input}
 						label="Your message..."
 						color="secondary"
+						size={screenWidth < 568 ? "small" : "medium"}
+						multiline={true}
 						value={value}
 						onChange={handleInputChange}
 						InputProps={{
@@ -217,13 +224,16 @@ const Room: React.FC = () => {
 							),
 						}}
 					/>
-					<Button
-						className={classes.leaveBtn}
-						variant="contained"
-						onClick={handleLeaveRequest}
-					>
-						{getLeaveRoomText()}
-					</Button>
+					{screenWidth > 568 && (
+						<Button
+							className={classes.leaveBtn}
+							variant="contained"
+							size={screenWidth < 568 ? "small" : "medium"}
+							onClick={handleLeaveRequest}
+						>
+							{getLeaveRoomText()}
+						</Button>
+					)}
 				</footer>
 			</Paper>
 		</form>

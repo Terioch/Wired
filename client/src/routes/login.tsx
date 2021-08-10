@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import Client from "../api/Client";
-import SharedComponents from "../shared-components/SharedComponents";
+import CommonComponents from "../common/CommonComponents";
 import { ChangeE, BtnE } from "../models/Events";
 import { useAuth } from "../contexts/authContext";
 import { Button, Typography, Paper, makeStyles } from "@material-ui/core";
 
-const { Input } = SharedComponents;
+const { Input } = CommonComponents;
 
 const useStyles = makeStyles(theme => ({
 	main: {

@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { socket } from "../config/socket";
-import SharedComponents from "../shared-components/SharedComponents";
+import CommonComponents from "../common/CommonComponents";
 import { Room } from "../models/Room";
 import { ChangeE } from "../models/Events";
 import { useAuth } from "../contexts/authContext";
 import { Modal, Paper, Button, makeStyles } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 
-const { Input } = SharedComponents;
+const { Input } = CommonComponents;
 
 const useStyles = makeStyles(theme => ({
 	modal: {
