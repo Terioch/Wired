@@ -17,7 +17,8 @@ import {
 	Divider,
 	Button,
 	Popover,
-	Link,
+	List,
+	ListItem,
 	makeStyles,
 } from "@material-ui/core";
 import { Send, ArrowBackRounded, MoreVert } from "@material-ui/icons";
@@ -68,6 +69,9 @@ const useStyles = makeStyles(theme => ({
 		"&:hover": {
 			backgroundColor: "#dddddd",
 		},
+	},
+	dottedMenuList: {
+		backgroundColor: "#f6f6f6",
 	},
 	messagesContainer: {
 		flex: 1,
@@ -173,7 +177,7 @@ const Room: React.FC = () => {
 
 	const getLeaveRoomText = () => {
 		const { username } = authState.user;
-		return username === room.admin ? "Close Room" : "Leave";
+		return username === room.admin ? "Close Room" : "Leave Room";
 	};
 
 	// Remove a user as a room member or close the room if they're admin
@@ -219,8 +223,17 @@ const Room: React.FC = () => {
 								open={Boolean(anchor)}
 								anchorEl={anchor}
 								onClose={handleAnchorClose}
+								anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+								transformOrigin={{
+									vertical: "top",
+									horizontal: "right",
+								}}
 							>
-								<Typography>{getLeaveRoomText()}</Typography>
+								<List className={classes.dottedMenuList}>
+									<ListItem button onClick={handleLeaveRequest}>
+										{getLeaveRoomText()}
+									</ListItem>
+								</List>
 							</Popover>
 						</>
 					)}
