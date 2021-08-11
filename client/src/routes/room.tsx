@@ -8,7 +8,6 @@ import { ChangeE, FormE } from "../models/Events";
 import { useAuth } from "../contexts/authContext";
 import { useAuthAxios } from "../contexts/fetchContext";
 import { useScreenSize } from "../contexts/screenSizeContext";
-import usePopover from "../controls/usePopover";
 import {
 	Typography,
 	Paper,
@@ -16,14 +15,11 @@ import {
 	InputAdornment,
 	Divider,
 	Button,
-	Popover,
-	List,
-	ListItem,
 	makeStyles,
 } from "@material-ui/core";
-import { Send, ArrowBackRounded, MoreVert } from "@material-ui/icons";
+import { Send, ArrowBackRounded } from "@material-ui/icons";
 
-const { Message, Unauthorized } = Components;
+const { Message, Unauthorized, DottedMenu } = Components;
 
 const useStyles = makeStyles(theme => ({
 	main: {
@@ -60,18 +56,6 @@ const useStyles = makeStyles(theme => ({
 		"&:hover": {
 			backgroundColor: "#dddddd",
 		},
-	},
-	dottedMenu: {
-		justifySelf: "right",
-		borderRadius: "25px",
-		padding: theme.spacing(0.5),
-		cursor: "pointer",
-		"&:hover": {
-			backgroundColor: "#dddddd",
-		},
-	},
-	dottedMenuList: {
-		backgroundColor: "#f6f6f6",
 	},
 	messagesContainer: {
 		flex: 1,
@@ -118,7 +102,6 @@ const Room: React.FC = () => {
 	const { authState } = useAuth();
 	const { authAxios } = useAuthAxios();
 	const { screenWidth } = useScreenSize();
-	const { anchor, handleAnchorOpen, handleAnchorClose } = usePopover();
 
 	const [room, setRoom] = useState<IRoom>({
 		id: -1,
@@ -198,7 +181,6 @@ const Room: React.FC = () => {
 	};
 
 	const userJoinedRoom = () => {
-		console.log(room.members);
 		const { username } = authState.user;
 		if (room.admin === username) return true;
 		return room.members.filter(member => member === username).length;
@@ -224,28 +206,10 @@ const Room: React.FC = () => {
 						{room.name}
 					</Typography>
 					{screenWidth < 568 && (
-						<>
-							<MoreVert
-								className={classes.dottedMenu}
-								onClick={handleAnchorOpen}
-							/>
-							<Popover
-								open={Boolean(anchor)}
-								anchorEl={anchor}
-								onClose={handleAnchorClose}
-								anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-								transformOrigin={{
-									vertical: "top",
-									horizontal: "right",
-								}}
-							>
-								<List className={classes.dottedMenuList}>
-									<ListItem button onClick={handleLeaveRequest}>
-										{getLeaveRoomText()}
-									</ListItem>
-								</List>
-							</Popover>
-						</>
+						<DottedMenu
+							getLeaveRoomText={getLeaveRoomText}
+							handleLeaveRequest={handleLeaveRequest}
+						/>
 					)}
 				</header>
 				<Divider light />

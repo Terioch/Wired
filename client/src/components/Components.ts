@@ -5,6 +5,8 @@ import Search from "./Search";
 import Message from "./Message";
 import Unauthorized from "./Unauthorized";
 
+import DottedMenu from "./room/DottedMenu";
+
 const Components = {
 	Nav,
 	RoomItem,
@@ -12,6 +14,7 @@ const Components = {
 	Search,
 	Message,
 	Unauthorized,
+	DottedMenu,
 };
 
 export default Components;

@@ -28,7 +28,7 @@ function App() {
 		<main>
 			<Switch>
 				<AuthenticatedRoute exact path="/">
-					<Dashboard />
+					<Redirect to="/dashboard" />
 				</AuthenticatedRoute>
 				<Route
 					exact

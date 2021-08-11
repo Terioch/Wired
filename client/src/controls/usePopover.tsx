@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function usePopup() {
+function usePopover() {
 	const [anchor, setAnchor] = useState<any>(null);
 
 	const handleAnchorOpen = (e: React.MouseEvent) => {
@@ -16,4 +16,4 @@ function usePopup() {
 	};
 }
 
-export default usePopup;
+export default usePopover;
