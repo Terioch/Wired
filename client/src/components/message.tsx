@@ -11,6 +11,7 @@ const useStyles = makeStyles(theme => ({
 		borderRadius: "50px",
 		color: "#ffffff",
 		clear: "both",
+		wordWrap: "break-word",
 	},
 	toMessage: {
 		float: "right",

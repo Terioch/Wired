@@ -249,7 +249,6 @@ const Room: React.FC = () => {
 						className={classes.input}
 						label="Your message..."
 						color="secondary"
-						multiline
 						value={value}
 						onChange={handleInputChange}
 						InputProps={{

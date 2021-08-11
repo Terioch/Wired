@@ -19,9 +19,8 @@ const { Nav, RoomItem, CreateRoom, Search } = Components;
 
 const useStyles = makeStyles(theme => ({
 	main: {
-		position: "fixed",
+		//position: "fixed",
 		height: "100vh",
-		width: "100vw",
 		paddingTop: "70px",
 		backgroundColor: "#f6f6f6",
 	},
