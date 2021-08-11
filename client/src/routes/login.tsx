@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import Client from "../api/Client";
-import CommonComponents from "../common/CommonComponents";
+import CommonComponents from "../components/common/CommonComponents";
 import { ChangeE, BtnE } from "../models/Events";
 import { useAuth } from "../contexts/authContext";
 import { Button, Typography, Paper, makeStyles } from "@material-ui/core";

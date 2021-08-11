@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { socket } from "../config/socket";
-import CommonComponents from "../common/CommonComponents";
+import CommonComponents from "./common/CommonComponents";
 import { Room } from "../models/Room";
 import { ChangeE } from "../models/Events";
 import { useAuth } from "../contexts/authContext";

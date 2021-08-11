@@ -23,7 +23,7 @@ import {
 } from "@material-ui/core";
 import { Send, ArrowBackRounded, MoreVert } from "@material-ui/icons";
 
-const { Message } = Components;
+const { Message, Unauthorized } = Components;
 
 const useStyles = makeStyles(theme => ({
 	main: {
@@ -206,7 +206,7 @@ const Room: React.FC = () => {
 
 	return !userJoinedRoom() ? (
 		//<Redirect to="/dashboard" />
-		<Typography>Hi</Typography>
+		<Unauthorized />
 	) : (
 		<form className={classes.main} onSubmit={handleSubmit}>
 			<Paper className={classes.paper} elevation={3}>
