@@ -26,10 +26,10 @@ const useStyles = makeStyles(theme => ({
 	logo: {},
 	logout: {
 		color: "#ffffff",
-		backgroundColor: "#28992E",
-		"&:hover": {
-			backgroundColor: "#1E8F29",
-		},
+		// backgroundColor: "#1E8F29",
+		// "&:hover": {
+		// 	backgroundColor: "#28992E",
+		// },
 	},
 }));
 
@@ -46,6 +46,7 @@ const Nav: React.FC<Props> = () => {
 				<Button
 					className={classes.logout}
 					variant="contained"
+					color="primary"
 					size="large"
 					onClick={logout}
 				>
