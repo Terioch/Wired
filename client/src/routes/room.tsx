@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation, useHistory, Redirect } from "react-router-dom";
 import { socket } from "../config/socket";
 import Components from "../components/Components";
 import Client from "../api/Client";
@@ -197,7 +197,17 @@ const Room: React.FC = () => {
 		history.push("/dashboard");
 	};
 
-	return (
+	const userJoinedRoom = () => {
+		console.log(room.members);
+		const { username } = authState.user;
+		if (room.admin === username) return true;
+		return room.members.filter(member => member === username).length;
+	};
+
+	return !userJoinedRoom() ? (
+		//<Redirect to="/dashboard" />
+		<Typography>Hi</Typography>
+	) : (
 		<form className={classes.main} onSubmit={handleSubmit}>
 			<Paper className={classes.paper} elevation={3}>
 				<header className={classes.header}>

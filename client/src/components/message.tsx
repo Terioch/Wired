@@ -43,7 +43,9 @@ const Message: React.FC<Props> = ({ message }) => {
 
 	return (
 		<Box className={`${classes.message} ${formatMessage()}`}>
-			<Typography variant="subtitle2">{formatSender()}</Typography>
+			<Typography variant="subtitle2" style={{ color: "#e7e7e7" }}>
+				{formatSender()}
+			</Typography>
 			<Typography variant="body1">{value}</Typography>
 		</Box>
 	);
