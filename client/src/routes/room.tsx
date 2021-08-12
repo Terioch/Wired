@@ -112,27 +112,21 @@ const Room: React.FC = () => {
 		messages: [],
 	});
 	const [value, setValue] = useState("");
+	const [userInRoom, setUserInRoom] = useState<Boolean | number>(true);
 
-	// Fetch data for the current room
 	useEffect(() => {
-		fetchRoomsByMember();
 		location.state ? fetchRoomFromLocation() : fetchRoomFromServer();
 	}, []);
+
+	useEffect(() => {
+		setUserInRoom(isRoomMember());
+	}, [room]);
 
 	const handleRouting = (path: string) => history.push(path);
 
 	const handleInputChange = (e: ChangeE) => {
 		const { value } = e.target;
 		setValue(value);
-	};
-
-	const fetchRoomsByMember = async () => {
-		const { username } = authState.user;
-		const joinedRooms = await Client.rooms.findAllByMember(
-			authAxios,
-			username
-		);
-		console.log(joinedRooms);
 	};
 
 	// Fetch room data from location state within route
@@ -149,11 +143,11 @@ const Room: React.FC = () => {
 		setRoom({ ...info, messages });
 	};
 
-	const userJoinedRoom = async () => {
+	// Verifies whether the user is a member of the current room
+	const isRoomMember = () => {
 		const { username } = authState.user;
-		if (room.admin === username) return true;
-		return room.members.filter((member: any) => member === username)
-			.length;
+		if (room.admin === username || room.id < 0) return true;
+		return room.members.filter(member => member === username).length;
 	};
 
 	// Send a new message
@@ -197,7 +191,9 @@ const Room: React.FC = () => {
 		history.push("/dashboard");
 	};
 
-	return (
+	return !userInRoom ? (
+		<Redirect to="/dashboard" />
+	) : (
 		<form className={classes.main} onSubmit={handleSubmit}>
 			<Paper className={classes.paper} elevation={3}>
 				<header className={classes.header}>

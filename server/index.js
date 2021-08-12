@@ -140,16 +140,6 @@ app.get("/api/rooms", async (req, res) => {
 	}
 });
 
-app.post("/api/rooms/members", async (req, res) => {
-	try {
-		const rooms = await Server.rooms.findAllByMember();
-		console.log(rooms);
-		return res.status(200).json(rooms);
-	} catch (err) {
-		console.error(`rooms: ${err.message}`);
-	}
-});
-
 app.post("/api/room/:slug", async (req, res) => {
 	try {
 		const { slug } = req.body;
