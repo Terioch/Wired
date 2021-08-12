@@ -180,16 +180,7 @@ const Room: React.FC = () => {
 		history.push("/dashboard");
 	};
 
-	const userJoinedRoom = () => {
-		const { username } = authState.user;
-		if (room.admin === username) return true;
-		return room.members.filter(member => member === username).length;
-	};
-
-	return !userJoinedRoom() ? (
-		//<Redirect to="/dashboard" />
-		<Unauthorized />
-	) : (
+	return (
 		<form className={classes.main} onSubmit={handleSubmit}>
 			<Paper className={classes.paper} elevation={3}>
 				<header className={classes.header}>
