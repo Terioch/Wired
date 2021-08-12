@@ -112,15 +112,10 @@ const Room: React.FC = () => {
 		messages: [],
 	});
 	const [value, setValue] = useState("");
-	const [userInRoom, setUserInRoom] = useState<Boolean | number>(true);
 
 	useEffect(() => {
 		location.state ? fetchRoomFromLocation() : fetchRoomFromServer();
 	}, []);
-
-	useEffect(() => {
-		setUserInRoom(isRoomMember());
-	}, [room]);
 
 	const handleRouting = (path: string) => history.push(path);
 
@@ -191,7 +186,7 @@ const Room: React.FC = () => {
 		history.push("/dashboard");
 	};
 
-	return !userInRoom ? (
+	return !isRoomMember() ? (
 		<Redirect to="/dashboard" />
 	) : (
 		<form className={classes.main} onSubmit={handleSubmit}>
