@@ -6,6 +6,7 @@ import { Typography, Box, makeStyles } from "@material-ui/core";
 const useStyles = makeStyles(theme => ({
 	message: {
 		width: "max-content",
+		whiteSpace: "initial",
 		margin: theme.spacing(2, 0),
 		padding: theme.spacing(1, 2.5),
 		borderRadius: "50px",
