@@ -19,7 +19,7 @@ import {
 } from "@material-ui/core";
 import { Send, ArrowBackRounded } from "@material-ui/icons";
 
-const { Message, Unauthorized, DottedMenu } = Components;
+const { Message, DottedMenu } = Components;
 
 const useStyles = makeStyles(theme => ({
 	main: {
@@ -146,7 +146,7 @@ const Room: React.FC = () => {
 	};
 
 	// Send a new message
-	const handleSubmit = async (e: FormE) => {
+	const handleMessageSubmit = async (e: FormE) => {
 		e.preventDefault();
 		const message = {
 			sender: authState.user.username,
@@ -189,7 +189,7 @@ const Room: React.FC = () => {
 	return !isRoomMember() ? (
 		<Redirect to="/dashboard" />
 	) : (
-		<form className={classes.main} onSubmit={handleSubmit}>
+		<form className={classes.main} onSubmit={handleMessageSubmit}>
 			<Paper className={classes.paper} elevation={3}>
 				<header className={classes.header}>
 					<ArrowBackRounded
