@@ -134,7 +134,17 @@ const checkJwt = jwt({
 app.get("/api/rooms", async (req, res) => {
 	try {
 		const rooms = await Server.rooms.findAll();
-		return res.status(200).send(rooms);
+		return res.status(200).json(rooms);
+	} catch (err) {
+		console.error(`rooms: ${err.message}`);
+	}
+});
+
+app.post("/api/rooms/members", async (req, res) => {
+	try {
+		const rooms = await Server.rooms.findAllByMember();
+		console.log(rooms);
+		return res.status(200).json(rooms);
 	} catch (err) {
 		console.error(`rooms: ${err.message}`);
 	}

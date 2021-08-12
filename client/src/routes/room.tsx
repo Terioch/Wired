@@ -115,6 +115,7 @@ const Room: React.FC = () => {
 
 	// Fetch data for the current room
 	useEffect(() => {
+		fetchRoomsByMember();
 		location.state ? fetchRoomFromLocation() : fetchRoomFromServer();
 	}, []);
 
@@ -123,6 +124,15 @@ const Room: React.FC = () => {
 	const handleInputChange = (e: ChangeE) => {
 		const { value } = e.target;
 		setValue(value);
+	};
+
+	const fetchRoomsByMember = async () => {
+		const { username } = authState.user;
+		const joinedRooms = await Client.rooms.findAllByMember(
+			authAxios,
+			username
+		);
+		console.log(joinedRooms);
 	};
 
 	// Fetch room data from location state within route
@@ -137,6 +147,13 @@ const Room: React.FC = () => {
 		const slug = pathnameParts[pathnameParts.length - 1];
 		const { info, messages } = await Client.rooms.findOne(authAxios, slug);
 		setRoom({ ...info, messages });
+	};
+
+	const userJoinedRoom = async () => {
+		const { username } = authState.user;
+		if (room.admin === username) return true;
+		return room.members.filter((member: any) => member === username)
+			.length;
 	};
 
 	// Send a new message

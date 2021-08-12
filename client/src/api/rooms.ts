@@ -1,5 +1,4 @@
-import axios, { AxiosInstance } from "axios";
-import { AuthAxios } from "../models/Axios";
+import { AxiosInstance } from "axios";
 
 class Rooms {
 	findAll = async (authAxios: AxiosInstance) => {
@@ -11,12 +10,15 @@ class Rooms {
 		}
 	};
 
-	findAllByUser = async (
+	findAllByMember = async (
 		authAxios: AxiosInstance,
 		username: string | null
 	) => {
 		try {
-			const { data } = await authAxios.post("/api/rooms", username);
+			const { data } = await authAxios.post(
+				"/api/rooms/members",
+				username
+			);
 			return data;
 		} catch (err) {
 			console.error(err.message);
