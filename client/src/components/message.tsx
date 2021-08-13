@@ -5,7 +5,7 @@ import { Typography, Box, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
 	message: {
-		width: "max-content",
+		maxWidth: "max-content",
 		wordWrap: "break-word",
 		margin: theme.spacing(2, 0),
 		padding: theme.spacing(1, 2.5),
@@ -20,10 +20,7 @@ const useStyles = makeStyles(theme => ({
 	fromMessage: {
 		backgroundColor: "#727274",
 	},
-	messageValue: {
-		width: "658.1px",
-		maxWidth: "calc(100vw - 100px)",
-	},
+	messageValue: {},
 }));
 
 interface Props {
