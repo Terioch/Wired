@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/authContext";
 import { Message as IMessage } from "../models/Room";
 import { Typography, Box, makeStyles } from "@material-ui/core";
@@ -20,8 +20,8 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: "#727274",
 	},
 	messageValue: {
-		wordBreak: "break-word",
-		maxWidth: "100%",
+		width: "auto",
+		wordWrap: "break-word",
 	},
 }));
 
@@ -34,7 +34,12 @@ const Message: React.FC<Props> = ({ message }) => {
 	const { authState } = useAuth();
 	const { sender, value } = message;
 
-	const recipient = authState.user.username !== sender;
+	const [recipient, setRecipient] = useState(false);
+
+	useEffect(() => {
+		const { username } = authState.user;
+		setRecipient(username !== sender);
+	}, []);
 
 	const formatMessage = () => {
 		return recipient ? classes.fromMessage : classes.toMessage;
