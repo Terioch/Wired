@@ -6,9 +6,10 @@ import { Typography, Box, makeStyles } from "@material-ui/core";
 const useStyles = makeStyles(theme => ({
 	message: {
 		width: "max-content",
+		wordWrap: "break-word",
 		margin: theme.spacing(2, 0),
 		padding: theme.spacing(1, 2.5),
-		borderRadius: "50px",
+		borderRadius: "30px",
 		color: "#ffffff",
 		clear: "both",
 	},
@@ -20,8 +21,8 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: "#727274",
 	},
 	messageValue: {
-		width: "auto",
-		wordWrap: "break-word",
+		width: "658.1px",
+		maxWidth: "calc(100vw - 100px)",
 	},
 }));
 
@@ -51,7 +52,7 @@ const Message: React.FC<Props> = ({ message }) => {
 
 	return (
 		<Box className={`${classes.message} ${formatMessage()}`}>
-			<Typography variant="subtitle2" style={{ color: "#e7e7e7" }}>
+			<Typography variant="subtitle2" style={{ color: "#d8d8d8" }}>
 				{formatSender()}
 			</Typography>
 			<Typography className={classes.messageValue} variant="body1">

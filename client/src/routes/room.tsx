@@ -30,8 +30,8 @@ const useStyles = makeStyles(theme => ({
 	},
 	paper: {
 		minHeight: "91.8vh",
-		maxWidth: "100%",
 		width: "700px",
+		maxWidth: "100%",
 		display: "flex",
 		flexDirection: "column",
 		padding: theme.spacing(1.5),
@@ -39,12 +39,15 @@ const useStyles = makeStyles(theme => ({
 	},
 	header: {
 		display: "grid",
-		padding: "0 .5rem",
+		padding: theme.spacing(0, 1),
 		"& > *": {
 			gridColumnStart: "1",
 			gridRowStart: "1",
 			justifySelf: "center",
 			// alignSelf: "center",
+		},
+		[theme.breakpoints.down("xs")]: {
+			padding: theme.spacing(0),
 		},
 	},
 	title: {},
