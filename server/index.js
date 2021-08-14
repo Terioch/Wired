@@ -34,6 +34,9 @@ app.use(cors());
 // 	})
 // );
 
+app.get("/", (req, res) => {
+	res.send("Welcome to the primary server of Wired.");
+});
 app.get("/api", (req, res) => {
 	res.send("Head to the '/api' endpoint to view api responses...");
 });

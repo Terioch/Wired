@@ -216,9 +216,13 @@ const Room: React.FC = () => {
 				</header>
 				<Divider light />
 				<section className={classes.messagesContainer}>
-					{room.messages.map(message => (
-						<Message key={message.id} message={message} />
-					))}
+					{!room.messages ? (
+						<Typography variant="h3">Loading...</Typography>
+					) : (
+						room.messages.map(message => (
+							<Message key={message.id} message={message} />
+						))
+					)}
 				</section>
 				<footer className={classes.footer}>
 					<TextField
