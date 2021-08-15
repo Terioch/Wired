@@ -10,22 +10,24 @@ const useStyles = makeStyles(theme => ({
 		zIndex: -1,
 	},
 	spinner: {
-		border: "16px solid #f3f3f3",
+		border: "16px solid #e3e3e3",
 		borderTop: "16px solid #388E3C",
 		borderRadius: "50%",
 		height: "130px",
 		width: "130px",
-		animation: "spin 2s linear infinite",
+		animation: "$spin 0.5s linear infinite",
+		[theme.breakpoints.down("xs")]: {
+			height: "70px",
+			width: "70px",
+		},
 	},
 
 	"@keyframes spin": {
 		"0%": {
-			//transform: "rotate(0deg)",
-			transform: "translateY(-200%)",
+			transform: "rotate(0deg)",
 		},
 		"100%": {
-			//transform: "rotate(360deg)",
-			transform: "translateY(0)",
+			transform: "rotate(360deg)",
 		},
 	},
 }));

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Components from "../components/Components";
+import CommonComponents from "../components/common/CommonComponents";
 import Client from "../api/Client";
 import { Room } from "../models/Room";
 import { useAuth } from "../contexts/authContext";
@@ -16,6 +17,7 @@ import {
 import { AddBox } from "@material-ui/icons";
 
 const { Nav, RoomItem, CreateRoom, Search } = Components;
+const { Spinner } = CommonComponents;
 
 const useStyles = makeStyles(theme => ({
 	main: {
@@ -83,9 +85,9 @@ const Dashboard: React.FC<Props> = ({}) => {
 		<main className={classes.main}>
 			<Nav />
 			<Container>
-				<div className={classes.searchContainer}>
+				<section className={classes.searchContainer}>
 					<Search rooms={rooms} joinedRooms={joinedRooms} />
-				</div>
+				</section>
 				<Divider light />
 				<section className={classes.roomsContainer}>
 					<div className={classes.roomsHeader}>
@@ -106,6 +108,13 @@ const Dashboard: React.FC<Props> = ({}) => {
 						handleCreateRoomOpen={handleCreateRoomOpen}
 					/>
 				</section>
+
+				{!rooms.length && (
+					<div style={{ height: "calc(100vh - 285px)" }}>
+						<Spinner />
+					</div>
+				)}
+
 				<Grid container spacing={1}>
 					{joinedRooms.map((room: Room) => (
 						<Grid key={room.id} item xs={12}>
