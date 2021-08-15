@@ -10,6 +10,7 @@ import { useAuth } from "../contexts/authContext";
 import { useAuthAxios } from "../contexts/fetchContext";
 import { useScreenSize } from "../contexts/screenSizeContext";
 import {
+	Box,
 	Typography,
 	Paper,
 	TextField,
@@ -20,7 +21,7 @@ import {
 } from "@material-ui/core";
 import { Send, ArrowBackRounded } from "@material-ui/icons";
 
-const { Message, DottedMenu } = Components;
+const { Message, DottedMenu, LoadingScreen } = Components;
 const { Spinner } = CommonComponents;
 
 const useStyles = makeStyles(theme => ({
@@ -192,66 +193,68 @@ const Room: React.FC = () => {
 	};
 
 	return room.id < 0 ? (
-		<Spinner />
+		<LoadingScreen />
 	) : !isRoomMember() ? (
 		<Redirect to="/dashboard" />
 	) : (
-		<form className={classes.main} onSubmit={handleMessageSubmit}>
-			<Paper className={classes.paper} elevation={3}>
-				<header className={classes.header}>
-					<ArrowBackRounded
-						className={classes.arrowBack}
-						onClick={() => handleRouting("/dashboard")}
-					/>
-					<Typography
-						className={classes.title}
-						variant={screenWidth < 568 ? "h6" : "h5"}
-						color="secondary"
-						gutterBottom
-					>
-						{room.name}
-					</Typography>
-					{screenWidth < 568 && (
-						<DottedMenu
-							getLeaveRoomText={getLeaveRoomText}
-							handleLeaveRequest={handleLeaveRequest}
+		<>
+			<form className={classes.main} onSubmit={handleMessageSubmit}>
+				<Paper className={classes.paper} elevation={3}>
+					<header className={classes.header}>
+						<ArrowBackRounded
+							className={classes.arrowBack}
+							onClick={() => handleRouting("/dashboard")}
 						/>
-					)}
-				</header>
-				<Divider light />
-				<section className={classes.messagesContainer}>
-					{room.messages.map(message => (
-						<Message key={message.id} message={message} />
-					))}
-				</section>
-				<footer className={classes.footer}>
-					<TextField
-						className={classes.input}
-						label="Your message..."
-						color="secondary"
-						value={value}
-						onChange={handleInputChange}
-						InputProps={{
-							endAdornment: (
-								<InputAdornment position="start">
-									<Send />
-								</InputAdornment>
-							),
-						}}
-					/>
-					{screenWidth > 568 && (
-						<Button
-							className={classes.leaveBtn}
-							variant="contained"
-							size={screenWidth < 568 ? "small" : "medium"}
-							onClick={handleLeaveRequest}
+						<Typography
+							className={classes.title}
+							variant={screenWidth < 568 ? "h6" : "h5"}
+							color="secondary"
+							gutterBottom
 						>
-							{getLeaveRoomText()}
-						</Button>
-					)}
-				</footer>
-			</Paper>
-		</form>
+							{room.name}
+						</Typography>
+						{screenWidth < 568 && (
+							<DottedMenu
+								getLeaveRoomText={getLeaveRoomText}
+								handleLeaveRequest={handleLeaveRequest}
+							/>
+						)}
+					</header>
+					<Divider light />
+					<section className={classes.messagesContainer}>
+						{room.messages.map(message => (
+							<Message key={message.id} message={message} />
+						))}
+					</section>
+					<footer className={classes.footer}>
+						<TextField
+							className={classes.input}
+							label="Your message..."
+							color="secondary"
+							value={value}
+							onChange={handleInputChange}
+							InputProps={{
+								endAdornment: (
+									<InputAdornment position="start">
+										<Send />
+									</InputAdornment>
+								),
+							}}
+						/>
+						{screenWidth > 568 && (
+							<Button
+								className={classes.leaveBtn}
+								variant="contained"
+								size={screenWidth < 568 ? "small" : "medium"}
+								onClick={handleLeaveRequest}
+							>
+								{getLeaveRoomText()}
+							</Button>
+						)}
+					</footer>
+				</Paper>
+			</form>
+		</>
 	);
 };
 
