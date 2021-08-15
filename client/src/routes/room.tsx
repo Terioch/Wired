@@ -21,7 +21,7 @@ import {
 } from "@material-ui/core";
 import { Send, ArrowBackRounded } from "@material-ui/icons";
 
-const { Message, DottedMenu, LoadingScreen } = Components;
+const { Message, DottedMenu } = Components;
 const { Spinner } = CommonComponents;
 
 const useStyles = makeStyles(theme => ({
@@ -193,7 +193,9 @@ const Room: React.FC = () => {
 	};
 
 	return room.id < 0 ? (
-		<LoadingScreen />
+		<div style={{ height: "100vh" }}>
+			<Spinner color="#4976D2" />
+		</div>
 	) : !isRoomMember() ? (
 		<Redirect to="/dashboard" />
 	) : (

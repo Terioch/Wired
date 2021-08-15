@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, makeStyles } from "@material-ui/core";
+import { ColorLensTwoTone } from "@material-ui/icons";
 
 const useStyles = makeStyles(theme => ({
 	spinnerContainer: {
@@ -11,7 +12,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	spinner: {
 		border: "16px solid #e3e3e3",
-		borderTop: "16px solid #388E3C",
+		//borderTop: "16px solid #388E3C",
 		borderRadius: "50%",
 		height: "130px",
 		width: "130px",
@@ -32,14 +33,20 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-interface Props {}
+interface Props {
+	color?: string;
+}
 
-const Spinner: React.FC<Props> = () => {
+const Spinner: React.FC<Props> = ({ color }) => {
 	const classes = useStyles();
+	const spinnerColor = color || "#388E3C";
 
 	return (
 		<Box className={classes.spinnerContainer}>
-			<div className={classes.spinner} />
+			<div
+				className={classes.spinner}
+				style={{ borderTop: `16px solid ${spinnerColor}` }}
+			/>
 		</Box>
 	);
 };
