@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useHistory, Redirect } from "react-router-dom";
 import { socket } from "../config/socket";
 import Components from "../components/Components";
+import CommonComponents from "../components/common/CommonComponents";
 import Client from "../api/Client";
 import { Room as IRoom, Message as IMessage } from "../models/Room";
 import { ChangeE, FormE } from "../models/Events";
@@ -20,6 +21,7 @@ import {
 import { Send, ArrowBackRounded } from "@material-ui/icons";
 
 const { Message, DottedMenu } = Components;
+const { Spinner } = CommonComponents;
 
 const useStyles = makeStyles(theme => ({
 	main: {
@@ -189,7 +191,9 @@ const Room: React.FC = () => {
 		history.push("/dashboard");
 	};
 
-	return !isRoomMember() ? (
+	return room.id < 0 ? (
+		<Spinner />
+	) : !isRoomMember() ? (
 		<Redirect to="/dashboard" />
 	) : (
 		<form className={classes.main} onSubmit={handleMessageSubmit}>
@@ -216,13 +220,9 @@ const Room: React.FC = () => {
 				</header>
 				<Divider light />
 				<section className={classes.messagesContainer}>
-					{!room.messages ? (
-						<Typography variant="h3">Loading...</Typography>
-					) : (
-						room.messages.map(message => (
-							<Message key={message.id} message={message} />
-						))
-					)}
+					{room.messages.map(message => (
+						<Message key={message.id} message={message} />
+					))}
 				</section>
 				<footer className={classes.footer}>
 					<TextField
