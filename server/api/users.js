@@ -37,7 +37,7 @@ class Users {
 				issuer: "api.wired",
 				audience: "api.wired",
 			},
-			process.env.JWT_SECRET,
+			process.env.REACT_APP_JWT_SECRET,
 			{ algorithm: "HS256", expiresIn: "1h" }
 		);
 	};

@@ -129,7 +129,7 @@ app.post("/api/users/login", async (req, res) => {
 
 // Verify JWT
 const checkJwt = jwt({
-	secret: process.env.JWT_SECRET,
+	secret: process.env.REACT_APP_JWT_SECRET,
 	issuer: "api.wired",
 	audience: "api.wired",
 	algorithms: ["HS256"],
