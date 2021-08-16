@@ -5,7 +5,7 @@
 	"author": "Rio Yasui",
 	"license": "MIT",
 	"scripts": {
-		"dev": "node index"
+		"dev": "nodemon index"
 	},
 	"dependencies": {
 		"bcrypt": "^5.0.1",

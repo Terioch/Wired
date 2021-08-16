@@ -148,12 +148,12 @@ app.post("/api/room/:slug", async (req, res) => {
 	try {
 		const { slug } = req.body;
 		const info = await Server.rooms.findOne(slug);
-		const messages = await Server.messages.findAllByRoom(info.id);
 
 		if (!info) {
-			return res.status(404).json({ error: "Page not found" });
+			return res.status(404).json({ error: "Room does not exist" });
 		}
 
+		const messages = await Server.messages.findAllByRoom(info.id);
 		return res.status(200).json({ info, messages });
 	} catch (err) {
 		console.error(`one-room: ${err.message}`);

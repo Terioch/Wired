@@ -138,10 +138,15 @@ const Room: React.FC = () => {
 
 	// Fetch room data from the server when location state is undefined
 	const fetchRoomFromServer = async () => {
-		const pathnameParts = location.pathname.split("/");
-		const slug = pathnameParts[pathnameParts.length - 1];
-		const { info, messages } = await Client.rooms.findOne(authAxios, slug);
-		setRoom({ ...info, messages });
+		try {
+			const pathnameParts = location.pathname.split("/");
+			const slug = pathnameParts[pathnameParts.length - 1];
+			const room = await Client.rooms.findOne(authAxios, slug);
+			setRoom({ ...room.info, messages: room.messages });
+		} catch (err) {
+			console.error(err.message);
+			history.push("/dashboard");
+		}
 	};
 
 	// Verifies whether the user is a member of the current room
