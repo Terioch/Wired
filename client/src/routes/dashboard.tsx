@@ -21,6 +21,7 @@ const { Spinner } = CommonComponents;
 
 const useStyles = makeStyles(theme => ({
 	main: {
+		minHeight: "calc(100vh - 70px)",
 		paddingTop: "70px",
 		backgroundColor: "#f6f6f6",
 	},
@@ -108,13 +109,11 @@ const Dashboard: React.FC<Props> = ({}) => {
 						handleCreateRoomOpen={handleCreateRoomOpen}
 					/>
 				</section>
-
 				{!rooms.length && (
 					<div style={{ height: "calc(100vh - 285px)" }}>
 						<Spinner />
 					</div>
 				)}
-
 				<Grid container spacing={1}>
 					{joinedRooms.map((room: Room) => (
 						<Grid key={room.id} item xs={12}>
