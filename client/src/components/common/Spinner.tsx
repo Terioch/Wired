@@ -1,6 +1,5 @@
 import React from "react";
 import { Box, makeStyles } from "@material-ui/core";
-import { ColorLensTwoTone } from "@material-ui/icons";
 
 const useStyles = makeStyles(theme => ({
 	spinnerContainer: {

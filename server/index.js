@@ -9,7 +9,7 @@ const cookieParser = require("cookie-parser");
 
 const Server = require("./api/Server");
 
-const { PORT } = process.env;
+const PORT = process.env.PORT || 5000;
 
 const app = express();
 const server = http.createServer(app);
