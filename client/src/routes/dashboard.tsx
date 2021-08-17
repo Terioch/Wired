@@ -37,7 +37,6 @@ const useStyles = makeStyles(theme => ({
 	createRoom: {
 		display: "flex",
 		alignItems: "flex-start",
-		"& > *": {},
 	},
 }));
 
