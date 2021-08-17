@@ -14,5 +14,4 @@ Users, Rooms and Messages.
 
 ## Launch
 
-The frontend was deployed on Vercel at https://wired-terioch.vercel.app/
-and the backend via Heroku.
+The frontend will be deployed on Vercel and the backend via Heroku.
