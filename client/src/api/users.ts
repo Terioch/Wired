@@ -1,3 +1,4 @@
+import { SERVER_URL } from "../config/server";
 import axios from "axios";
 
 class Users {
@@ -8,7 +9,10 @@ class Users {
 	) => {
 		try {
 			const body = { username, password };
-			const { data } = await axios.post(`/api/users/${endpoint}`, body);
+			const { data } = await axios.post(
+				`${SERVER_URL}/api/users/${endpoint}`,
+				body
+			);
 			return data;
 		} catch (err) {
 			console.error(`POST ${err.message}`);

@@ -1,9 +1,10 @@
+import { SERVER_URL } from "../config/server";
 import { AxiosInstance } from "axios";
 
 class Rooms {
 	findAll = async (authAxios: AxiosInstance) => {
 		try {
-			const { data } = await authAxios.get("/api/rooms");
+			const { data } = await authAxios.get(`${SERVER_URL}/api/rooms`);
 			return data;
 		} catch (err) {
 			console.error(err.message);
@@ -16,7 +17,7 @@ class Rooms {
 	) => {
 		try {
 			const { data } = await authAxios.post(
-				"/api/rooms/members",
+				`${SERVER_URL}/api/rooms/members`,
 				username
 			);
 			return data;
@@ -27,7 +28,10 @@ class Rooms {
 
 	findOne = async (authAxios: AxiosInstance, slug: string) => {
 		try {
-			const { data } = await authAxios.post(`/api/room/${slug}`, { slug });
+			const { data } = await authAxios.post(
+				`${SERVER_URL}/api/room/${slug}`,
+				{ slug }
+			);
 			return data;
 		} catch (err) {
 			console.error(err.message);
