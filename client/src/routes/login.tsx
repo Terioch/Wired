@@ -55,14 +55,14 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-interface props {}
+interface Props {}
 
 interface Values {
 	username: string;
 	password: string;
 }
 
-const Login: React.FC<props> = ({}) => {
+const Login: React.FC<Props> = () => {
 	const classes = useStyles();
 	const history = useHistory();
 	const { setAuthInfo } = useAuth();

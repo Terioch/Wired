@@ -6,7 +6,6 @@ import Message from "./Message";
 import Unauthorized from "./Unauthorized";
 
 import DottedMenu from "./room/DottedMenu";
-import LoadingScreen from "./room/LoadingScreen";
 
 const Components = {
 	Nav,
@@ -16,7 +15,6 @@ const Components = {
 	Message,
 	Unauthorized,
 	DottedMenu,
-	LoadingScreen,
 };
 
 export default Components;

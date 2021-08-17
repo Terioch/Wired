@@ -8,8 +8,6 @@ import { useAuth } from "../contexts/authContext";
 import { Modal, Paper, Button, makeStyles } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 
-const { Input } = CommonComponents;
-
 const useStyles = makeStyles(theme => ({
 	modal: {
 		display: "flex",
@@ -53,6 +51,8 @@ const CreateRoom: React.FC<Props> = ({
 	createRoomOpen,
 	handleCreateRoomOpen,
 }) => {
+	const { Input } = CommonComponents;
+
 	const classes = useStyles();
 	const history = useHistory();
 	const { authState } = useAuth();

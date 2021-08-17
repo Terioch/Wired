@@ -10,7 +10,6 @@ import { useAuth } from "../contexts/authContext";
 import { useAuthAxios } from "../contexts/fetchContext";
 import { useScreenSize } from "../contexts/screenSizeContext";
 import {
-	Box,
 	Typography,
 	Paper,
 	TextField,
@@ -20,9 +19,6 @@ import {
 	makeStyles,
 } from "@material-ui/core";
 import { Send, ArrowBackRounded } from "@material-ui/icons";
-
-const { Message, DottedMenu } = Components;
-const { Spinner } = CommonComponents;
 
 const useStyles = makeStyles(theme => ({
 	main: {
@@ -102,6 +98,9 @@ interface Location {
 }
 
 const Room: React.FC = () => {
+	const { Message, DottedMenu } = Components;
+	const { Spinner } = CommonComponents;
+
 	const classes = useStyles();
 	const location: Location = useLocation();
 	const history = useHistory();

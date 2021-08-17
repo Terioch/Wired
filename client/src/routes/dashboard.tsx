@@ -16,9 +16,6 @@ import {
 } from "@material-ui/core";
 import { AddBox } from "@material-ui/icons";
 
-const { Nav, RoomItem, CreateRoom, Search } = Components;
-const { Spinner } = CommonComponents;
-
 const useStyles = makeStyles(theme => ({
 	main: {
 		minHeight: "calc(100vh - 70px)",
@@ -47,6 +44,9 @@ const useStyles = makeStyles(theme => ({
 interface Props {}
 
 const Dashboard: React.FC<Props> = ({}) => {
+	const { Nav, RoomItem, CreateRoom, Search } = Components;
+	const { Spinner } = CommonComponents;
+
 	const classes = useStyles();
 	const { authState } = useAuth();
 	const { authAxios } = useAuthAxios();

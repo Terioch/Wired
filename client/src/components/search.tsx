@@ -13,8 +13,6 @@ import {
 } from "@material-ui/core";
 import { Search as SearchIcon } from "@material-ui/icons";
 
-const { Input } = CommonComponents;
-
 const useStyles = makeStyles(theme => ({
 	input: {
 		textAlign: "center",
@@ -34,6 +32,8 @@ interface Props {
 }
 
 const Search: React.FC<Props> = ({ rooms, joinedRooms }) => {
+	const { Input } = CommonComponents;
+
 	const classes = useStyles();
 	const history = useHistory();
 	const { authState } = useAuth();
