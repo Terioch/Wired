@@ -6,8 +6,6 @@ import { ChangeE, BtnE } from "../models/Events";
 import { useAuth } from "../contexts/authContext";
 import { Button, Typography, Paper, makeStyles } from "@material-ui/core";
 
-const { Input } = CommonComponents;
-
 const useStyles = makeStyles(theme => ({
 	main: {
 		height: "100vh",
@@ -63,6 +61,8 @@ interface Values {
 }
 
 const Login: React.FC<Props> = () => {
+	const { Input } = CommonComponents;
+
 	const classes = useStyles();
 	const history = useHistory();
 	const { setAuthInfo } = useAuth();

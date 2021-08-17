@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
 
 interface Props {}
 
-const Dashboard: React.FC<Props> = ({}) => {
+const Dashboard: React.FC<Props> = () => {
 	const { Nav, RoomItem, CreateRoom, Search } = Components;
 	const { Spinner } = CommonComponents;
 
