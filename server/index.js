@@ -25,21 +25,20 @@ const io = socketio(server, {
 // Define middleware
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
-// app.use(
-// 	cors({
-// 		origin: "http://localhost:5000",
-// 		methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
-// 		credentials: true,
-// 	})
-// );
+app.use(
+	cors({
+		origin: "https://wired-server.herokuapp.com",
+		methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
+		credentials: true,
+	})
+);
 
 app.get("/", (req, res) => {
 	res.send("Welcome to the primary server of Wired.");
 });
 app.get("/api", (req, res) => {
 	res.send(
-		"Starting route for api requests. Navigate to /users, /rooms, /messages to view direct responses..."
+		"Starting route for api requests. Navigate to /users, /rooms or /messages to view direct responses..."
 	);
 });
 
