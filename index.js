@@ -1,5 +1,6 @@
 require("dotenv").config();
 const http = require("http");
+const path = require("path");
 const express = require("express");
 const cors = require("cors");
 const socketio = require("socket.io");
@@ -27,20 +28,17 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
 	cors({
-		origin: "https://wired-terioch.vercel.app",
+		origin: "http://localhost:5000",
 		methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
 		credentials: true,
 	})
 );
-
-app.get("/", (req, res) => {
-	res.send("Welcome to the primary server of Wired.");
-});
-app.get("/api", (req, res) => {
-	res.send(
-		"Starting route for api requests. Navigate to /users, /rooms or /messages to view direct responses..."
-	);
-});
+if (process.env.NODE_ENV === "production") {
+	app.use(express.static("client/build"));
+	app.get("*", (req, res) => {
+		res.sendFile(path.join(__dirname, "client/build/index.html"));
+	});
+}
 
 // Handle requests for users table
 

@@ -9,7 +9,8 @@
 		"npm": "7.10.0"
 	},
 	"scripts": {
-		"dev": "node index"
+		"dev": "nodemon index",
+		"heroku-postbuild": "cd client && yarn install && yarn build"
 	},
 	"dependencies": {
 		"bcrypt": "^5.0.1",
