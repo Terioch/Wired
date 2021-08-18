@@ -27,7 +27,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
 	cors({
-		origin: "https://wired-server.herokuapp.com/",
+		origin: "https://wired.vercel.app",
 		// methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
 		// credentials: true,
 	})
