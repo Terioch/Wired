@@ -9,7 +9,7 @@
 		"npm": "7.10.0"
 	},
 	"scripts": {
-		"dev": "nodemon index",
+		"dev": "node index",
 		"heroku-postbuild": "cd client && yarn install && yarn build"
 	},
 	"dependencies": {
