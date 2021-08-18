@@ -39,7 +39,7 @@ app.get("/", (req, res) => {
 });
 app.get("/api", (req, res) => {
 	res.send(
-		"Starting route for api requests. Navigate to '/users' or '/messages' to view direct responses..."
+		"Starting route for api requests. Navigate to /users, /rooms, /messages to view direct responses..."
 	);
 });
 
