@@ -27,7 +27,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
 	cors({
-		origin: "*",
+		origin: "https://wired-terioch.vercel.app",
 		methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
 		credentials: true,
 	})
