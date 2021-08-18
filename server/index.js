@@ -27,9 +27,9 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
 	cors({
-		origin: "https://wired.vercel.app",
-		// methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
-		// credentials: true,
+		origin: "*",
+		methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
+		credentials: true,
 	})
 );
 
