@@ -3,7 +3,7 @@ import { AxiosInstance } from "axios";
 class Rooms {
 	findAll = async (authAxios: AxiosInstance) => {
 		try {
-			const { data } = await authAxios.get("/api/rooms");
+			const { data } = await authAxios.get(`/api/rooms`);
 			return data;
 		} catch (err) {
 			console.error(err.message);

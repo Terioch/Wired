@@ -11,6 +11,9 @@ const devConfig = {
 
 const prodConfig = {
 	connectionString: process.env.DATABASE_URL, // Heroku add-on
+	ssl: {
+		rejectUnauthorized: false,
+	},
 };
 
 const dev = process.env.NODE_ENV !== "production";

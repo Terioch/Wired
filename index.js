@@ -26,13 +26,14 @@ const io = socketio(server, {
 // Define middleware
 app.use(express.json());
 app.use(cookieParser());
-app.use(
-	cors({
-		origin: "http://localhost:5000",
-		methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
-		credentials: true,
-	})
-);
+app.use(cors());
+// app.use(
+// 	cors({
+// 		origin: "http://localhost:5000",
+// 		methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
+// 		credentials: true,
+// 	})
+// );
 if (process.env.NODE_ENV === "production") {
 	app.use(express.static("client/build"));
 	app.get("*", (req, res) => {
