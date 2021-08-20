@@ -38,6 +38,9 @@ const useStyles = makeStyles(theme => ({
 		display: "flex",
 		alignItems: "flex-start",
 	},
+	centerVertically: {
+		height: "calc(100vh - 285px)",
+	},
 }));
 
 interface Props {}
@@ -112,13 +115,13 @@ const Dashboard: React.FC<Props> = () => {
 				</section>
 
 				{roomsLoading ? (
-					<div style={{ height: "calc(100vh - 285px)" }}>
+					<div className={classes.centerVertically}>
 						<Spinner />
 					</div>
 				) : !joinedRooms.length ? (
-					<div style={{ height: "calc(100vh - 285px)" }}>
+					<div className={classes.centerVertically}>
 						<Typography variant="h3">
-							Rooms you join or create will appear here
+							Rooms you create or join will appear here
 						</Typography>
 					</div>
 				) : (
