@@ -54,6 +54,7 @@ const Dashboard: React.FC<Props> = () => {
 	const [rooms, setRooms] = useState<Array<Room>>([]);
 	const [joinedRooms, setJoinedRooms] = useState<Array<Room>>([]);
 	const [createRoomOpen, setCreateRoomOpen] = useState(false);
+	const [roomsLoading, setRoomsLoading] = useState(true);
 
 	// Fetch all rooms where current user has joined then delineate
 	useEffect(() => {
@@ -65,6 +66,7 @@ const Dashboard: React.FC<Props> = () => {
 	useEffect(() => {
 		const joinedRooms = filterJoinedRooms();
 		setJoinedRooms(joinedRooms);
+		setRoomsLoading(false);
 	}, [rooms]);
 
 	// Filter rooms where user is either an admin or member
@@ -108,18 +110,26 @@ const Dashboard: React.FC<Props> = () => {
 						handleCreateRoomOpen={handleCreateRoomOpen}
 					/>
 				</section>
-				{!rooms.length && (
+
+				{roomsLoading ? (
 					<div style={{ height: "calc(100vh - 285px)" }}>
 						<Spinner />
 					</div>
+				) : !joinedRooms.length ? (
+					<div style={{ height: "calc(100vh - 285px)" }}>
+						<Typography variant="h3">
+							Rooms you join or create will appear here
+						</Typography>
+					</div>
+				) : (
+					<Grid container spacing={1}>
+						{joinedRooms.map((room: Room) => (
+							<Grid key={room.id} item xs={12}>
+								<RoomItem room={room} />
+							</Grid>
+						))}
+					</Grid>
 				)}
-				<Grid container spacing={1}>
-					{joinedRooms.map((room: Room) => (
-						<Grid key={room.id} item xs={12}>
-							<RoomItem room={room} />
-						</Grid>
-					))}
-				</Grid>
 			</Container>
 		</main>
 	);
