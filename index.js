@@ -33,12 +33,6 @@ app.use(
 		credentials: true,
 	})
 );
-if (process.env.NODE_ENV === "production") {
-	app.use(express.static("client/build"));
-	app.get("*", (req, res) => {
-		res.sendFile(path.join(__dirname, "client/build/index.html"));
-	});
-}
 
 // Handle requests for users table
 
@@ -153,6 +147,14 @@ app.post("/api/room/:slug", async (req, res) => {
 		console.error(`one-room: ${err.message}`);
 	}
 });
+
+// Serve static build directory in production
+if (process.env.NODE_ENV === "production") {
+	app.use(express.static("client/build"));
+	app.get("*", (req, res) => {
+		res.sendFile(path.join(__dirname, "client/build/index.html"));
+	});
+}
 
 // Handle web socket signals
 io.on("connection", socket => {
