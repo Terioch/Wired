@@ -121,7 +121,7 @@ const Dashboard: React.FC<Props> = () => {
 				) : !joinedRooms.length ? (
 					<div className={classes.centerVertically}>
 						<Typography variant="h3">
-							Rooms you create or join will appear here
+							Rooms you join or create will appear here
 						</Typography>
 					</div>
 				) : (
