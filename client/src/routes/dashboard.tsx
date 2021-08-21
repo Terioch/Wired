@@ -41,6 +41,12 @@ const useStyles = makeStyles(theme => ({
 	centerVertically: {
 		height: "calc(100vh - 285px)",
 	},
+	noRoomsText: {
+		height: "100%",
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+	},
 }));
 
 interface Props {}
@@ -69,7 +75,7 @@ const Dashboard: React.FC<Props> = () => {
 	useEffect(() => {
 		const joinedRooms = filterJoinedRooms();
 		setJoinedRooms(joinedRooms);
-		setRoomsLoading(false);
+		return () => setRoomsLoading(false);
 	}, [rooms]);
 
 	// Filter rooms where user is either an admin or member
@@ -120,7 +126,11 @@ const Dashboard: React.FC<Props> = () => {
 					</div>
 				) : !joinedRooms.length ? (
 					<div className={classes.centerVertically}>
-						<Typography variant="h3">
+						<Typography
+							className={classes.noRoomsText}
+							variant="h4"
+							color="textSecondary"
+						>
 							Rooms you join or create will appear here
 						</Typography>
 					</div>

@@ -14,9 +14,13 @@ const PORT = process.env.PORT || 5000;
 
 const app = express();
 const server = http.createServer(app);
+const dev = process.env.NODE_ENV !== "production";
+const origin = dev
+	? "http://localhost:3000"
+	: "https://wired-terioch.herokuapp.com";
 const io = socketio(server, {
 	cors: {
-		origin: "https://wired-terioch.herokuapp.com",
+		origin,
 		methods: ["GET", "POST"],
 		allowedHeaders: ["tk_token"],
 		credentials: true,
@@ -28,7 +32,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
 	cors({
-		origin: "https://wired-terioch.herokuapp.com",
+		origin,
 		methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
 		credentials: true,
 	})
