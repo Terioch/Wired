@@ -165,18 +165,20 @@ const Room: React.FC = () => {
 		e.preventDefault();
 		const message = {
 			sender: authState.user.username,
-			recipients: room.members,
 			value,
 			room_id: room.id,
 		};
 
 		// Emit and push the message
-		socket.emit("send-message", message);
+		socket.emit("send-message", message, room.members);
 		socket.on("receive-message", (message: IMessage) => {
-			console.log(socket.id);
-			const messages = [...room.messages];
-			messages.push(message);
-			setRoom({ ...room, messages });
+			setRoom({
+				...room,
+				messages: [...room.messages, message],
+			});
+			console.log(room.messages);
+			console.log(message);
+			//return socket.off("receive-message"); // Close socket connection to prevent multiple messages from being received
 		});
 		setValue("");
 	};
