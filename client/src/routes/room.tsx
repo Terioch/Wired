@@ -165,6 +165,13 @@ const Room: React.FC = () => {
 		return room.members.filter(member => member === username).length;
 	};
 
+	const addNewMessage = (message: IMessage) => {
+		setRoom({
+			...room,
+			messages: [...room.messages, message],
+		});
+	};
+
 	// Send a new message
 	const handleMessageSubmit = async (e: FormE) => {
 		e.preventDefault();
@@ -182,14 +189,11 @@ const Room: React.FC = () => {
 	useEffect(() => {
 		if (!socket) return;
 		socket.on("receive-message", (message: IMessage) => {
-			setRoom({
-				...room,
-				messages: [...room.messages, message],
-			});
-			console.log("rooms set");
-			//return socket.off("receive-message"); // Close socket connection to prevent multiple messages from being received
+			addNewMessage(message);
 		});
-	}, [handleMessageSubmit]);
+		console.log("rooms set");
+		return () => socket.off("receive-message"); // Close socket connection to prevent multiple messages from being received
+	}, [room.messages]);
 
 	const getLeaveRoomText = () => {
 		const { username } = authState.user;

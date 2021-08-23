@@ -205,6 +205,7 @@ io.on("connection", socket => {
 			recipients.forEach(recipient => {
 				io.to(recipient).emit("receive-message", result);
 			});
+			console.log("message sent");
 		} catch (err) {
 			console.error(`send-message: ${err.message}`);
 		}
