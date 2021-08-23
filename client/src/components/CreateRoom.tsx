@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { socket } from "../config/socket";
+// import { socket } from "../config/socket";
 import CommonComponents from "./common/CommonComponents";
 import { Room } from "../models/Room";
 import { ChangeE } from "../models/Events";
 import { useAuth } from "../contexts/authContext";
+import { useSocket } from "../contexts/socketContext";
 import { Modal, Paper, Button, makeStyles } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 
@@ -56,6 +57,7 @@ const CreateRoom: React.FC<Props> = ({
 	const classes = useStyles();
 	const history = useHistory();
 	const { authState } = useAuth();
+	const { socket } = useSocket();
 
 	const [roomName, setRoomName] = useState("");
 	const [roomNameError, setRoomNameError] = useState("");

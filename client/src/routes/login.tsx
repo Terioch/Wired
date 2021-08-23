@@ -166,6 +166,7 @@ const Login: React.FC<Props> = () => {
 					<Input
 						label="Password"
 						name="password"
+						type="password"
 						value={values.password}
 						error={errors.password ? true : false}
 						helperText={errors.password}

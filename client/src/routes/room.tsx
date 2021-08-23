@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useHistory, Redirect } from "react-router-dom";
-import { socket } from "../config/socket";
+// import { socket } from "../config/socket";
 import Components from "../components/Components";
 import CommonComponents from "../components/common/CommonComponents";
 import Client from "../api/Client";
@@ -8,6 +8,7 @@ import { Room as IRoom, Message as IMessage } from "../models/Room";
 import { ChangeE, FormE } from "../models/Events";
 import { useAuth } from "../contexts/authContext";
 import { useAuthAxios } from "../contexts/fetchContext";
+import { useSocket } from "../contexts/socketContext";
 import { useScreenSize } from "../contexts/screenSizeContext";
 import {
 	Typography,
@@ -106,6 +107,7 @@ const Room: React.FC = () => {
 	const history = useHistory();
 	const { authState } = useAuth();
 	const { authAxios } = useAuthAxios();
+	const { socket } = useSocket();
 	const { screenWidth } = useScreenSize();
 
 	const [room, setRoom] = useState<IRoom>({
@@ -140,8 +142,11 @@ const Room: React.FC = () => {
 		try {
 			const pathnameParts = location.pathname.split("/");
 			const slug = pathnameParts[pathnameParts.length - 1];
-			const room = await Client.rooms.findOne(authAxios, slug);
-			setRoom({ ...room.info, messages: room.messages });
+			const { info, messages } = await Client.rooms.findOne(
+				authAxios,
+				slug
+			);
+			setRoom({ ...info, messages });
 		} catch (err) {
 			console.error(err.message);
 			history.push("/dashboard");
@@ -160,13 +165,15 @@ const Room: React.FC = () => {
 		e.preventDefault();
 		const message = {
 			sender: authState.user.username,
-			value: value,
+			recipients: room.members,
+			value,
 			room_id: room.id,
 		};
 
 		// Emit and push the message
 		socket.emit("send-message", message);
 		socket.on("receive-message", (message: IMessage) => {
+			console.log(socket.id);
 			const messages = [...room.messages];
 			messages.push(message);
 			setRoom({ ...room, messages });

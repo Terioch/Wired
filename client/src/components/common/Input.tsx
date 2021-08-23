@@ -4,6 +4,7 @@ import { TextField, TextFieldProps } from "@material-ui/core";
 const Input: React.FC<TextFieldProps> = ({
 	className,
 	label,
+	type,
 	variant,
 	size,
 	name,
@@ -17,6 +18,7 @@ const Input: React.FC<TextFieldProps> = ({
 		<TextField
 			className={className}
 			label={label}
+			type={type || "text"}
 			variant={variant || "standard"}
 			color="secondary"
 			size={size || "medium"}
