@@ -19,6 +19,7 @@ export const SocketProvider: React.FC = ({ children }) => {
 	useEffect(() => {
 		const newSocket = io.connect(SERVER_URL);
 		setSocket(newSocket);
+		console.log("Set new socket");
 		return () => newSocket.close(); // Close previous connection when useEffect runs again
 	}, []);
 

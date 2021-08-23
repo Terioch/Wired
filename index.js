@@ -192,13 +192,18 @@ io.on("connection", socket => {
 		}
 	});
 
+	// Bind room entrant to a real-time, temporary socket room
+	socket.on("entered-room", username => {
+		socket.join(username);
+		console.log("user entered a room");
+	});
+
 	// Receive a new message
 	socket.on("send-message", async (message, recipients) => {
 		try {
 			const result = await Server.messages.insertOne(message);
 			recipients.forEach(recipient => {
-				io.emit("receive-message", result);
-				console.log(recipient);
+				io.to(recipient).emit("receive-message", result);
 			});
 		} catch (err) {
 			console.error(`send-message: ${err.message}`);

@@ -124,6 +124,11 @@ const Room: React.FC = () => {
 		location.state ? fetchRoomFromLocation() : fetchRoomFromServer();
 	}, []);
 
+	useEffect(() => {
+		// Indicate to server that a room has been entered
+		socket && socket.emit("entered-room", authState.user.username);
+	}, [socket]);
+
 	const handleRouting = (path: string) => history.push(path);
 
 	const handleInputChange = (e: ChangeE) => {
@@ -171,17 +176,20 @@ const Room: React.FC = () => {
 
 		// Emit and push the message
 		socket.emit("send-message", message, room.members);
+		setValue("");
+	};
+
+	useEffect(() => {
+		if (!socket) return;
 		socket.on("receive-message", (message: IMessage) => {
 			setRoom({
 				...room,
 				messages: [...room.messages, message],
 			});
-			console.log(room.messages);
-			console.log(message);
+			console.log("rooms set");
 			//return socket.off("receive-message"); // Close socket connection to prevent multiple messages from being received
 		});
-		setValue("");
-	};
+	}, [handleMessageSubmit]);
 
 	const getLeaveRoomText = () => {
 		const { username } = authState.user;
