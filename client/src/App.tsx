@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Switch, Redirect, RouteProps } from "react-router-dom";
 import Routes from "./routes/Routes";
+import { RoomProvider } from "./contexts/roomContext";
 import { useAuth } from "./contexts/authContext";
 
 const { Login, Dashboard, Room } = Routes;
@@ -41,7 +42,9 @@ function App() {
 					<Dashboard />
 				</AuthenticatedRoute>
 				<AuthenticatedRoute exact path="/room/:slug">
-					<Room />
+					<RoomProvider>
+						<Room />
+					</RoomProvider>
 				</AuthenticatedRoute>
 			</Switch>
 		</main>

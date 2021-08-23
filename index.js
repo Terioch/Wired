@@ -195,7 +195,6 @@ io.on("connection", socket => {
 	// Bind room entrant to a real-time, temporary socket room
 	socket.on("entered-room", username => {
 		socket.join(username);
-		console.log("user entered a room");
 	});
 
 	// Receive a new message
@@ -205,7 +204,6 @@ io.on("connection", socket => {
 			recipients.forEach(recipient => {
 				io.to(recipient).emit("receive-message", result);
 			});
-			console.log("message sent");
 		} catch (err) {
 			console.error(`send-message: ${err.message}`);
 		}

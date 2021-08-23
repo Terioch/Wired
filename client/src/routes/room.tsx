@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { useLocation, useHistory, Redirect } from "react-router-dom";
-// import { socket } from "../config/socket";
+import React, { useState } from "react";
+import { useHistory, Redirect } from "react-router-dom";
 import Components from "../components/Components";
 import CommonComponents from "../components/common/CommonComponents";
-import Client from "../api/Client";
 import { Room as IRoom, Message as IMessage } from "../models/Room";
 import { ChangeE, FormE } from "../models/Events";
 import { useAuth } from "../contexts/authContext";
-import { useAuthAxios } from "../contexts/fetchContext";
 import { useSocket } from "../contexts/socketContext";
 import { useScreenSize } from "../contexts/screenSizeContext";
+import { useRoom } from "../contexts/roomContext";
 import {
 	Typography,
 	Paper,
@@ -89,45 +87,18 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-interface State {
-	room: IRoom;
-}
-
-interface Location {
-	pathname: string;
-	state: State;
-}
-
 const Room: React.FC = () => {
 	const { Message, DottedMenu } = Components;
 	const { Spinner } = CommonComponents;
 
 	const classes = useStyles();
-	const location: Location = useLocation();
 	const history = useHistory();
 	const { authState } = useAuth();
-	const { authAxios } = useAuthAxios();
 	const { socket } = useSocket();
 	const { screenWidth } = useScreenSize();
+	const { room, handleLeaveRequest } = useRoom();
 
-	const [room, setRoom] = useState<IRoom>({
-		id: -1,
-		name: "",
-		slug: "",
-		admin: "",
-		members: [],
-		messages: [],
-	});
 	const [value, setValue] = useState("");
-
-	useEffect(() => {
-		location.state ? fetchRoomFromLocation() : fetchRoomFromServer();
-	}, []);
-
-	useEffect(() => {
-		// Indicate to server that a room has been entered
-		socket && socket.emit("entered-room", authState.user.username);
-	}, [socket]);
 
 	const handleRouting = (path: string) => history.push(path);
 
@@ -136,40 +107,17 @@ const Room: React.FC = () => {
 		setValue(value);
 	};
 
-	// Fetch room data from location state within route
-	const fetchRoomFromLocation = () => {
-		const { room } = location.state;
-		setRoom(room);
-	};
-
-	// Fetch room data from the server when location state is undefined
-	const fetchRoomFromServer = async () => {
-		try {
-			const pathnameParts = location.pathname.split("/");
-			const slug = pathnameParts[pathnameParts.length - 1];
-			const { info, messages } = await Client.rooms.findOne(
-				authAxios,
-				slug
-			);
-			setRoom({ ...info, messages });
-		} catch (err) {
-			console.error(err.message);
-			history.push("/dashboard");
-		}
-	};
-
 	// Verifies whether the user is a member of the current room
 	const isRoomMember = () => {
 		const { username } = authState.user;
 		if (room.admin === username || room.id < 0) return true;
-		return room.members.filter(member => member === username).length;
+		return room.members.filter((member: string) => member === username)
+			.length;
 	};
 
-	const addNewMessage = (message: IMessage) => {
-		setRoom({
-			...room,
-			messages: [...room.messages, message],
-		});
+	const getLeaveRoomText = () => {
+		const { username } = authState.user;
+		return username === room.admin ? "Close Room" : "Leave Room";
 	};
 
 	// Send a new message
@@ -184,37 +132,6 @@ const Room: React.FC = () => {
 		// Emit and push the message
 		socket.emit("send-message", message, room.members);
 		setValue("");
-	};
-
-	useEffect(() => {
-		if (!socket) return;
-		socket.on("receive-message", (message: IMessage) => {
-			addNewMessage(message);
-		});
-		console.log("rooms set");
-		return () => socket.off("receive-message"); // Close socket connection to prevent multiple messages from being received
-	}, [room.messages]);
-
-	const getLeaveRoomText = () => {
-		const { username } = authState.user;
-		return username === room.admin ? "Close Room" : "Leave Room";
-	};
-
-	// Remove a user as a room member or close the room if they're admin
-	const handleLeaveRequest = () => {
-		const { username } = authState.user;
-		if (username === room.admin) {
-			socket.emit("closed-room", room.id);
-		} else {
-			const message = {
-				sender: username,
-				value: `${username} left`,
-				room_id: room.id,
-			};
-			socket.emit("left-room", username, room.id);
-			socket.emit("send-message", message);
-		}
-		history.push("/dashboard");
 	};
 
 	return room.id < 0 ? (
@@ -249,7 +166,7 @@ const Room: React.FC = () => {
 					</header>
 					<Divider light />
 					<section className={classes.messagesContainer}>
-						{room.messages.map(message => (
+						{room.messages.map((message: IMessage) => (
 							<Message key={message.id} message={message} />
 						))}
 					</section>
