@@ -5,7 +5,7 @@ import { Typography, Box, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
 	message: {
-		width: "659px",
+		width: "600px",
 		maxWidth: "max-content",
 		wordWrap: "break-word",
 		margin: theme.spacing(2, 0),
@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
 		color: "#ffffff",
 		clear: "both",
 		["@media (max-width: 768px)"]: {
-			width: "calc(100vw - 105px)",
+			width: "calc(100vw - 165px)",
 		},
 	},
 	toMessage: {
