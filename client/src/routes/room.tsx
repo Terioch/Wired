@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useHistory, Redirect } from "react-router-dom";
 import Components from "../components/Components";
 import CommonComponents from "../components/common/CommonComponents";
-import { Room as IRoom, Message as IMessage } from "../models/Room";
+import { Message as IMessage } from "../models/Room";
 import { ChangeE, FormE } from "../models/Events";
 import { useAuth } from "../contexts/authContext";
 import { useSocket } from "../contexts/socketContext";
@@ -27,15 +27,18 @@ const useStyles = makeStyles(theme => ({
 		padding: theme.spacing(2.5),
 	},
 	paper: {
-		minHeight: "91.8vh",
+		height: "91.8vh",
 		width: "700px",
 		maxWidth: "100%",
 		display: "flex",
 		flexDirection: "column",
 		padding: theme.spacing(1.5),
 		backgroundColor: "#eeeeee",
+		overflow: "auto",
 	},
 	header: {
+		position: "sticky",
+		top: "0",
 		display: "grid",
 		padding: theme.spacing(0, 1),
 		"& > *": {
@@ -62,6 +65,8 @@ const useStyles = makeStyles(theme => ({
 		flex: 1,
 	},
 	footer: {
+		position: "sticky",
+		bottom: "0",
 		display: "grid",
 		padding: theme.spacing(0, 1),
 		marginTop: theme.spacing(1),
