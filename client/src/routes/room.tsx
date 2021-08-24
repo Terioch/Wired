@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 		maxWidth: "100%",
 		display: "flex",
 		flexDirection: "column",
-		padding: theme.spacing(1.5),
+		padding: theme.spacing(0, 1.5),
 		backgroundColor: "#eeeeee",
 		overflow: "auto",
 	},
@@ -40,15 +40,17 @@ const useStyles = makeStyles(theme => ({
 		position: "sticky",
 		top: "0",
 		display: "grid",
-		padding: theme.spacing(0, 1),
+		alignItems: "center",
+		padding: theme.spacing(1),
+		borderBottom: "1px solid #dddddd",
+		backgroundColor: "#eeeeee",
 		"& > *": {
 			gridColumnStart: "1",
 			gridRowStart: "1",
 			justifySelf: "center",
-			// alignSelf: "center",
 		},
 		[theme.breakpoints.down("xs")]: {
-			padding: theme.spacing(0),
+			padding: theme.spacing(1, 0),
 		},
 	},
 	title: {},
@@ -68,8 +70,9 @@ const useStyles = makeStyles(theme => ({
 		position: "sticky",
 		bottom: "0",
 		display: "grid",
-		padding: theme.spacing(0, 1),
+		padding: theme.spacing(1),
 		marginTop: theme.spacing(1),
+		backgroundColor: "#eeeeee",
 		"& > *": {
 			gridColumnStart: "1",
 			gridRowStart: "1",
@@ -158,7 +161,6 @@ const Room: React.FC = () => {
 							className={classes.title}
 							variant={screenWidth < 568 ? "h6" : "h5"}
 							color="secondary"
-							gutterBottom
 						>
 							{room.name}
 						</Typography>
@@ -169,7 +171,6 @@ const Room: React.FC = () => {
 							/>
 						)}
 					</header>
-					<Divider light />
 					<section className={classes.messagesContainer}>
 						{room.messages.map((message: IMessage) => (
 							<Message key={message.id} message={message} />
