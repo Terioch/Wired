@@ -9,7 +9,10 @@ const ScrollToBottom: React.FC<Props> = ({ dependencies }) => {
 
 	useEffect(() => {
 		if (element.current) {
-			element.current.scrollIntoView();
+			element.current.scrollIntoView({
+				block: "end",
+				behavior: "smooth",
+			});
 		}
 	}, dependencies || []);
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useHistory, Redirect } from "react-router-dom";
 import Components from "../components/Components";
 import CommonComponents from "../components/common/CommonComponents";
@@ -106,10 +106,6 @@ const Room: React.FC = () => {
 	const { room, handleLeaveRequest } = useRoom();
 
 	const [value, setValue] = useState("");
-
-	useEffect(() => {
-		window.scroll(0, 10000);
-	});
 
 	const handleRouting = (path: string) => history.push(path);
 
