@@ -205,7 +205,7 @@ const Room: React.FC = () => {
 							</Button>
 						)}
 					</footer>
-					<ScrollToBottom />
+					<ScrollToBottom dependencies={[room.messages]} />
 				</Paper>
 			</form>
 		</>

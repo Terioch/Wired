@@ -1,15 +1,17 @@
-import React, { useRef, useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 
-interface Props {}
+interface Props {
+	dependencies: any[];
+}
 
-const ScrollToBottom: React.FC<Props> = () => {
+const ScrollToBottom: React.FC<Props> = ({ dependencies }) => {
 	const element = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		if (element.current) {
 			element.current.scrollIntoView();
 		}
-	});
+	}, dependencies || []);
 
 	return <div ref={element} />;
 };
