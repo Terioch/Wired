@@ -183,12 +183,14 @@ io.on("connection", socket => {
 	});
 
 	// New user joined a room
-	socket.on("joined-room", async (username, room_id) => {
+	socket.on("join-room", async (username, recipients, room_id) => {
 		try {
 			const result = await Server.rooms.insertMember(username, room_id);
-			return socket.emit("joined-room", result);
+			recipients.forEach(recipient => {
+				io.to(recipient).emit("joined-room", result);
+			});
 		} catch (err) {
-			console.error(`joined-room: ${err.message}`);
+			console.error(`join-room: ${err.message}`);
 		}
 	});
 
@@ -210,20 +212,20 @@ io.on("connection", socket => {
 	});
 
 	// Leave the current room
-	socket.on("left-room", async (username, room_id) => {
+	socket.on("leave-room", async (username, room_id) => {
 		try {
 			return await Server.rooms.deleteMember(username, room_id);
 		} catch (err) {
-			console.error(`left-room: ${err.message}`);
+			console.error(`leave-room: ${err.message}`);
 		}
 	});
 
 	// Close the current room
-	socket.on("closed-room", async room_id => {
+	socket.on("close-room", async room_id => {
 		try {
 			return await Server.rooms.deleteOne(room_id);
 		} catch (err) {
-			console.error(`closed-room: ${err.message}`);
+			console.error(`close-room: ${err.message}`);
 		}
 	});
 });
