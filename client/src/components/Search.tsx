@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { socket } from "../config/socket";
 import CommonComponents from "./common/CommonComponents";
 import { Room } from "../models/Room";
 import { ChangeE } from "../models/Events";
 import { useAuth } from "../contexts/authContext";
+import { useSocket } from "../contexts/socketContext";
 import {
 	InputAdornment,
 	List,
@@ -37,6 +37,7 @@ const Search: React.FC<Props> = ({ rooms, joinedRooms }) => {
 	const classes = useStyles();
 	const history = useHistory();
 	const { authState } = useAuth();
+	const { socket } = useSocket();
 
 	const [filter, setFilter] = useState("");
 	const [filteredRooms, setFilteredRooms] = useState<Array<Room>>([]);
