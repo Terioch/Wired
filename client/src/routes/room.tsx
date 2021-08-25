@@ -96,7 +96,7 @@ const useStyles = makeStyles(theme => ({
 
 const Room: React.FC = () => {
 	const { Message, DottedMenu } = Components;
-	const { Spinner } = CommonComponents;
+	const { Spinner, ScrollToBottom } = CommonComponents;
 
 	const classes = useStyles();
 	const history = useHistory();
@@ -205,6 +205,7 @@ const Room: React.FC = () => {
 							</Button>
 						)}
 					</footer>
+					<ScrollToBottom />
 				</Paper>
 			</form>
 		</>
