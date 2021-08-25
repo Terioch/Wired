@@ -2,10 +2,10 @@ import Nav from "./Nav";
 import RoomItem from "./RoomItem";
 import CreateRoom from "./CreateRoom";
 import Search from "./Search";
-import Message from "./Message";
 import Unauthorized from "./Unauthorized";
 
 import DottedMenu from "./room/DottedMenu";
+import Message from "./room/Message";
 
 const Components = {
 	Nav,

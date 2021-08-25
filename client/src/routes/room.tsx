@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory, Redirect } from "react-router-dom";
 import Components from "../components/Components";
 import CommonComponents from "../components/common/CommonComponents";
@@ -13,7 +13,6 @@ import {
 	Paper,
 	TextField,
 	InputAdornment,
-	Divider,
 	Button,
 	makeStyles,
 } from "@material-ui/core";
@@ -27,7 +26,7 @@ const useStyles = makeStyles(theme => ({
 		padding: theme.spacing(2.5),
 	},
 	paper: {
-		height: "95vh",
+		height: "94.95vh",
 		width: "700px",
 		maxWidth: "100%",
 		display: "flex",
@@ -107,6 +106,10 @@ const Room: React.FC = () => {
 	const { room, handleLeaveRequest } = useRoom();
 
 	const [value, setValue] = useState("");
+
+	useEffect(() => {
+		window.scroll(0, 10000);
+	});
 
 	const handleRouting = (path: string) => history.push(path);
 
