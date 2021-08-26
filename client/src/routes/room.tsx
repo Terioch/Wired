@@ -134,7 +134,7 @@ const Room: React.FC = () => {
 			sender: authState.user.username,
 			value,
 			room_id: room.id,
-			isDefault: false,
+			is_default: false,
 		};
 
 		// Emit and push the message

@@ -8,10 +8,15 @@ class Messages {
 	};
 
 	insertOne = async message => {
-		const { sender, value, room_id } = message;
+		const { sender, value, room_id, is_default } = message;
 		const query =
-			"INSERT INTO messages (sender, value, room_id) VALUES ($1, $2, $3) RETURNING *";
-		const result = await db.query(query, [sender, value, room_id]);
+			"INSERT INTO messages (sender, value, room_id, is_default) VALUES ($1, $2, $3, $4) RETURNING *";
+		const result = await db.query(query, [
+			sender,
+			value,
+			room_id,
+			is_default,
+		]);
 		return result.rows[0];
 	};
 }

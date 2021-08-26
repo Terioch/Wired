@@ -97,7 +97,7 @@ export const RoomProvider: React.FC = ({ children }) => {
 				sender: username,
 				value: `${username} left`,
 				room_id: room.id,
-				isDefault: true,
+				is_default: true,
 			};
 			socket.emit("leave-room", username, room.id);
 			socket.emit("send-message", message, room.members);

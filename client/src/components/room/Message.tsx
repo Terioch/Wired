@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/authContext";
 import { Message as IMessage } from "../../models/Room";
 import { Typography, Box, makeStyles } from "@material-ui/core";
+import { StayPrimaryPortraitTwoTone } from "@material-ui/icons";
 
 const useStyles = makeStyles(theme => ({
 	message: {
@@ -24,7 +25,9 @@ const useStyles = makeStyles(theme => ({
 	fromMessage: {
 		backgroundColor: "#727274",
 	},
-	defaultMessage: {},
+	defaultMessage: {
+		backgroundColor: "blue",
+	},
 	left: {},
 	joined: {},
 }));
@@ -36,7 +39,7 @@ interface Props {
 const Message: React.FC<Props> = ({ message }) => {
 	const classes = useStyles();
 	const { authState } = useAuth();
-	const { sender, value } = message;
+	const { sender, value, is_default } = message;
 
 	const [recipient, setRecipient] = useState(false);
 
@@ -47,15 +50,16 @@ const Message: React.FC<Props> = ({ message }) => {
 
 	const formatMessage = () => {
 		let string = "";
-		string += message.isDefault
+		string += is_default
 			? classes.defaultMessage && value === "left"
 				? classes.left
 				: classes.joined
 			: recipient
 			? classes.fromMessage
 			: classes.toMessage;
-		console.log(classes.toMessage);
-		return recipient ? classes.toMessage : classes.fromMessage;
+		console.log(is_default);
+		return string;
+		//return recipient ? classes.fromMessage : classes.toMessage;
 	};
 
 	const formatSender = () => {

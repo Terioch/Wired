@@ -71,7 +71,7 @@ const Search: React.FC<Props> = ({ rooms, joinedRooms }) => {
 				sender: username,
 				value: `${username} joined`,
 				room_id: room.id,
-				isDefault: true,
+				is_default: true,
 			};
 			const recipients = room.members.filter(
 				member => member !== username
