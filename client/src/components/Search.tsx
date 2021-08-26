@@ -58,7 +58,7 @@ const Search: React.FC<Props> = ({ rooms, joinedRooms }) => {
 		return screenWidth < 415
 			? {
 					startAdornment: (
-						<InputAdornment position="end">
+						<InputAdornment position="start">
 							<SearchIcon />
 						</InputAdornment>
 					),
