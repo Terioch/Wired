@@ -5,6 +5,7 @@ import { Room } from "../models/Room";
 import { ChangeE } from "../models/Events";
 import { useAuth } from "../contexts/authContext";
 import { useSocket } from "../contexts/socketContext";
+import { useScreenSize } from "../contexts/screenSizeContext";
 import {
 	InputAdornment,
 	List,
@@ -38,6 +39,7 @@ const Search: React.FC<Props> = ({ rooms, joinedRooms }) => {
 	const history = useHistory();
 	const { authState } = useAuth();
 	const { socket } = useSocket();
+	const { screenWidth } = useScreenSize();
 
 	const [filter, setFilter] = useState("");
 	const [filteredRooms, setFilteredRooms] = useState<Array<Room>>([]);
@@ -50,6 +52,24 @@ const Search: React.FC<Props> = ({ rooms, joinedRooms }) => {
 	const handleInputChange = (e: ChangeE) => {
 		const { value } = e.target;
 		setFilter(value);
+	};
+
+	const getInputAdornment = () => {
+		return screenWidth < 415
+			? {
+					startAdornment: (
+						<InputAdornment position="end">
+							<SearchIcon />
+						</InputAdornment>
+					),
+			  }
+			: {
+					endAdornment: (
+						<InputAdornment position="end">
+							<SearchIcon />
+						</InputAdornment>
+					),
+			  };
 	};
 
 	// Keep track of room names that match the current filter
@@ -88,13 +108,7 @@ const Search: React.FC<Props> = ({ rooms, joinedRooms }) => {
 				size="small"
 				value={filter}
 				onChange={handleInputChange}
-				InputProps={{
-					endAdornment: (
-						<InputAdornment position="end">
-							<SearchIcon />
-						</InputAdornment>
-					),
-				}}
+				InputProps={getInputAdornment()}
 			/>
 			<List color="primary" dense>
 				{filteredRooms.map((room: Room) => (

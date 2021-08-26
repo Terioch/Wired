@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: "#727274",
 	},
 	left: {
-		backgroundColor: "#EB4436",
+		backgroundColor: "#E12323",
 	},
 	joined: {
 		backgroundColor: "#1976D2",
@@ -65,9 +65,8 @@ const Message: React.FC<Props> = ({ message }) => {
 	};
 
 	const formatMessageType = () => {
-		const { username } = authState.user;
 		return is_default
-			? value === `${username} joined`
+			? value.split(" ")[1] === "joined"
 				? classes.joined
 				: classes.left
 			: recipient

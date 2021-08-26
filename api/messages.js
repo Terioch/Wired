@@ -2,7 +2,7 @@ const db = require("../config/db");
 
 class Messages {
 	findAllByRoom = async room_id => {
-		const query = "SELECT * FROM messages WHERE room_id = $1";
+		const query = "SELECT * FROM messages WHERE room_id = $1 LIMIT 60";
 		const result = await db.query(query, [room_id]);
 		return result.rows;
 	};

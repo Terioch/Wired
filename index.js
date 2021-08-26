@@ -202,7 +202,6 @@ io.on("connection", socket => {
 	// Receive a new message
 	socket.on("send-message", async (message, recipients) => {
 		try {
-			console.log(message);
 			const result = await Server.messages.insertOne(message);
 			recipients.forEach(recipient => {
 				io.to(recipient).emit("receive-message", result);
