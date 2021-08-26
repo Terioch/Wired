@@ -78,11 +78,15 @@ const Message: React.FC<Props> = ({ message }) => {
 		return recipient ? sender : "You";
 	};
 
+	const formatValue = () => {
+		return recipient ? value : `You ${value.split(" ")[1]}`;
+	};
+
 	return (
 		<Box className={`${formatMessageState()} ${formatMessageType()}`}>
 			{is_default ? (
 				<Typography variant="body1" style={{ color: "#e1e1e1" }}>
-					{value}
+					{formatValue()}
 				</Typography>
 			) : (
 				<>
