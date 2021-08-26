@@ -69,7 +69,7 @@ const Search: React.FC<Props> = ({ rooms, joinedRooms }) => {
 			const { username } = authState.user;
 			const message = {
 				sender: username,
-				value: "joined",
+				value: `${username} joined`,
 				room_id: id,
 				is_default: true,
 			};

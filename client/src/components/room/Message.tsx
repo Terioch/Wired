@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/authContext";
 import { Message as IMessage } from "../../models/Room";
 import { Typography, Box, makeStyles } from "@material-ui/core";
-import { StayPrimaryPortraitTwoTone } from "@material-ui/icons";
 
 const useStyles = makeStyles(theme => ({
 	message: {
@@ -11,7 +10,7 @@ const useStyles = makeStyles(theme => ({
 		wordWrap: "break-word",
 		margin: theme.spacing(2, 0),
 		padding: theme.spacing(1, 2.5),
-		borderRadius: "30px",
+		borderRadius: "25px",
 		color: "#ffffff",
 		clear: "both",
 		["@media (max-width: 768px)"]: {
@@ -22,7 +21,13 @@ const useStyles = makeStyles(theme => ({
 		width: "100%",
 		display: "flex",
 		justifyContent: "center",
-		borderRadius: "15px",
+		alignItems: "center",
+		margin: theme.spacing(2, 0),
+		padding: theme.spacing(1, 0),
+		borderRadius: "10px",
+		"& > *": {
+			margin: theme.spacing(0, 0.25),
+		},
 	},
 	to: {
 		float: "right",
@@ -32,7 +37,7 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: "#727274",
 	},
 	left: {
-		backgroundColor: "#1976D2",
+		backgroundColor: "#EB4436",
 	},
 	joined: {
 		backgroundColor: "#1976D2",
@@ -60,8 +65,9 @@ const Message: React.FC<Props> = ({ message }) => {
 	};
 
 	const formatMessageType = () => {
+		const { username } = authState.user;
 		return is_default
-			? value === "joined"
+			? value === `${username} joined`
 				? classes.joined
 				: classes.left
 			: recipient
@@ -75,10 +81,18 @@ const Message: React.FC<Props> = ({ message }) => {
 
 	return (
 		<Box className={`${formatMessageState()} ${formatMessageType()}`}>
-			<Typography variant="subtitle2" style={{ color: "#e1e1e1" }}>
-				{formatSender()}
-			</Typography>
-			<Typography variant="body1">{value}</Typography>
+			{is_default ? (
+				<Typography variant="body1" style={{ color: "#e1e1e1" }}>
+					{value}
+				</Typography>
+			) : (
+				<>
+					<Typography variant="subtitle2" style={{ color: "#e1e1e1" }}>
+						{formatSender()}
+					</Typography>
+					<Typography variant="body1">{value}</Typography>
+				</>
+			)}
 		</Box>
 	);
 };

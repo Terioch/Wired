@@ -95,7 +95,7 @@ export const RoomProvider: React.FC = ({ children }) => {
 		} else {
 			const message = {
 				sender: username,
-				value: "left",
+				value: `${username} left`,
 				room_id: room.id,
 				is_default: true,
 			};
