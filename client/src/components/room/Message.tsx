@@ -18,18 +18,25 @@ const useStyles = makeStyles(theme => ({
 			width: "calc(100vw - 165px)",
 		},
 	},
-	toMessage: {
+	defaultMessage: {
+		width: "100%",
+		display: "flex",
+		justifyContent: "center",
+		borderRadius: "15px",
+	},
+	to: {
 		float: "right",
 		backgroundColor: "#28992E",
 	},
-	fromMessage: {
+	from: {
 		backgroundColor: "#727274",
 	},
-	defaultMessage: {
-		backgroundColor: "blue",
+	left: {
+		backgroundColor: "#1976D2",
 	},
-	left: {},
-	joined: {},
+	joined: {
+		backgroundColor: "#1976D2",
+	},
 }));
 
 interface Props {
@@ -48,18 +55,18 @@ const Message: React.FC<Props> = ({ message }) => {
 		setRecipient(username !== sender);
 	}, []);
 
-	const formatMessage = () => {
-		let string = "";
-		string += is_default
-			? classes.defaultMessage && value === "left"
-				? classes.left
-				: classes.joined
+	const formatMessageState = () => {
+		return is_default ? classes.defaultMessage : classes.message;
+	};
+
+	const formatMessageType = () => {
+		return is_default
+			? value === "joined"
+				? classes.joined
+				: classes.left
 			: recipient
-			? classes.fromMessage
-			: classes.toMessage;
-		console.log(is_default);
-		return string;
-		//return recipient ? classes.fromMessage : classes.toMessage;
+			? classes.from
+			: classes.to;
 	};
 
 	const formatSender = () => {
@@ -67,7 +74,7 @@ const Message: React.FC<Props> = ({ message }) => {
 	};
 
 	return (
-		<Box className={`${classes.message} ${formatMessage()}`}>
+		<Box className={`${formatMessageState()} ${formatMessageType()}`}>
 			<Typography variant="subtitle2" style={{ color: "#e1e1e1" }}>
 				{formatSender()}
 			</Typography>
