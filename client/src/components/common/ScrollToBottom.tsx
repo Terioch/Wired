@@ -14,7 +14,7 @@ const ScrollToBottom: React.FC<Props> = ({ dependencies }) => {
 				behavior: "smooth",
 			});
 		}
-	}, dependencies || []);
+	}, [dependencies]);
 
 	return <div ref={element} />;
 };

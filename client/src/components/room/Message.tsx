@@ -24,6 +24,9 @@ const useStyles = makeStyles(theme => ({
 	fromMessage: {
 		backgroundColor: "#727274",
 	},
+	defaultMessage: {},
+	left: {},
+	joined: {},
 }));
 
 interface Props {
@@ -43,7 +46,16 @@ const Message: React.FC<Props> = ({ message }) => {
 	}, []);
 
 	const formatMessage = () => {
-		return recipient ? classes.fromMessage : classes.toMessage;
+		let string = "";
+		string += message.isDefault
+			? classes.defaultMessage && value === "left"
+				? classes.left
+				: classes.joined
+			: recipient
+			? classes.fromMessage
+			: classes.toMessage;
+		console.log(classes.toMessage);
+		return recipient ? classes.toMessage : classes.fromMessage;
 	};
 
 	const formatSender = () => {

@@ -67,14 +67,15 @@ const Search: React.FC<Props> = ({ rooms, joinedRooms }) => {
 		const joined = joinedRooms.filter(r => r.id === room.id).length;
 		if (!joined) {
 			const { username } = authState.user;
-			const recipients = room.members.filter(
-				member => member !== username
-			);
 			const message = {
 				sender: username,
 				value: `${username} joined`,
 				room_id: room.id,
+				isDefault: true,
 			};
+			const recipients = room.members.filter(
+				member => member !== username
+			);
 			socket.emit("join-room", username, recipients, room.id);
 			socket.emit("send-message", message, recipients);
 		}

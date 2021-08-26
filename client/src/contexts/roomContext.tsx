@@ -91,11 +91,13 @@ export const RoomProvider: React.FC = ({ children }) => {
 		const { username } = authState.user;
 		if (username === room.admin) {
 			socket.emit("close-room", room.id);
+			history.push("/dashboard");
 		} else {
 			const message = {
 				sender: username,
 				value: `${username} left`,
 				room_id: room.id,
+				isDefault: true,
 			};
 			socket.emit("leave-room", username, room.id);
 			socket.emit("send-message", message, room.members);

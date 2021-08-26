@@ -3,6 +3,7 @@ export interface Message {
 	sender: string;
 	value: string;
 	room_id: number;
+	isDefault: boolean;
 }
 
 export interface Room {

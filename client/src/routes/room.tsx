@@ -134,6 +134,7 @@ const Room: React.FC = () => {
 			sender: authState.user.username,
 			value,
 			room_id: room.id,
+			isDefault: false,
 		};
 
 		// Emit and push the message
@@ -201,7 +202,7 @@ const Room: React.FC = () => {
 							</Button>
 						)}
 					</footer>
-					<ScrollToBottom dependencies={[room.messages]} />
+					<ScrollToBottom dependencies={room.messages} />
 				</Paper>
 			</form>
 		</>
