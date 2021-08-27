@@ -83,6 +83,12 @@ const useStyles = makeStyles(theme => ({
 			justifySelf: "left",
 		},
 	},
+	sendIcon: {
+		cursor: "pointer",
+		"&:hover": {
+			backgroundColor: "#dddddd",
+		},
+	},
 	leaveBtn: {
 		alignSelf: "flex-end",
 		justifySelf: "right",
@@ -186,7 +192,7 @@ const Room: React.FC = () => {
 							InputProps={{
 								endAdornment: (
 									<InputAdornment position="start">
-										<Send />
+										<Send className={classes.sendIcon} />
 									</InputAdornment>
 								),
 							}}
