@@ -84,10 +84,7 @@ const useStyles = makeStyles(theme => ({
 		},
 	},
 	sendIcon: {
-		cursor: "pointer",
-		"&:hover": {
-			backgroundColor: "#dddddd",
-		},
+		color: "#555A64",
 	},
 	leaveBtn: {
 		alignSelf: "flex-end",
