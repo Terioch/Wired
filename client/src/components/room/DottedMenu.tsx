@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useScreenSize } from "../../contexts/screenSizeContext";
 import usePopover from "../../controls/usePopover";
 import { Popover, List, ListItem, makeStyles } from "@material-ui/core";
 import { MoreVert } from "@material-ui/icons";
@@ -27,7 +28,10 @@ const DottedMenu: React.FC<Props> = ({
 	handleLeaveRequest,
 }) => {
 	const classes = useStyles();
+	const { screenWidth } = useScreenSize();
 	const { anchor, handleAnchorOpen, handleAnchorClose } = usePopover();
+
+	const [displayMembers, setDisplayMembers] = useState(false);
 
 	return (
 		<>
@@ -47,9 +51,14 @@ const DottedMenu: React.FC<Props> = ({
 				}}
 			>
 				<List className={classes.dottedMenuList}>
-					<ListItem button onClick={handleLeaveRequest}>
-						{getLeaveRoomText()}
+					<ListItem onClick={() => setDisplayMembers(true)}>
+						View Members
 					</ListItem>
+					{screenWidth < 568 && (
+						<ListItem button onClick={handleLeaveRequest}>
+							{getLeaveRoomText()}
+						</ListItem>
+					)}
 				</List>
 			</Popover>
 		</>

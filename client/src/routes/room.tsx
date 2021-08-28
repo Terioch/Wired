@@ -38,23 +38,18 @@ const useStyles = makeStyles(theme => ({
 	header: {
 		position: "sticky",
 		top: "0",
-		display: "grid",
+		display: "flex",
+		justifyContent: "space-between",
 		alignItems: "center",
 		padding: theme.spacing(1),
 		borderBottom: "1px solid #dddddd",
 		backgroundColor: "#eeeeee",
-		"& > *": {
-			gridColumnStart: "1",
-			gridRowStart: "1",
-			justifySelf: "center",
-		},
 		[theme.breakpoints.down("xs")]: {
 			padding: theme.spacing(1, 0),
 		},
 	},
 	title: {},
 	arrowBack: {
-		justifySelf: "left",
 		borderRadius: "25px",
 		cursor: "pointer",
 		padding: theme.spacing(0.5),
@@ -167,12 +162,11 @@ const Room: React.FC = () => {
 						>
 							{room.name}
 						</Typography>
-						{screenWidth < 568 && (
-							<DottedMenu
-								getLeaveRoomText={getLeaveRoomText}
-								handleLeaveRequest={handleLeaveRequest}
-							/>
-						)}
+
+						<DottedMenu
+							getLeaveRoomText={getLeaveRoomText}
+							handleLeaveRequest={handleLeaveRequest}
+						/>
 					</header>
 					<section className={classes.messagesContainer}>
 						{room.messages.map((message: IMessage) => (
