@@ -166,6 +166,7 @@ const Room: React.FC = () => {
 						<DottedMenu
 							getLeaveRoomText={getLeaveRoomText}
 							handleLeaveRequest={handleLeaveRequest}
+							roomMembers={room.members}
 						/>
 					</header>
 					<section className={classes.messagesContainer}>
