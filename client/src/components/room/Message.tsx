@@ -32,9 +32,19 @@ const useStyles = makeStyles(theme => ({
 	to: {
 		float: "right",
 		backgroundColor: "#28992E",
+		"& > *:first-child": {
+			color: "#e3e3e3",
+		},
 	},
 	from: {
-		backgroundColor: "#727274",
+		// backgroundColor: "#727274",
+		backgroundColor: "#FFFFFD",
+		"& > *:first-child": {
+			color: "#b1b1b1",
+		},
+		"& > *:last-child": {
+			color: "#000000",
+		},
 	},
 	left: {
 		backgroundColor: "#E12323",
@@ -74,11 +84,11 @@ const Message: React.FC<Props> = ({ message }) => {
 			: classes.to;
 	};
 
-	const formatSender = () => {
+	const formatSenderText = () => {
 		return recipient ? sender : "You";
 	};
 
-	const formatValue = () => {
+	const formatValueText = () => {
 		return recipient ? value : `You ${value.split(" ")[1]}`;
 	};
 
@@ -86,13 +96,11 @@ const Message: React.FC<Props> = ({ message }) => {
 		<Box className={`${formatMessageState()} ${formatMessageType()}`}>
 			{is_default ? (
 				<Typography variant="body1" style={{ color: "#e1e1e1" }}>
-					{formatValue()}
+					{formatValueText()}
 				</Typography>
 			) : (
 				<>
-					<Typography variant="subtitle2" style={{ color: "#e1e1e1" }}>
-						{formatSender()}
-					</Typography>
+					<Typography variant="subtitle2">{formatSenderText()}</Typography>
 					<Typography variant="body1">{value}</Typography>
 				</>
 			)}

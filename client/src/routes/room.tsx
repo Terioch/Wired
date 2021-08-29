@@ -32,8 +32,11 @@ const useStyles = makeStyles(theme => ({
 		display: "flex",
 		flexDirection: "column",
 		padding: theme.spacing(0, 1.5),
-		backgroundColor: "#eeeeee",
+		backgroundColor: "#F4F5F7",
 		overflow: "auto",
+		"& > *": {
+			backgroundColor: "#F4F5F7",
+		},
 	},
 	header: {
 		position: "sticky",
@@ -43,7 +46,6 @@ const useStyles = makeStyles(theme => ({
 		alignItems: "center",
 		padding: theme.spacing(1),
 		borderBottom: "1px solid #dddddd",
-		backgroundColor: "#eeeeee",
 		[theme.breakpoints.down("xs")]: {
 			padding: theme.spacing(1, 0),
 		},
@@ -66,7 +68,6 @@ const useStyles = makeStyles(theme => ({
 		display: "grid",
 		padding: theme.spacing(1),
 		marginTop: theme.spacing(1),
-		backgroundColor: "#eeeeee",
 		"& > *": {
 			gridColumnStart: "1",
 			gridRowStart: "1",
