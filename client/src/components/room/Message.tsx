@@ -8,7 +8,7 @@ const useStyles = makeStyles(theme => ({
 		width: "600px",
 		maxWidth: "max-content",
 		wordWrap: "break-word",
-		margin: theme.spacing(2, 0),
+		margin: theme.spacing(1, 0),
 		padding: theme.spacing(1, 2.5),
 		borderRadius: "30px",
 		color: "#ffffff",
@@ -19,10 +19,11 @@ const useStyles = makeStyles(theme => ({
 	},
 	defaultMessage: {
 		width: "100%",
+		float: "left",
 		display: "flex",
 		justifyContent: "center",
 		alignItems: "center",
-		margin: theme.spacing(2, 0),
+		margin: theme.spacing(1, 0),
 		padding: theme.spacing(1, 0),
 		borderRadius: "10px",
 		"& > *": {
@@ -37,6 +38,7 @@ const useStyles = makeStyles(theme => ({
 		},
 	},
 	from: {
+		float: "left",
 		backgroundColor: "#E9E9E9",
 		"& > *:first-child": {
 			color: "#A1A1A1",

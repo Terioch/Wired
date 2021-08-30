@@ -61,6 +61,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	messagesContainer: {
 		flex: 1,
+		margin: theme.spacing(1, 0),
 	},
 	footer: {
 		position: "sticky",
