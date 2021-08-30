@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
 		wordWrap: "break-word",
 		margin: theme.spacing(2, 0),
 		padding: theme.spacing(1, 2.5),
-		borderRadius: "25px",
+		borderRadius: "30px",
 		color: "#ffffff",
 		clear: "both",
 		["@media (max-width: 768px)"]: {
@@ -37,9 +37,9 @@ const useStyles = makeStyles(theme => ({
 		},
 	},
 	from: {
-		backgroundColor: "#FFFFFD",
+		backgroundColor: "#E9E9E9",
 		"& > *:first-child": {
-			color: "#b1b1b1",
+			color: "#A1A1A1",
 		},
 		"& > *:last-child": {
 			color: "#000000",

@@ -32,10 +32,10 @@ const useStyles = makeStyles(theme => ({
 		display: "flex",
 		flexDirection: "column",
 		padding: theme.spacing(0, 1.5),
-		backgroundColor: "#F4F5F7",
+		backgroundColor: "#F6F6F6",
 		overflow: "auto",
 		"& > *": {
-			backgroundColor: "#F4F5F7",
+			backgroundColor: "#F6F6F6",
 		},
 	},
 	header: {
