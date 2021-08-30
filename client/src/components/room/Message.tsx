@@ -37,7 +37,6 @@ const useStyles = makeStyles(theme => ({
 		},
 	},
 	from: {
-		// backgroundColor: "#727274",
 		backgroundColor: "#FFFFFD",
 		"& > *:first-child": {
 			color: "#b1b1b1",
