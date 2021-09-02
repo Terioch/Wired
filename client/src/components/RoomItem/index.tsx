@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { Room } from "../models/Room";
-import { useAuth } from "../contexts/authContext";
+import { Room } from "../../models/Room";
+import { useAuth } from "../../contexts/authContext";
 import {
 	Card,
 	CardActionArea,

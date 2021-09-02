@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import CommonComponents from "./common/CommonComponents";
-import { Room } from "../models/Room";
-import { ChangeE } from "../models/Events";
-import { useAuth } from "../contexts/authContext";
-import { useSocket } from "../contexts/socketContext";
-import { useScreenSize } from "../contexts/screenSizeContext";
+import CommonComponents from "../common/CommonComponents";
+import { Room } from "../../models/Room";
+import { ChangeE } from "../../models/Events";
+import { useAuth } from "../../contexts/authContext";
+import { useSocket } from "../../contexts/socketContext";
+import { useScreenSize } from "../../contexts/screenSizeContext";
 import {
 	InputAdornment,
 	List,

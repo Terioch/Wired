@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../contexts/authContext";
-import { Message as IMessage } from "../../models/Room";
+import { useAuth } from "../../../contexts/authContext";
+import { Message as IMessage } from "../../../models/Room";
 import { Typography, Box, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({

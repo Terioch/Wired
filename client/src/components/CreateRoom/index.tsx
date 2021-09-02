@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import CommonComponents from "./common/CommonComponents";
-import { Room } from "../models/Room";
-import { ChangeE } from "../models/Events";
-import { useAuth } from "../contexts/authContext";
-import { useSocket } from "../contexts/socketContext";
+import CommonComponents from "../common/CommonComponents";
+import { Room } from "../../models/Room";
+import { ChangeE } from "../../models/Events";
+import { useAuth } from "../../contexts/authContext";
+import { useSocket } from "../../contexts/socketContext";
 import { Modal, Paper, Button, makeStyles } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 
