@@ -1,12 +1,21 @@
 import React from "react";
 import Nav from "../index";
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 
-test("Navigation renders with correct content", () => {
-	const { getByTestId } = render(<Nav />);
-	const logoEl = getByTestId("logo");
-	const logoutEl = getByTestId("logout");
+describe("Nav component tests", () => {
+	test("Navigation renders with correct content", () => {
+		const { getByTestId } = render(<Nav />);
+		const logoEl = getByTestId("logo");
+		const logoutEl = getByTestId("logout");
 
-	expect(logoEl.textContent).toBe("Wired");
-	expect(logoutEl.textContent).toBe("Logout");
+		expect(logoEl.textContent).toBe("Wired");
+		expect(logoutEl.textContent).toBe("Logout");
+	});
+
+	test("Logout button redirects to login page", () => {
+		const { getByTestId } = render(<Nav />);
+		const logoutEl = getByTestId("logout");
+
+		fireEvent.click(logoutEl);
+	});
 });
