@@ -1,5 +1,6 @@
 import React from "react";
 import CreateRoom from "../index";
+import MockDashboard from "../../../__mocks__/dashboard";
 import { render, fireEvent } from "@testing-library/react";
 
 const createTestProps = props => ({
@@ -18,7 +19,11 @@ describe("<CreateRoom />", () => {
 
 	it("Closes when close icon is clicked", () => {
 		const props = createTestProps();
-		const { getByRole } = render(<CreateRoom {...props} />);
+		const { getByRole } = render(
+			<MockDashboard>
+				<CreateRoom {...props} />
+			</MockDashboard>
+		);
 		const closeEl = getByRole("button");
 		fireEvent.click(closeEl);
 		expect(props.createRoomOpen).toBe(false);

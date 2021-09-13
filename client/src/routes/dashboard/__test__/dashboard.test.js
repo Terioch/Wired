@@ -1,25 +1,28 @@
 import React from "react";
-import Dashboard from "../index";
-import { AuthContext } from "../../../contexts/authContext";
-import { render, fireEvent } from "@testing-library/react";
+import axios from "axios";
+import MockDashboard from "../../../__mocks__/dashboard";
+import { render, cleanup, waitFor } from "@testing-library/react";
 
-const MockDashboard = () => {
-	const authState = {
-		user: {
-			id: 1,
-			username: "Terioch",
-		},
-	};
+jest.mock("axios");
 
-	return (
-		<AuthContext.Provider value={{ authState, ...AuthContext }}>
-			<Dashboard />
-		</AuthContext.Provider>
-	);
-};
+afterEach(cleanup);
 
 describe("<Dashboard />", () => {
-	it("renders without crashing", () => {
-		render(<MockDashboard />);
+	it("renders room items correctly", async () => {
+		axios.get.mockResolvedValue({
+			data: [
+				{
+					id: 1,
+					name: "Test",
+					slug: "test",
+					admin: "Terioch",
+					members: ["Terioch"],
+					messages: [],
+				},
+			],
+		});
+		const { findByRole } = render(<MockDashboard />);
+		const roomsNode = await findByRole("list");
+		expect(roomsNode.children).toHaveLength(1);
 	});
 });

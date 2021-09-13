@@ -135,7 +135,7 @@ const Dashboard: React.FC<Props> = () => {
 						</Typography>
 					</div>
 				) : (
-					<Grid container spacing={1}>
+					<Grid role="list" container spacing={1}>
 						{joinedRooms.map((room: Room) => (
 							<Grid key={room.id} item xs={12}>
 								<RoomItem room={room} />
