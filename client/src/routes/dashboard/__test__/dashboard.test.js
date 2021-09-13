@@ -1,8 +1,9 @@
 import React from "react";
 import Dashboard from "../index";
+import { AuthContext } from "../../../contexts/authContext";
 import { render, fireEvent } from "@testing-library/react";
 
-describe("<Dashboard />", () => {
+const MockDashboard = () => {
 	const authState = {
 		user: {
 			id: 1,
@@ -10,7 +11,15 @@ describe("<Dashboard />", () => {
 		},
 	};
 
+	return (
+		<AuthContext.Provider value={{ authState, ...AuthContext }}>
+			<Dashboard />
+		</AuthContext.Provider>
+	);
+};
+
+describe("<Dashboard />", () => {
 	it("renders without crashing", () => {
-		expect(authState.user.username).toBe("Terioch");
+		render(<MockDashboard />);
 	});
 });

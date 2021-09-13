@@ -14,7 +14,7 @@ interface IAuthContext {
 	logout: () => void;
 }
 
-const AuthContext = createContext<IAuthContext>({} as IAuthContext);
+export const AuthContext = createContext<IAuthContext>({} as IAuthContext);
 
 export const AuthProvider: React.FC = ({ children }) => {
 	const history = useHistory();

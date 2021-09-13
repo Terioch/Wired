@@ -21,6 +21,6 @@ describe("<CreateRoom />", () => {
 		const { getByRole } = render(<CreateRoom {...props} />);
 		const closeEl = getByRole("button");
 		fireEvent.click(closeEl);
-		expect(createRoomOpen).toBe(false);
+		expect(props.createRoomOpen).toBe(false);
 	});
 });
