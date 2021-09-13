@@ -176,7 +176,7 @@ io.on("connection", socket => {
 
 			const room = await Server.rooms.insertOne(name, slug, admin);
 			room.messages = [];
-			return socket.emit("new-room", room);
+			return io.emit("new-room", room);
 		} catch (err) {
 			console.error(`new-room: ${err.message}`);
 		}

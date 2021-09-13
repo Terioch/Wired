@@ -12,7 +12,7 @@ describe("Nav component tests", () => {
 		expect(logoutEl.textContent).toBe("Logout");
 	});
 
-	test("Logout button redirects to login page", () => {
+	test("Logout button removes user data from local storage", () => {
 		const { getByTestId } = render(<Nav />);
 		const logoutEl = getByTestId("logout");
 

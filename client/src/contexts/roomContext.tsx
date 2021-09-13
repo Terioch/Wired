@@ -72,7 +72,7 @@ export const RoomProvider: React.FC = ({ children }) => {
 				slug
 			);
 			setRoom({ ...info, messages });
-		} catch (err) {
+		} catch (err: any) {
 			console.error(err.message);
 			history.push("/dashboard");
 		}
