@@ -2,19 +2,19 @@ import React from "react";
 import Nav from "../index";
 import { fireEvent, render } from "@testing-library/react";
 
-describe("Nav component tests", () => {
-	test("Navigation renders with correct content", () => {
-		const { getByTestId } = render(<Nav />);
-		const logoEl = getByTestId("logo");
-		const logoutEl = getByTestId("logout");
+describe("<Nav />", () => {
+	test("Renders with correct content", () => {
+		const { getByRole } = render(<Nav />);
+		const logoEl = getByRole("heading");
+		const logoutEl = getByRole("button");
 
 		expect(logoEl.textContent).toBe("Wired");
 		expect(logoutEl.textContent).toBe("Logout");
 	});
 
 	test("Logout button removes user data from local storage", () => {
-		const { getByTestId } = render(<Nav />);
-		const logoutEl = getByTestId("logout");
+		const { getByRole } = render(<Nav />);
+		const logoutEl = getByRole("button");
 
 		fireEvent.click(logoutEl);
 	});

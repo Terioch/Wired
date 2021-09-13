@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useHistory, Redirect } from "react-router-dom";
-import Components from "../components/Components";
-import CommonComponents from "../components/common/CommonComponents";
-import { Message as IMessage } from "../models/Room";
-import { ChangeE, FormE } from "../models/Events";
-import { useAuth } from "../contexts/authContext";
-import { useSocket } from "../contexts/socketContext";
-import { useScreenSize } from "../contexts/screenSizeContext";
-import { useRoom } from "../contexts/roomContext";
+import Components from "../../components/Components";
+import CommonComponents from "../../components/common/CommonComponents";
+import { Message as IMessage } from "../../models/Room";
+import { ChangeE, FormE } from "../../models/Events";
+import { useAuth } from "../../contexts/authContext";
+import { useSocket } from "../../contexts/socketContext";
+import { useScreenSize } from "../../contexts/screenSizeContext";
+import { useRoom } from "../../contexts/roomContext";
 import {
 	Typography,
 	Paper,

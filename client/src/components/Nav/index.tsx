@@ -40,15 +40,11 @@ const Nav: React.FC<Props> = () => {
 	return (
 		<AppBar className={classes.appbar} position="fixed">
 			<Toolbar className={classes.toolbar}>
-				<Typography
-					data-testid="logo"
-					className={classes.logo}
-					variant="h4"
-				>
+				<Typography role="heading" className={classes.logo} variant="h4">
 					Wired
 				</Typography>
 				<Button
-					data-testid="logout"
+					role="button"
 					className={classes.logout}
 					variant="contained"
 					color="primary"

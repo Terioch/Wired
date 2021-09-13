@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import Components from "../components/Components";
-import CommonComponents from "../components/common/CommonComponents";
-import Client from "../api/Client";
-import { Room } from "../models/Room";
-import { useAuth } from "../contexts/authContext";
-import { useAuthAxios } from "../contexts/fetchContext";
-import { useScreenSize } from "../contexts/screenSizeContext";
+import Components from "../../components/Components";
+import CommonComponents from "../../components/common/CommonComponents";
+import Client from "../../api/Client";
+import { Room } from "../../models/Room";
+import { useAuth } from "../../contexts/authContext";
+import { useAuthAxios } from "../../contexts/fetchContext";
+import { useScreenSize } from "../../contexts/screenSizeContext";
 import {
 	Container,
 	Grid,
