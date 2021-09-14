@@ -113,7 +113,7 @@ const CreateRoom: React.FC<Props> = ({
 			<Paper className={classes.paper} elevation={12}>
 				<Close
 					className={classes.close}
-					role="button"
+					data-testid="close"
 					fontSize="small"
 					onClick={handleCreateRoomOpen}
 				/>

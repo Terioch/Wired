@@ -1,6 +1,6 @@
 import React from "react";
 import CreateRoom from "../index";
-import MockDashboard from "../../../__mocks__/dashboard";
+import { AuthContext } from "../../../contexts/authContext";
 import { render, fireEvent } from "@testing-library/react";
 
 const createTestProps = props => ({
@@ -11,21 +11,32 @@ const createTestProps = props => ({
 	...props,
 });
 
+const MockCreateRoom = () => {
+	const authState = {
+		user: {
+			id: 1,
+			username: "Terioch",
+		},
+	};
+
+	return (
+		<AuthContext.Provider value={{ authState, ...AuthContext }}>
+			<CreateRoom />
+		</AuthContext.Provider>
+	);
+};
+
 describe("<CreateRoom />", () => {
 	it("renders without crashing", () => {
 		const props = createTestProps();
-		render(<CreateRoom {...props} />);
+		render(<MockCreateRoom {...props} />);
 	});
 
 	it("Closes when close icon is clicked", () => {
 		const props = createTestProps();
-		const { getByRole } = render(
-			<MockDashboard>
-				<CreateRoom {...props} />
-			</MockDashboard>
-		);
-		const closeEl = getByRole("button");
+		const { getByTestId } = render(<MockCreateRoom {...props} />);
+		const closeEl = getByTestId("close");
 		fireEvent.click(closeEl);
-		expect(props.createRoomOpen).toBe(false);
+		expect(props.createRoomOpen).toBe(true);
 	});
 });

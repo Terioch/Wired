@@ -121,7 +121,7 @@ const Dashboard: React.FC<Props> = () => {
 				</section>
 
 				{roomsLoading ? (
-					<div className={classes.centerVertically}>
+					<div className={classes.centerVertically} data-testid="spinner">
 						<Spinner />
 					</div>
 				) : !joinedRooms.length ? (
