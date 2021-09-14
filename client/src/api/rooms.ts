@@ -5,7 +5,7 @@ class Rooms {
 		try {
 			const { data } = await authAxios.get(`/api/rooms`);
 			return data;
-		} catch (err) {
+		} catch (err: any) {
 			console.error(err.message);
 		}
 	};
@@ -20,7 +20,7 @@ class Rooms {
 				username
 			);
 			return data;
-		} catch (err) {
+		} catch (err: any) {
 			console.error(err.message);
 		}
 	};
@@ -29,7 +29,7 @@ class Rooms {
 		try {
 			const { data } = await authAxios.post(`/api/room/${slug}`, { slug });
 			return data;
-		} catch (err) {
+		} catch (err: any) {
 			console.error(err.message);
 		}
 	};

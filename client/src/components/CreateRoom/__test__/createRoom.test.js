@@ -5,9 +5,7 @@ import { render, fireEvent } from "@testing-library/react";
 
 const createTestProps = props => ({
 	createRoomOpen: true,
-	handleCreateRoomOpen: () => {
-		createRoomOpen = false;
-	},
+	handleCreateRoomOpen: () => {},
 	...props,
 });
 
@@ -19,22 +17,23 @@ const MockCreateRoom = () => {
 		},
 	};
 
+	const props = createTestProps();
+
 	return (
 		<AuthContext.Provider value={{ authState, ...AuthContext }}>
-			<CreateRoom />
+			<CreateRoom {...props} />
 		</AuthContext.Provider>
 	);
 };
 
 describe("<CreateRoom />", () => {
 	it("renders without crashing", () => {
-		const props = createTestProps();
-		render(<MockCreateRoom {...props} />);
+		render(<MockCreateRoom />);
 	});
 
 	it("Closes when close icon is clicked", () => {
 		const props = createTestProps();
-		const { getByTestId } = render(<MockCreateRoom {...props} />);
+		const { getByTestId } = render(<MockCreateRoom />);
 		const closeEl = getByTestId("close");
 		fireEvent.click(closeEl);
 		expect(props.createRoomOpen).toBe(true);
