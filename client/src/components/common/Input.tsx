@@ -17,6 +17,7 @@ const Input: React.FC<TextFieldProps> = ({
 	return (
 		<TextField
 			className={className}
+			id={`input-${label}`}
 			label={label}
 			type={type || "text"}
 			variant={variant || "standard"}
