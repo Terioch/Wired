@@ -10,7 +10,7 @@ class Users {
 			const body = { username, password };
 			const { data } = await axios.post(`/api/users/${endpoint}`, body);
 			return data;
-		} catch (err) {
+		} catch (err: any) {
 			console.error(`POST ${err.message}`);
 		}
 	};
