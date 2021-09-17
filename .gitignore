@@ -3,3 +3,6 @@
 
 # Encryption
 .env
+
+# Other Secrets
+/secrets.ts

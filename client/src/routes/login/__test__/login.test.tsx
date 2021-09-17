@@ -1,5 +1,6 @@
 import React from "react";
 import Login from "../index";
+import { testPassword } from "../../../../../secrets";
 import {
 	render,
 	screen,
@@ -91,12 +92,6 @@ describe("<Login />", () => {
 		const errorElements = getInputErrorElements({
 			username: /please enter a username/i,
 		});
-		// const errorElements = {
-		// 	username: getByText(/Please enter a username/i),
-		// 	password: getByText(
-		// 		/Password must contain at least 8 characters with at least one uppercase letter, lowercase letter and number/i
-		// 	),
-		// };
 		expect(
 			errorElements.username && errorElements.password
 		).toBeInTheDocument();
@@ -129,4 +124,29 @@ describe("<Login />", () => {
 		);
 		expect(usernameErrorElement).toBeInTheDocument();
 	});
+
+	// it("Displays correct errors when attempting to register an existing account", () => {
+	// 	const { getByRole, getByText } = render(<Login />);
+	// 	const registerBtn = getByRole("button", { name: /Register/i });
+	// 	insertInputValues({ username: "Terioch", password: testPassword });
+	// 	fireEvent.click(registerBtn);
+	// 	const usernameErrorElement = getByText(
+	// 		/username already exists. Either login or try a different username./i
+	// 	);
+	// 	expect(usernameErrorElement).toBeInTheDocument();
+	// });
+
+	// it("Displays correct errors when attempting to login with incorrect credentials", () => {
+	// 	const { getByRole } = render(<Login />);
+	// 	const loginBtn = getByRole("button", { name: /Login/i });
+	// 	insertInputValues({ username: "Terioch", password: "123Xyz45" });
+	// 	fireEvent.click(loginBtn);
+	// 	const errorElements = getInputErrorElements({
+	// 		username: /username is incorrect/i,
+	// 		password: /password is incorrect/i,
+	// 	});
+	// 	expect(
+	// 		errorElements.username && errorElements.password
+	// 	).toBeInTheDocument();
+	// });
 });
