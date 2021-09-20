@@ -51,9 +51,10 @@ function insertInputValues({ username, password }: InputValues) {
 }
 
 function getInputErrorElements({ username, password }: InputValues) {
-	password =
-		password ||
-		/password must contain at least 8 characters with at least one uppercase letter, lowercase letter and number/i;
+	if (password === undefined)
+		password =
+			/password must contain at least 8 characters with at least one uppercase letter, lowercase letter and number/i;
+	console.log(password);
 	return {
 		username: screen.getByText(username),
 		password: screen.getByText(password),
@@ -148,5 +149,17 @@ describe("<Login />", () => {
 	// 	expect(
 	// 		errorElements.username && errorElements.password
 	// 	).toBeInTheDocument();
+	// });
+
+	// it("Stores user info within local storage upon successful authentication", () => {
+	// 	const { getByRole } = render(<Login />);
+	// 	const loginBtn = getByRole("button", { name: /Login/i });
+	// 	insertInputValues({ username: "Terioch", password: "123Xyz45" });
+	// 	fireEvent.click(loginBtn);
+	// 	const errorElements = getInputErrorElements({
+	// 		username: "",
+	// 		password: "",
+	// 	});
+	// 	expect(errorElements.username && errorElements.password).toEqual("");
 	// });
 });

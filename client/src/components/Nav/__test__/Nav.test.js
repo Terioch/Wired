@@ -7,7 +7,6 @@ describe("<Nav />", () => {
 		const { getByRole } = render(<Nav />);
 		const logoEl = getByRole("heading");
 		const logoutEl = getByRole("button");
-
 		expect(logoEl.textContent).toBe("Wired");
 		expect(logoutEl.textContent).toBe("Logout");
 	});
@@ -15,7 +14,10 @@ describe("<Nav />", () => {
 	test("Logout button removes user data from local storage", () => {
 		const { getByRole } = render(<Nav />);
 		const logoutEl = getByRole("button");
-
 		fireEvent.click(logoutEl);
+		const userInfo = JSON.parse(localStorage.getItem("user-info"));
+		const token = JSON.parse(localStorage.getItem("token"));
+		const expiresAt = JSON.parse(localStorage.getItem("expires-at"));
+		expect(userInfo && token && expiresAt).toBe(null);
 	});
 });

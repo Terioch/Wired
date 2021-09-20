@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import Dashboard from "../index";
-import { AuthContext } from "../../../contexts/authContext";
+import { AuthContext, AuthProvider } from "../../../contexts/authContext";
 import { screen, render, cleanup, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
@@ -37,7 +37,7 @@ const MockDashboard = () => {
 	};
 
 	return (
-		<AuthContext.Provider value={{ authState, ...AuthContext }}>
+		<AuthContext.Provider value={{ authState }}>
 			<Dashboard />
 		</AuthContext.Provider>
 	);
@@ -52,4 +52,10 @@ describe("<Dashboard />", () => {
 		// const roomsNode = await waitFor(() => screen.getByRole("list"));
 		// expect(roomsNode.children).toHaveLength(2);
 	});
+
+	// it("Displays create room component when new room button is clicked", () => {
+	// 	const {getByRole} = render(<MockDashboard />);
+	// 	const createRoomModal = getByRole("presentation");
+	// 	expect(createRoomModal).toBeInTheDocument();
+	// });
 });
