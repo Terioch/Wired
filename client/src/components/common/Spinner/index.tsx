@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, makeStyles } from "@material-ui/core";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
 	spinnerContainer: {
 		height: "100%",
 		display: "flex",
@@ -44,6 +44,7 @@ const Spinner: React.FC<Props> = ({ color }) => {
 		<Box className={classes.spinnerContainer}>
 			<div
 				className={classes.spinner}
+				data-testid="spinner"
 				style={{ borderTop: `16px solid ${spinnerColor}` }}
 			/>
 		</Box>
