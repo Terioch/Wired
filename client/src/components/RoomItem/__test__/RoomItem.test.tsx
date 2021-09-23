@@ -47,7 +47,6 @@ describe("<RoomItem />", () => {
 
 	it("Renders with correct room admin when authenticated user is the admin", () => {
 		const roomAdminEl = screen.getByText(/Admin: You/i);
-		console.log(roomAdminEl);
 		expect(roomAdminEl).toBeInTheDocument();
 	});
 
@@ -61,7 +60,6 @@ describe("<RoomItem />", () => {
 	it("Renders with correct room name", () => {
 		const room = setRoom();
 		const roomNameEl = screen.getByText(room.name);
-		console.log(roomNameEl);
 		expect(roomNameEl).toBeInTheDocument();
 	});
 });
